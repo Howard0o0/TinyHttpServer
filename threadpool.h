@@ -12,21 +12,29 @@
 class ThreadPool {
 
     public:
-	ThreadPool(unsigned int size);
-
 	typedef std::function< void() > Task;
 
+	ThreadPool();
+	~ThreadPool();
+	void RunTask(Task task);
+	void Start(unsigned int size);
+	void Stop();
+
     private:
-	std::queue< std::unique_ptr< std::thread > > threads_;
-	std::queue< Task >			     tasks_;
-	bool					     running_;
-	std::mutex				     lock_;
-	std::condition_variable			     cond_;
-	std::mutex				     running_lock_;
+	std::vector< std::unique_ptr< std::thread > > threads_;
+	std::queue< Task >			      tasks_;
+	bool					      running_;
+	std::mutex				      tasks_lock_;
+	std::condition_variable			      tasks_cond_;
+	std::mutex				      running_lock_;
+	std::mutex				      tasks_empty_;
+	std::condition_variable			      tasks_empty_cond_;
 
-	void ConsumeTask();
-	bool IsRunning();
+	void		 ConsumeTask();
+	bool		 IsRunning();
+	ThreadPool::Task FetchTask();
+	void		 NotifyStop();
+	void		 WaitAllTasksDone();
 };
-
 
 #endif

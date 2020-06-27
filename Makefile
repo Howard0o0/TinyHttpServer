@@ -150,6 +150,33 @@ main.cc.s:
 	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/main.cc.s
 .PHONY : main.cc.s
 
+maintest.o: maintest.cc.o
+
+.PHONY : maintest.o
+
+# target to build an object file
+maintest.cc.o:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/maintest.cc.o
+.PHONY : maintest.cc.o
+
+maintest.i: maintest.cc.i
+
+.PHONY : maintest.i
+
+# target to preprocess a source file
+maintest.cc.i:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/maintest.cc.i
+.PHONY : maintest.cc.i
+
+maintest.s: maintest.cc.s
+
+.PHONY : maintest.s
+
+# target to generate assembly for a file
+maintest.cc.s:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/maintest.cc.s
+.PHONY : maintest.cc.s
+
 threadpool.o: threadpool.cc.o
 
 .PHONY : threadpool.o
@@ -189,6 +216,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... maintest.o"
+	@echo "... maintest.i"
+	@echo "... maintest.s"
 	@echo "... threadpool.o"
 	@echo "... threadpool.i"
 	@echo "... threadpool.s"
