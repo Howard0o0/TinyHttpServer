@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/howard/work/TinyThreadPool/main.cc
+threadpool.h
+/home/howard/work/TinyThreadPool/threadpool.h
+
+/home/howard/work/TinyThreadPool/threadpool.cc
+threadpool.h
+/home/howard/work/TinyThreadPool/threadpool.h
+functional
+-
+thread
+-
+
+/home/howard/work/TinyThreadPool/threadpool.h
+functional
+-
+memory
+-
+queue
+-
+thread
+-
+vector
+-
+
