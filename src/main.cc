@@ -1,5 +1,5 @@
-#include "maintest.h"
 #include "threadpool.h"
+#include "threadpooltest.h"
 #include <iostream>
 #include <string>
 #include <unistd.h>
@@ -21,15 +21,11 @@ class A {
 };
 
 int main() {
-	A	  a;
-	ThreadPool thread_pool;
-	thread_pool.Start(4);
-	for (int i = 0; i < 12; i++)
-		thread_pool.RunTask(bind(&A::PrintStr, &a, "xiha"));
 
-	sleep(2);
-	thread_pool.Stop();
-	// CondTest();
+	Test1();
+	Test2();
+	Test3();
+	Test4();
 
 	return 0;
 }

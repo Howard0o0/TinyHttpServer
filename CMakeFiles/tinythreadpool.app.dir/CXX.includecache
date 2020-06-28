@@ -6,11 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/howard/work/TinyThreadPool/main.cc
-maintest.h
-/home/howard/work/TinyThreadPool/maintest.h
+/home/howard/work/TinyThreadPool/src/main.cc
 threadpool.h
-/home/howard/work/TinyThreadPool/threadpool.h
+/home/howard/work/TinyThreadPool/src/threadpool.h
+threadpooltest.h
+/home/howard/work/TinyThreadPool/src/threadpooltest.h
 iostream
 -
 string
@@ -18,27 +18,9 @@ string
 unistd.h
 -
 
-/home/howard/work/TinyThreadPool/maintest.cc
-maintest.h
-/home/howard/work/TinyThreadPool/maintest.h
-condition_variable
--
-functional
--
-iostream
--
-mutex
--
-thread
--
-unistd.h
--
-
-/home/howard/work/TinyThreadPool/maintest.h
-
-/home/howard/work/TinyThreadPool/threadpool.cc
+/home/howard/work/TinyThreadPool/src/threadpool.cc
 threadpool.h
-/home/howard/work/TinyThreadPool/threadpool.h
+/home/howard/work/TinyThreadPool/src/threadpool.h
 functional
 -
 iostream
@@ -46,7 +28,7 @@ iostream
 thread
 -
 
-/home/howard/work/TinyThreadPool/threadpool.h
+/home/howard/work/TinyThreadPool/src/threadpool.h
 condition_variable
 -
 functional
@@ -61,4 +43,24 @@ thread
 -
 vector
 -
+
+/home/howard/work/TinyThreadPool/src/threadpooltest.cc
+threadpool.h
+/home/howard/work/TinyThreadPool/src/threadpool.h
+threadpooltest.h
+/home/howard/work/TinyThreadPool/src/threadpooltest.h
+condition_variable
+-
+functional
+-
+iostream
+-
+mutex
+-
+thread
+-
+unistd.h
+-
+
+/home/howard/work/TinyThreadPool/src/threadpooltest.h
 

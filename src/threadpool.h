@@ -9,16 +9,19 @@
 #include <thread>
 #include <vector>
 
+namespace tinythreadpool {
+
 class ThreadPool {
 
     public:
 	typedef std::function< void() > Task;
 
-	ThreadPool();
 	~ThreadPool();
 	void RunTask(Task task);
 	void Start(unsigned int size);
 	void Stop();
+
+	static void RunTaskInGlobalThreadPool(Task task);
 
     private:
 	std::vector< std::unique_ptr< std::thread > > threads_;
@@ -37,4 +40,5 @@ class ThreadPool {
 	void		 WaitAllTasksDone();
 };
 
+}  // namespace tinythreadpool
 #endif

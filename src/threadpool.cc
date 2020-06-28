@@ -3,11 +3,13 @@
 #include <iostream>
 #include <thread>
 
+using namespace tinythreadpool;
+
 /* pubic */
-ThreadPool::ThreadPool() : running_(true) {
-}
 
 void ThreadPool::Start(unsigned int size) {
+	running_ = true;
+
 	for (decltype(size) i = 0; i < size; i++) {
 		threads_.emplace_back(
 			new std::thread(&ThreadPool::ConsumeTask, this));
@@ -37,6 +39,16 @@ void ThreadPool::Stop() {
 	for (auto& thrd : threads_)
 		thrd->join();
 }
+void ThreadPool::RunTaskInGlobalThreadPool(Task task) {
+	static bool       global_thread_pool_existed = false;
+	static ThreadPool global_thread_pool;
+	if (!global_thread_pool_existed) {
+		global_thread_pool.Start(std::thread::hardware_concurrency());
+		global_thread_pool_existed = true;
+	}
+
+	global_thread_pool.RunTask(std::move(task));
+}
 /* end of pubic */
 
 /* private */
@@ -50,9 +62,7 @@ void ThreadPool::WaitAllTasksDone() {
 }
 
 void ThreadPool::NotifyStop() {
-	// std::unique_lock< std::mutex > locker(this->tasks_lock_);
 	tasks_cond_.notify_all();
-	// std::cout << "stopping..." << std::endl;
 }
 ThreadPool::Task ThreadPool::FetchTask() {
 

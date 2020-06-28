@@ -8,8 +8,6 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR})
 add_definitions(-std=c++11)
 set(CXX_FLAGS
  -g
- # -DVALGRIND
- # -DMUDUO_STD_STRING
  -Wall
  -Wextra
  # -m32
@@ -22,16 +20,14 @@ set(CXX_FLAGS
  -Wshadow
  -Wwrite-strings
  -march=native
- # -MMD
- # -std=c++0x
  -rdynamic
  )
  
 #find head files
-include_directories( .) 
+include_directories( ./src) 
 
 #find source files
-aux_source_directory(. SRC_FILES)
+aux_source_directory(./src SRC_FILES)
 
 #创建工程文件
 add_executable(tinythreadpool.app ${SRC_FILES} )

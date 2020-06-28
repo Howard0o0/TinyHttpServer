@@ -6,5 +6,5 @@ CXX_FLAGS =   -std=c++11
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/howard/work/TinyThreadPool/. 
+CXX_INCLUDES = -I/home/howard/work/TinyThreadPool/./src 
 

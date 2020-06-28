@@ -123,86 +123,86 @@ tinythreadpool.app/fast:
 	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/build
 .PHONY : tinythreadpool.app/fast
 
-main.o: main.cc.o
+src/main.o: src/main.cc.o
 
-.PHONY : main.o
-
-# target to build an object file
-main.cc.o:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/main.cc.o
-.PHONY : main.cc.o
-
-main.i: main.cc.i
-
-.PHONY : main.i
-
-# target to preprocess a source file
-main.cc.i:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/main.cc.i
-.PHONY : main.cc.i
-
-main.s: main.cc.s
-
-.PHONY : main.s
-
-# target to generate assembly for a file
-main.cc.s:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/main.cc.s
-.PHONY : main.cc.s
-
-maintest.o: maintest.cc.o
-
-.PHONY : maintest.o
+.PHONY : src/main.o
 
 # target to build an object file
-maintest.cc.o:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/maintest.cc.o
-.PHONY : maintest.cc.o
+src/main.cc.o:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/main.cc.o
+.PHONY : src/main.cc.o
 
-maintest.i: maintest.cc.i
+src/main.i: src/main.cc.i
 
-.PHONY : maintest.i
+.PHONY : src/main.i
 
 # target to preprocess a source file
-maintest.cc.i:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/maintest.cc.i
-.PHONY : maintest.cc.i
+src/main.cc.i:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/main.cc.i
+.PHONY : src/main.cc.i
 
-maintest.s: maintest.cc.s
+src/main.s: src/main.cc.s
 
-.PHONY : maintest.s
+.PHONY : src/main.s
 
 # target to generate assembly for a file
-maintest.cc.s:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/maintest.cc.s
-.PHONY : maintest.cc.s
+src/main.cc.s:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/main.cc.s
+.PHONY : src/main.cc.s
 
-threadpool.o: threadpool.cc.o
+src/threadpool.o: src/threadpool.cc.o
 
-.PHONY : threadpool.o
+.PHONY : src/threadpool.o
 
 # target to build an object file
-threadpool.cc.o:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/threadpool.cc.o
-.PHONY : threadpool.cc.o
+src/threadpool.cc.o:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.o
+.PHONY : src/threadpool.cc.o
 
-threadpool.i: threadpool.cc.i
+src/threadpool.i: src/threadpool.cc.i
 
-.PHONY : threadpool.i
+.PHONY : src/threadpool.i
 
 # target to preprocess a source file
-threadpool.cc.i:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/threadpool.cc.i
-.PHONY : threadpool.cc.i
+src/threadpool.cc.i:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.i
+.PHONY : src/threadpool.cc.i
 
-threadpool.s: threadpool.cc.s
+src/threadpool.s: src/threadpool.cc.s
 
-.PHONY : threadpool.s
+.PHONY : src/threadpool.s
 
 # target to generate assembly for a file
-threadpool.cc.s:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/threadpool.cc.s
-.PHONY : threadpool.cc.s
+src/threadpool.cc.s:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.s
+.PHONY : src/threadpool.cc.s
+
+src/threadpooltest.o: src/threadpooltest.cc.o
+
+.PHONY : src/threadpooltest.o
+
+# target to build an object file
+src/threadpooltest.cc.o:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/threadpooltest.cc.o
+.PHONY : src/threadpooltest.cc.o
+
+src/threadpooltest.i: src/threadpooltest.cc.i
+
+.PHONY : src/threadpooltest.i
+
+# target to preprocess a source file
+src/threadpooltest.cc.i:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/threadpooltest.cc.i
+.PHONY : src/threadpooltest.cc.i
+
+src/threadpooltest.s: src/threadpooltest.cc.s
+
+.PHONY : src/threadpooltest.s
+
+# target to generate assembly for a file
+src/threadpooltest.cc.s:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/threadpooltest.cc.s
+.PHONY : src/threadpooltest.cc.s
 
 # Help Target
 help:
@@ -213,15 +213,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... tinythreadpool.app"
 	@echo "... edit_cache"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
-	@echo "... maintest.o"
-	@echo "... maintest.i"
-	@echo "... maintest.s"
-	@echo "... threadpool.o"
-	@echo "... threadpool.i"
-	@echo "... threadpool.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
+	@echo "... src/threadpool.o"
+	@echo "... src/threadpool.i"
+	@echo "... src/threadpool.s"
+	@echo "... src/threadpooltest.o"
+	@echo "... src/threadpooltest.i"
+	@echo "... src/threadpooltest.s"
 .PHONY : help
 
 
