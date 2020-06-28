@@ -170,3 +170,4 @@ Standard:	Cpp11
 TabWidth:	8
 # 使用tab字符: Never, ForIndentation, ForContinuationAndIndentation, Always
 UseTab:	Always
+AlwaysBreakTemplateDeclarations: true

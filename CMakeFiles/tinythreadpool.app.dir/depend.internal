@@ -9,6 +9,7 @@ CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.o
  /home/howard/work/TinyThreadPool/src/threadpool.cc
  /home/howard/work/TinyThreadPool/src/threadpool.h
 CMakeFiles/tinythreadpool.app.dir/src/threadpooltest.cc.o
+ /home/howard/work/TinyThreadPool/src/lockfreeque.h
  /home/howard/work/TinyThreadPool/src/threadpool.h
  /home/howard/work/TinyThreadPool/src/threadpooltest.cc
  /home/howard/work/TinyThreadPool/src/threadpooltest.h
