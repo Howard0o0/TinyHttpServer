@@ -123,6 +123,33 @@ tinythreadpool.app/fast:
 	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/build
 .PHONY : tinythreadpool.app/fast
 
+src/lockfreethreadpool.o: src/lockfreethreadpool.cc.o
+
+.PHONY : src/lockfreethreadpool.o
+
+# target to build an object file
+src/lockfreethreadpool.cc.o:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.o
+.PHONY : src/lockfreethreadpool.cc.o
+
+src/lockfreethreadpool.i: src/lockfreethreadpool.cc.i
+
+.PHONY : src/lockfreethreadpool.i
+
+# target to preprocess a source file
+src/lockfreethreadpool.cc.i:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.i
+.PHONY : src/lockfreethreadpool.cc.i
+
+src/lockfreethreadpool.s: src/lockfreethreadpool.cc.s
+
+.PHONY : src/lockfreethreadpool.s
+
+# target to generate assembly for a file
+src/lockfreethreadpool.cc.s:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.s
+.PHONY : src/lockfreethreadpool.cc.s
+
 src/main.o: src/main.cc.o
 
 .PHONY : src/main.o
@@ -149,6 +176,33 @@ src/main.s: src/main.cc.s
 src/main.cc.s:
 	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/main.cc.s
 .PHONY : src/main.cc.s
+
+src/test.o: src/test.cc.o
+
+.PHONY : src/test.o
+
+# target to build an object file
+src/test.cc.o:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/test.cc.o
+.PHONY : src/test.cc.o
+
+src/test.i: src/test.cc.i
+
+.PHONY : src/test.i
+
+# target to preprocess a source file
+src/test.cc.i:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/test.cc.i
+.PHONY : src/test.cc.i
+
+src/test.s: src/test.cc.s
+
+.PHONY : src/test.s
+
+# target to generate assembly for a file
+src/test.cc.s:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/test.cc.s
+.PHONY : src/test.cc.s
 
 src/threadpool.o: src/threadpool.cc.o
 
@@ -213,9 +267,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... tinythreadpool.app"
 	@echo "... edit_cache"
+	@echo "... src/lockfreethreadpool.o"
+	@echo "... src/lockfreethreadpool.i"
+	@echo "... src/lockfreethreadpool.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/test.o"
+	@echo "... src/test.i"
+	@echo "... src/test.s"
 	@echo "... src/threadpool.o"
 	@echo "... src/threadpool.i"
 	@echo "... src/threadpool.s"
