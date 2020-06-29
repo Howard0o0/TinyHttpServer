@@ -25,6 +25,8 @@ class LockFreeQue {
 	void PushInThread(T t);
 	T    Pop();
 	T    PopInThread();
+	T    PopInThread(int sec);
+	bool IsEmpty();
 
     private:
 	ListNode< T >* head_;
@@ -90,6 +92,28 @@ T LockFreeQue< T >::PopInThread() {
 		}
 	} while (!__sync_bool_compare_and_swap(&head_, p, p->next));
 	return p->next->val;
+}
+
+template < typename T >
+T LockFreeQue< T >::PopInThread(int sec) {
+	ListNode< T >* p = nullptr;
+	do {
+		p = head_;
+		if (!p->next) {
+			// std::cout << "wait until not empty" << std::endl;
+			struct timespec tm;
+			tm.tv_sec = sec;
+			sem_timedwait(&not_empty_, &tm);
+
+			if (!p->next)
+				return 0;
+		}
+	} while (!__sync_bool_compare_and_swap(&head_, p, p->next));
+	return p->next->val;
+}
+template < typename T >
+bool LockFreeQue< T >::IsEmpty() {
+	return head_ == tail_;
 }
 
 }  // namespace tinythreadpool

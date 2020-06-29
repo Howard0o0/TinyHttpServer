@@ -231,33 +231,6 @@ src/threadpool.cc.s:
 	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.s
 .PHONY : src/threadpool.cc.s
 
-src/threadpooltest.o: src/threadpooltest.cc.o
-
-.PHONY : src/threadpooltest.o
-
-# target to build an object file
-src/threadpooltest.cc.o:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/threadpooltest.cc.o
-.PHONY : src/threadpooltest.cc.o
-
-src/threadpooltest.i: src/threadpooltest.cc.i
-
-.PHONY : src/threadpooltest.i
-
-# target to preprocess a source file
-src/threadpooltest.cc.i:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/threadpooltest.cc.i
-.PHONY : src/threadpooltest.cc.i
-
-src/threadpooltest.s: src/threadpooltest.cc.s
-
-.PHONY : src/threadpooltest.s
-
-# target to generate assembly for a file
-src/threadpooltest.cc.s:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/threadpooltest.cc.s
-.PHONY : src/threadpooltest.cc.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -279,9 +252,6 @@ help:
 	@echo "... src/threadpool.o"
 	@echo "... src/threadpool.i"
 	@echo "... src/threadpool.s"
-	@echo "... src/threadpooltest.o"
-	@echo "... src/threadpooltest.i"
-	@echo "... src/threadpooltest.s"
 .PHONY : help
 
 

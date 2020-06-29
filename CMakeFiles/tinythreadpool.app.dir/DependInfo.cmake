@@ -8,7 +8,6 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/howard/work/TinyThreadPool/src/main.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tinythreadpool.app.dir/src/main.cc.o"
   "/home/howard/work/TinyThreadPool/src/test.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tinythreadpool.app.dir/src/test.cc.o"
   "/home/howard/work/TinyThreadPool/src/threadpool.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.o"
-  "/home/howard/work/TinyThreadPool/src/threadpooltest.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tinythreadpool.app.dir/src/threadpooltest.cc.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

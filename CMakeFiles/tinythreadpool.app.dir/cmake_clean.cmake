@@ -3,7 +3,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/tinythreadpool.app.dir/src/main.cc.o"
   "CMakeFiles/tinythreadpool.app.dir/src/test.cc.o"
   "CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.o"
-  "CMakeFiles/tinythreadpool.app.dir/src/threadpooltest.cc.o"
   "tinythreadpool.app.pdb"
   "tinythreadpool.app"
 )

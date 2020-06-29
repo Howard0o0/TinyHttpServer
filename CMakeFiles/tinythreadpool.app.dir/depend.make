@@ -6,8 +6,8 @@ CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.o: src/lockfreethrea
 CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.o: src/lockfreethreadpool.h
 
 CMakeFiles/tinythreadpool.app.dir/src/main.cc.o: src/main.cc
+CMakeFiles/tinythreadpool.app.dir/src/main.cc.o: src/test.h
 CMakeFiles/tinythreadpool.app.dir/src/main.cc.o: src/threadpool.h
-CMakeFiles/tinythreadpool.app.dir/src/main.cc.o: src/threadpooltest.h
 
 CMakeFiles/tinythreadpool.app.dir/src/test.cc.o: src/lockfreeque.h
 CMakeFiles/tinythreadpool.app.dir/src/test.cc.o: src/lockfreethreadpool.h
@@ -17,9 +17,4 @@ CMakeFiles/tinythreadpool.app.dir/src/test.cc.o: src/threadpool.h
 
 CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.o: src/threadpool.cc
 CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.o: src/threadpool.h
-
-CMakeFiles/tinythreadpool.app.dir/src/threadpooltest.cc.o: src/lockfreeque.h
-CMakeFiles/tinythreadpool.app.dir/src/threadpooltest.cc.o: src/threadpool.h
-CMakeFiles/tinythreadpool.app.dir/src/threadpooltest.cc.o: src/threadpooltest.cc
-CMakeFiles/tinythreadpool.app.dir/src/threadpooltest.cc.o: src/threadpooltest.h
 

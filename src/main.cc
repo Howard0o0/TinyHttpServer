@@ -1,5 +1,5 @@
+#include "test.h"
 #include "threadpool.h"
-#include "threadpooltest.h"
 #include <iostream>
 #include <semaphore.h>
 #include <string>
@@ -49,7 +49,8 @@ int main() {
 	// Test2();
 	// Test3();
 	// Test4();
-	Test6();
+	// Test6();
+	TestLockFreeThreadPool();
 
 	// sem_init(&sem, 0, 0);
 	// std::thread t1(std::bind(Consum1));
