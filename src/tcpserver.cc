@@ -38,27 +38,37 @@ void TcpServer::Start() {
 	struct sockaddr_in client_addr;
 	int		   client_addr_len = sizeof(client_addr);
 	if ((server_sockfd_ = CreateSocket()) == -1) {
-		LOG_ERR("create socket error: %s", strerror(errno));
+		LOG_ERR("create socket error: %s\n", strerror(errno));
 		exit(-1);
 	}
-	LOG_INFO("created socket \n");
+	LOG_DEBUG("created server socket \n");
+
+	RegisterEpoll(server_sockfd_);
 
 	while (1) {
 
-		LOG_INFO("waiting connection...");
-		printf("ahhahh\n");
-		int client_sockfd =
-			accept(server_sockfd_, ( struct sockaddr* )&client_addr,
-			       ( unsigned int* )&client_addr_len);
-		LOG_INFO("new connection fd: %d\n", client_sockfd);
-		if (client_sockfd == -1) {
-			LOG_ERR("accpet error: %s", strerror(errno));
-			continue;
+		LOG_DEBUG("waiting connection or message ...\n");
+		std::vector< int > active_fds = GotEpollActiveFd();
+		for (auto active_fd : active_fds) {
+			if (active_fd == server_sockfd_) {
+				/* a new connection arrived */
+				int client_sockfd = accept(
+					server_sockfd_,
+					( struct sockaddr* )&client_addr,
+					( unsigned int* )&client_addr_len);
+				LOG_DEBUG("got client_fd: %d \n",
+					  client_sockfd);
+				if (client_sockfd < 0) {
+					LOG_ERR("accept error : %s\n",
+						strerror(errno));
+					continue;
+				}
+				RegisterEpoll(client_sockfd);
+			}
+			else
+				/* a new message arrived */
+				worker_.HandleResponse(active_fd);
 		}
-
-		/* a new connection arrived */
-		Connection conn(client_addr, client_sockfd);
-		worker_.HandleResponse(client_sockfd);
 	}
 }
 void TcpServer::SingleLoop() {
@@ -69,7 +79,6 @@ void TcpServer::SingleLoop() {
 	while (1) {
 
 		LOG_INFO("waiting connection...");
-		printf("ahhahh\n");
 
 		/* a new connection arrived */
 		int		    epollfd = epoll_create(100);
@@ -141,6 +150,32 @@ void TcpServer::SingleLoop() {
 
 /* private */
 
+void TcpServer::InitialEpollinfo() {
+	epollinfo_.epollfd       = epoll_create(100);
+	epollinfo_.event.events  = EPOLLIN | EPOLLET;
+	epollinfo_.active_events = ( struct epoll_event* )calloc(
+		EpollInfo::MAX_EVENTS_CNT, sizeof(epoll_event));
+}
+void TcpServer::RegisterEpoll(int fd) {
+
+	epollinfo_.event.data.fd = fd;
+
+	if (epoll_ctl(epollinfo_.epollfd, EPOLL_CTL_ADD, fd, &epollinfo_.event)
+	    != 0) {
+		LOG_ERR("epoll add fd error: %s \n", strerror(errno));
+		// exit(-1);
+	}
+}
+
+std::vector< int > TcpServer::GotEpollActiveFd() {
+	int active_events_cnt =
+		epoll_wait(epollinfo_.epollfd, epollinfo_.active_events,
+			   EpollInfo::MAX_EVENTS_CNT, -1);
+	std::vector< int > active_fds;
+	for (int i = 0; i < active_events_cnt; ++i)
+		active_fds.push_back(epollinfo_.active_events->data.fd);
+	return active_fds;
+}
 int TcpServer::CreateSocket() {
 	int server_sock = socket(AF_INET, SOCK_STREAM, 0);
 

@@ -14,6 +14,10 @@ netinet/in.h
 sys/socket.h
 -
 
+/home/howard/work/TinyThreadPool/src/epollinfo.h
+sys/epoll.h
+-
+
 /home/howard/work/TinyThreadPool/src/lockfreeque.h
 atomic
 -
@@ -103,6 +107,8 @@ unistd.h
 /home/howard/work/TinyThreadPool/src/tcpserver.h
 connection.h
 /home/howard/work/TinyThreadPool/src/connection.h
+epollinfo.h
+/home/howard/work/TinyThreadPool/src/epollinfo.h
 lockfreeque.h
 /home/howard/work/TinyThreadPool/src/lockfreeque.h
 log.h
