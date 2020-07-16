@@ -1,7 +1,17 @@
 # TinyThreadPool
+
 a simple implement of c++11 thread pool
+
 * lock free
 * light weight
 
 ## usage
-see src/main.cc
+
+see src/main. cc
+
+## tiny http server 
+
+* based on lock free thread pool
+* **not finish yet!**
+
+[tiny http server](https://github.com/Howard0o0/TinyThreadPool/tree/httpd)
