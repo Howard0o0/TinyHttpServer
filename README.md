@@ -1,7 +1,5 @@
-# TinyThreadPool
-a simple implement of c++11 thread pool
-* lock free
-* light weight
+# tiny http server
 
-## usage
-see src/main.cc
+try to make a tiny http server based on lockfree threadpool
+
+**not finish yet!**

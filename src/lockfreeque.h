@@ -77,7 +77,9 @@ T LockFreeQue< T >::Pop() {
 			return 0;
 		}
 	} while (!__sync_bool_compare_and_swap(&head_, p, p->next));
-	return p->next->val;
+	T val = p->next->val;
+	delete (p);
+	return val;
 }
 
 template < typename T >
@@ -91,7 +93,9 @@ T LockFreeQue< T >::PopInThread() {
 			p = head_;
 		}
 	} while (!__sync_bool_compare_and_swap(&head_, p, p->next));
-	return p->next->val;
+	T val = p->next->val;
+	delete (p);
+	return val;
 }
 
 template < typename T >
@@ -109,7 +113,10 @@ T LockFreeQue< T >::PopInThread(int sec) {
 				return 0;
 		}
 	} while (!__sync_bool_compare_and_swap(&head_, p, p->next));
-	return p->next->val;
+
+	T val = p->next->val;
+	delete (p);
+	return val;
 }
 template < typename T >
 bool LockFreeQue< T >::IsEmpty() {
