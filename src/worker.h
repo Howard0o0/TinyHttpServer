@@ -22,6 +22,7 @@ class Worker {
 
 	void	WorkFunc();
 	std::string ReadMsg(int client_fd);
+	void	OnMsgArrived(int sockfd, std::string msg);
 };
 
 }  // namespace ths

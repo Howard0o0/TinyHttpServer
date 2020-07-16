@@ -16,8 +16,8 @@ int main() {
 	// TestLockFreeThreadPool();
 
 	ths::TcpServer tcpserver(10000);
-	// tcpserver.Start();
-	tcpserver.SingleLoop();
+	tcpserver.Start();
+	// tcpserver.SingleLoop();
 
 	return 0;
 }

@@ -14,18 +14,30 @@ Worker::Worker(const OnMsgCallback& cb) {
 	wakeup_fd_ = socket(AF_UNIX, SOCK_STREAM, 0);
 	LOG_INFO("wakeup_fd: %d\n", wakeup_fd_);
 	threadpool_.Start(4);
-	for (int i = 0; i < 4; ++i)
-		threadpool_.RunTask(std::bind(&Worker::WorkFunc, this));
 }
 
 void Worker::HandleResponse(int client_fd) {
-	fd_translator_.PushInThread(client_fd);
-	LOG_INFO("pushing client_fd: %d\n", client_fd);
-	const char* temp = "abc";
-	write(wakeup_fd_, temp, 1);
+
+	/* read message */
+	std::string message = ReadMsg(client_fd);
+
+	/* if socket was close by client, server close too */
+	if (message.empty()) {
+		LOG_INFO("close fd[%d]\n", client_fd);
+		close(client_fd);
+		return;
+	}
+
+	/* throw into threadpool to handle */
+	threadpool_.RunTask(
+		std::bind(&Worker::OnMsgArrived, this, client_fd, message));
 }
 
 /* private  */
+
+void Worker::OnMsgArrived(int sockfd, std::string msg) {
+	on_msg_cb_(sockfd, msg);
+}
 
 std::string Worker::ReadMsg(int client_fd) {
 	const int   READBUF_LEN = 1024;
