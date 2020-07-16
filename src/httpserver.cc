@@ -24,13 +24,15 @@ void HttpServer::OnMsgArrived(int client_fd, const std::string& message) {
 	LOG_INFO("sent response:\n%s\n", response.data());
 }
 std::string HttpServer::ResponseGet() {
-	std::string ResponseHeader = MakeResponseHeader();
 	std::string ResponseBody   = MakeResponseBody("welcome to index!");
+	std::string ResponseHeader = MakeResponseHeader(ResponseBody.size());
 	return ResponseHeader + ResponseBody;
 }
-std::string HttpServer::MakeResponseHeader() {
-	std::string header = std::string("HTTP/1.0 200 OK\r\n")
-			     + "Content-Type : text/html\r\n" + "\r\n";
+std::string HttpServer::MakeResponseHeader(int body_len) {
+	std::string header = std::string("HTTP/1.1 200 OK\r\n")
+			     + "Content-Type : text/html\r\n"
+			     + "Content-Length:" + std::to_string(body_len)
+			     + "\r\n" + "\r\n";
 	return header;
 }
 std::string HttpServer::MakeResponseBody(const std::string& body) {
