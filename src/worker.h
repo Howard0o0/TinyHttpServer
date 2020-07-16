@@ -7,12 +7,13 @@ using namespace tinythreadpool;
 
 namespace ths {
 
-typedef std::function< void(int sockfd, std::string msg) > OnMsgCallback;
+typedef std::function< void(int sockfd, const std::string& msg) > OnMsgCallback;
 
 class Worker {
     public:
 	Worker(const OnMsgCallback& cb);
 	void HandleResponse(int client_fd);
+	void SetOnMessageCallback(const OnMsgCallback& cb);
 
     private:
 	LockFreeThreadPool threadpool_;

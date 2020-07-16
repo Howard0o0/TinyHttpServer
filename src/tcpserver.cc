@@ -13,7 +13,7 @@
 
 using namespace ths;
 
-static int make_socket_non_blocking(int fd) {
+static int SetSocketNonblock(int fd) {
 	int flags, s;
 	// 获取当前flag
 	flags = fcntl(fd, F_GETFL, 0);
@@ -63,6 +63,7 @@ void TcpServer::Start() {
 						strerror(errno));
 					continue;
 				}
+				SetSocketNonblock(client_sockfd);
 				RegisterEpoll(client_sockfd);
 			}
 			else
@@ -71,83 +72,10 @@ void TcpServer::Start() {
 		}
 	}
 }
-void TcpServer::SingleLoop() {
-	server_sockfd_ = CreateSocket();
-	struct sockaddr_in client_addr;
-	int		   client_addr_len = sizeof(client_addr);
 
-	while (1) {
-
-		LOG_INFO("waiting connection...");
-
-		/* a new connection arrived */
-		int		    epollfd = epoll_create(100);
-		struct epoll_event  event;
-		struct epoll_event* active_events;
-		event.data.fd = server_sockfd_;
-		event.events  = EPOLLIN;
-
-		if (epoll_ctl(epollfd, EPOLL_CTL_ADD, server_sockfd_, &event)
-		    != 0) {
-			LOG_ERR("epoll add wakeup_fd error: %s",
-				strerror(errno));
-			exit(-1);
-		}
-		const int MAX_EVENTS_CNT = 50;
-		active_events		 = ( struct epoll_event* )calloc(
-			   MAX_EVENTS_CNT, sizeof(epoll_event));
-		while (1) {
-
-			int active_events_cnt = epoll_wait(
-				epollfd, active_events, MAX_EVENTS_CNT, -1);
-			LOG_INFO("epoll wait return \n");
-			for (int i = 0; i < active_events_cnt; ++i) {
-				LOG_INFO("[%d] active cnt:%d,  active event "
-					 "fd: %d\n",
-					 i, active_events_cnt,
-					 active_events[ i ].data.fd);
-				if (active_events[ i ].data.fd
-				    == server_sockfd_) {
-					int client_sockfd = accept(
-						server_sockfd_,
-						( struct
-						  sockaddr* )&client_addr,
-						( unsigned int* )&client_addr_len);
-					LOG_INFO("new connection fd: %d\n",
-						 client_sockfd);
-					if (client_sockfd == -1) {
-						LOG_ERR("accpet error: %s",
-							strerror(errno));
-						continue;
-					}
-					make_socket_non_blocking(client_sockfd);
-					event.data.fd = client_sockfd;
-					event.events  = EPOLLIN | EPOLLET;
-					epoll_ctl(epollfd, EPOLL_CTL_ADD,
-						  client_sockfd, &event);
-				}
-				else {
-					const int   READBUF_LEN = 1024;
-					char	readbuf[ READBUF_LEN ];
-					int	 read_len;
-					std::string msg = "";
-					printf("reading msg:\n");
-					while ((read_len = recv(
-							active_events[ i ]
-								.data.fd,
-							readbuf, READBUF_LEN,
-							MSG_DONTWAIT))
-					       > 0) {
-						readbuf[ read_len ] = '\0';
-						msg += readbuf;
-						printf("readbuf:%s\n", readbuf);
-					}
-				}
-			}
-		}
-	}
+void TcpServer::SetOnMsgCallback(const OnMsgCallback& cb) {
+	worker_.SetOnMessageCallback(cb);
 }
-
 /* private */
 
 void TcpServer::InitialEpollinfo() {
@@ -214,7 +142,4 @@ int TcpServer::CreateSocket() {
 	// flags |= O_NONBLOCK;
 
 	return server_sock;
-}
-
-void TcpServer::StartWorkThreadsPool() {
 }

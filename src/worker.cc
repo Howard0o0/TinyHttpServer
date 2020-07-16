@@ -16,6 +16,9 @@ Worker::Worker(const OnMsgCallback& cb) {
 	threadpool_.Start(4);
 }
 
+void Worker::SetOnMessageCallback(const OnMsgCallback& cb) {
+	on_msg_cb_ = cb;
+}
 void Worker::HandleResponse(int client_fd) {
 
 	/* read message */

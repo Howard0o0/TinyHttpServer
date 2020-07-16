@@ -23,17 +23,19 @@ class TcpServer {
 	}
 	void Start();
 	void SingleLoop();
+	void SetOnMsgCallback(const OnMsgCallback& cb);
 
     private:
-	int       port_;
-	int       backlog_;
-	int       server_sockfd_;
-	Worker    worker_;
-	EpollInfo epollinfo_;
+	int	   port_;
+	int	   backlog_;
+	int	   server_sockfd_;
+	Worker	worker_;
+	EpollInfo     epollinfo_;
+	OnMsgCallback on_msg_cb_;
 
 	int  CreateSocket();
 	void StartWorkThreadsPool();
-	void OnMsgArrived(int client_fd, std::string msg) {
+	void OnMsgArrived(int client_fd, const std::string& msg) {
 		LOG_INFO("===========new message==========\n");
 		LOG_INFO("%s\n", msg.data());
 		LOG_INFO("================================\n");
