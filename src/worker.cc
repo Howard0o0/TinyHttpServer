@@ -51,7 +51,7 @@ std::string Worker::ReadMsg(int client_fd) {
 	       > 0) {
 		readbuf[ read_len ] = '\0';
 		msg += readbuf;
-		printf("readbuf:%s\n", readbuf);
+		// printf("readbuf:%s\n", readbuf);
 	}
 	return msg;
 }
