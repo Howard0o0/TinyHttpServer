@@ -1,3 +1,4 @@
+#include "tcpserver.h"
 #include "test.h"
 #include "threadpool.h"
 #include <iostream>
@@ -12,8 +13,11 @@ int main() {
 	// Test3();
 	// Test4();
 	// Test6();
-	TestLockFreeThreadPool();
+	// TestLockFreeThreadPool();
 
+	ths::TcpServer tcpserver(10000);
+	// tcpserver.Start();
+	tcpserver.SingleLoop();
 
 	return 0;
 }

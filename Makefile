@@ -123,6 +123,33 @@ tinythreadpool.app/fast:
 	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/build
 .PHONY : tinythreadpool.app/fast
 
+src/connection.o: src/connection.cc.o
+
+.PHONY : src/connection.o
+
+# target to build an object file
+src/connection.cc.o:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/connection.cc.o
+.PHONY : src/connection.cc.o
+
+src/connection.i: src/connection.cc.i
+
+.PHONY : src/connection.i
+
+# target to preprocess a source file
+src/connection.cc.i:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/connection.cc.i
+.PHONY : src/connection.cc.i
+
+src/connection.s: src/connection.cc.s
+
+.PHONY : src/connection.s
+
+# target to generate assembly for a file
+src/connection.cc.s:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/connection.cc.s
+.PHONY : src/connection.cc.s
+
 src/lockfreethreadpool.o: src/lockfreethreadpool.cc.o
 
 .PHONY : src/lockfreethreadpool.o
@@ -176,6 +203,33 @@ src/main.s: src/main.cc.s
 src/main.cc.s:
 	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/main.cc.s
 .PHONY : src/main.cc.s
+
+src/tcpserver.o: src/tcpserver.cc.o
+
+.PHONY : src/tcpserver.o
+
+# target to build an object file
+src/tcpserver.cc.o:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.o
+.PHONY : src/tcpserver.cc.o
+
+src/tcpserver.i: src/tcpserver.cc.i
+
+.PHONY : src/tcpserver.i
+
+# target to preprocess a source file
+src/tcpserver.cc.i:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.i
+.PHONY : src/tcpserver.cc.i
+
+src/tcpserver.s: src/tcpserver.cc.s
+
+.PHONY : src/tcpserver.s
+
+# target to generate assembly for a file
+src/tcpserver.cc.s:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.s
+.PHONY : src/tcpserver.cc.s
 
 src/test.o: src/test.cc.o
 
@@ -231,6 +285,33 @@ src/threadpool.cc.s:
 	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.s
 .PHONY : src/threadpool.cc.s
 
+src/worker.o: src/worker.cc.o
+
+.PHONY : src/worker.o
+
+# target to build an object file
+src/worker.cc.o:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o
+.PHONY : src/worker.cc.o
+
+src/worker.i: src/worker.cc.i
+
+.PHONY : src/worker.i
+
+# target to preprocess a source file
+src/worker.cc.i:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/worker.cc.i
+.PHONY : src/worker.cc.i
+
+src/worker.s: src/worker.cc.s
+
+.PHONY : src/worker.s
+
+# target to generate assembly for a file
+src/worker.cc.s:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/worker.cc.s
+.PHONY : src/worker.cc.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -240,18 +321,27 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... tinythreadpool.app"
 	@echo "... edit_cache"
+	@echo "... src/connection.o"
+	@echo "... src/connection.i"
+	@echo "... src/connection.s"
 	@echo "... src/lockfreethreadpool.o"
 	@echo "... src/lockfreethreadpool.i"
 	@echo "... src/lockfreethreadpool.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/tcpserver.o"
+	@echo "... src/tcpserver.i"
+	@echo "... src/tcpserver.s"
 	@echo "... src/test.o"
 	@echo "... src/test.i"
 	@echo "... src/test.s"
 	@echo "... src/threadpool.o"
 	@echo "... src/threadpool.i"
 	@echo "... src/threadpool.s"
+	@echo "... src/worker.o"
+	@echo "... src/worker.i"
+	@echo "... src/worker.s"
 .PHONY : help
 
 
