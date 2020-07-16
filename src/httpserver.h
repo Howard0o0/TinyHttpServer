@@ -15,8 +15,9 @@ class HttpServer {
 	TcpServer tcpserver_;
 
 	void	OnMsgArrived(int client_fd, const std::string& message);
-	void	ResponseGet();
+	std::string ResponseGet();
 	std::string MakeResponseHeader();
-}
+	std::string MakeResponseBody(const std::string& body);
+};
 
 #endif

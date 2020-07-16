@@ -3,6 +3,16 @@
 
 CMakeFiles/tinythreadpool.app.dir/src/connection.cc.o
  /home/howard/work/TinyThreadPool/src/connection.cc
+CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.o
+ /home/howard/work/TinyThreadPool/src/connection.h
+ /home/howard/work/TinyThreadPool/src/epollinfo.h
+ /home/howard/work/TinyThreadPool/src/httpserver.cc
+ /home/howard/work/TinyThreadPool/src/httpserver.h
+ /home/howard/work/TinyThreadPool/src/lockfreeque.h
+ /home/howard/work/TinyThreadPool/src/lockfreethreadpool.h
+ /home/howard/work/TinyThreadPool/src/log.h
+ /home/howard/work/TinyThreadPool/src/tcpserver.h
+ /home/howard/work/TinyThreadPool/src/worker.h
 CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.o
  /home/howard/work/TinyThreadPool/src/lockfreeque.h
  /home/howard/work/TinyThreadPool/src/lockfreethreadpool.cc
@@ -10,6 +20,7 @@ CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.o
 CMakeFiles/tinythreadpool.app.dir/src/main.cc.o
  /home/howard/work/TinyThreadPool/src/connection.h
  /home/howard/work/TinyThreadPool/src/epollinfo.h
+ /home/howard/work/TinyThreadPool/src/httpserver.h
  /home/howard/work/TinyThreadPool/src/lockfreeque.h
  /home/howard/work/TinyThreadPool/src/lockfreethreadpool.h
  /home/howard/work/TinyThreadPool/src/log.h

@@ -1,3 +1,4 @@
+#include "httpserver.h"
 #include "tcpserver.h"
 #include "test.h"
 #include "threadpool.h"
@@ -19,11 +20,12 @@ int main() {
 	// Test6();
 	// TestLockFreeThreadPool();
 
-	ths::TcpServer tcpserver(10000);
-	tcpserver.SetOnMsgCallback(std::bind(OnMsgCb, std::placeholders::_1,
-					     std::placeholders::_2));
-	tcpserver.Start();
-	// tcpserver.SingleLoop();
+	// ths::TcpServer tcpserver(10000);
+	// tcpserver.SetOnMsgCallback(std::bind(OnMsgCb, std::placeholders::_1,
+	// 				     std::placeholders::_2));
+	// tcpserver.Start();
+	HttpServer httpserver(10000);
+	httpserver.StartLoop();
 
 	return 0;
 }

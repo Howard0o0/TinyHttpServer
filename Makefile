@@ -150,6 +150,33 @@ src/connection.cc.s:
 	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/connection.cc.s
 .PHONY : src/connection.cc.s
 
+src/httpserver.o: src/httpserver.cc.o
+
+.PHONY : src/httpserver.o
+
+# target to build an object file
+src/httpserver.cc.o:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.o
+.PHONY : src/httpserver.cc.o
+
+src/httpserver.i: src/httpserver.cc.i
+
+.PHONY : src/httpserver.i
+
+# target to preprocess a source file
+src/httpserver.cc.i:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.i
+.PHONY : src/httpserver.cc.i
+
+src/httpserver.s: src/httpserver.cc.s
+
+.PHONY : src/httpserver.s
+
+# target to generate assembly for a file
+src/httpserver.cc.s:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.s
+.PHONY : src/httpserver.cc.s
+
 src/lockfreethreadpool.o: src/lockfreethreadpool.cc.o
 
 .PHONY : src/lockfreethreadpool.o
@@ -324,6 +351,9 @@ help:
 	@echo "... src/connection.o"
 	@echo "... src/connection.i"
 	@echo "... src/connection.s"
+	@echo "... src/httpserver.o"
+	@echo "... src/httpserver.i"
+	@echo "... src/httpserver.s"
 	@echo "... src/lockfreethreadpool.o"
 	@echo "... src/lockfreethreadpool.i"
 	@echo "... src/lockfreethreadpool.s"

@@ -3,12 +3,23 @@
 
 CMakeFiles/tinythreadpool.app.dir/src/connection.cc.o: src/connection.cc
 
+CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.o: src/connection.h
+CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.o: src/epollinfo.h
+CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.o: src/httpserver.cc
+CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.o: src/httpserver.h
+CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.o: src/lockfreeque.h
+CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.o: src/lockfreethreadpool.h
+CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.o: src/log.h
+CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.o: src/tcpserver.h
+CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.o: src/worker.h
+
 CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.o: src/lockfreeque.h
 CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.o: src/lockfreethreadpool.cc
 CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.o: src/lockfreethreadpool.h
 
 CMakeFiles/tinythreadpool.app.dir/src/main.cc.o: src/connection.h
 CMakeFiles/tinythreadpool.app.dir/src/main.cc.o: src/epollinfo.h
+CMakeFiles/tinythreadpool.app.dir/src/main.cc.o: src/httpserver.h
 CMakeFiles/tinythreadpool.app.dir/src/main.cc.o: src/lockfreeque.h
 CMakeFiles/tinythreadpool.app.dir/src/main.cc.o: src/lockfreethreadpool.h
 CMakeFiles/tinythreadpool.app.dir/src/main.cc.o: src/log.h

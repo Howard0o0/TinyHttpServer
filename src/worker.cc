@@ -12,7 +12,7 @@ using namespace ths;
 Worker::Worker(const OnMsgCallback& cb) {
 	on_msg_cb_ = cb;
 	wakeup_fd_ = socket(AF_UNIX, SOCK_STREAM, 0);
-	LOG_INFO("wakeup_fd: %d\n", wakeup_fd_);
+	LOG_DEBUG("wakeup_fd: %d\n", wakeup_fd_);
 	threadpool_.Start(4);
 }
 
