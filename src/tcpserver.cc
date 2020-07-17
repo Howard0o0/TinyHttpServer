@@ -33,6 +33,12 @@ static int SetSocketNonblock(int fd) {
 	return 0;
 }
 
+void TcpServer::SetSocketReuse(int socket_fd) {
+	int opt = 1;
+	setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, ( const void* )&opt,
+		   sizeof(opt));
+}
+
 /* public */
 void TcpServer::Start() {
 	struct sockaddr_in client_addr;
@@ -120,6 +126,8 @@ int TcpServer::CreateSocket() {
 		close(server_sock);
 		return -1;
 	}
+
+	SetSocketReuse(server_sock);
 
 	printf("bind in %s : %d\n", serv_ip, ntohs(serv_addr.sin_port));
 	if (bind(server_sock, ( struct sockaddr* )&serv_addr, serv_addr_len)

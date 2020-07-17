@@ -43,6 +43,8 @@ class TcpServer {
 	void		   InitialEpollinfo();
 	void		   RegisterEpoll(int fd);
 	std::vector< int > GotEpollActiveFd();
+
+	void SetSocketReuse(int socket_fd);
 };
 
 }  // namespace ths

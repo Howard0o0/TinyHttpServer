@@ -1,6 +1,7 @@
 #ifndef TINYHTTPSERVER_WORKER_H
 #define TINYHTTPSERVER_WORKER_H
 #include "lockfreethreadpool.h"
+#include "threadpool.h"
 #include <functional>
 
 using namespace tinythreadpool;
@@ -16,7 +17,7 @@ class Worker {
 	void SetOnMessageCallback(const OnMsgCallback& cb);
 
     private:
-	LockFreeThreadPool threadpool_;
+	ThreadPool	 threadpool_;
 	LockFreeQue< int > fd_translator_;
 	int		   wakeup_fd_;
 	OnMsgCallback      on_msg_cb_;

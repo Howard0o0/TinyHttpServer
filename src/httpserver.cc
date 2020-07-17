@@ -1,5 +1,6 @@
 #include "httpserver.h"
 #include "log.h"
+#include <sstream>
 #include <string>
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -19,9 +20,16 @@ void HttpServer::OnMsgArrived(int client_fd, const std::string& message) {
 	LOG_INFO("\n=====================");
 	LOG_INFO("new message :\n%s \n", message.data());
 	LOG_INFO("=====================\n");
-	std::string response = ResponseGet();
-	send(client_fd, response.data(), response.size(), 0);
-	LOG_INFO("sent response:\n%s\n", response.data());
+
+	std::istringstream iss(message);
+	std::string	strline;
+	while (getline(iss, strline)) {
+		if (strline == "\r") {
+			std::string response = ResponseGet();
+			send(client_fd, response.data(), response.size(), 0);
+			LOG_INFO("sent response:\n%s\n", response.data());
+		}
+	}
 }
 std::string HttpServer::ResponseGet() {
 	std::string ResponseBody   = MakeResponseBody("welcome to index!");
