@@ -14,4 +14,6 @@ see src/main. cc
 * based on lock free thread pool
 * **not finish yet!**
 
-[tiny http server](https://github.com/Howard0o0/TinyThreadPool/tree/httpd)
+**[jump to tiny http server](https://github.com/Howard0o0/TinyThreadPool/tree/httpd)**
+
+[code in google style](https://zh-google-styleguide.readthedocs.io/en/latest/google-cpp-styleguide/contents/)
