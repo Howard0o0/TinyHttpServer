@@ -9,11 +9,11 @@
 using namespace ths;
 
 /* public */
-Worker::Worker(const OnMsgCallback& cb) {
+Worker::Worker(const OnMsgCallback& cb,int thread_cnt) :thread_cnt_(thread_cnt),epollfds_(thread_cnt,0){
 	on_msg_cb_ = cb;
 	wakeup_fd_ = socket(AF_UNIX, SOCK_STREAM, 0);
 	LOG_DEBUG("wakeup_fd: %d\n", wakeup_fd_);
-	threadpool_.Start(4);
+	threadpool_.Start(thread_cnt_);
 }
 
 void Worker::SetOnMessageCallback(const OnMsgCallback& cb) {
@@ -27,8 +27,8 @@ void Worker::HandleResponse(int client_fd) {
 
 /* private  */
 
-void Worker::HandleClientFd(int client_fd){
-	
+void Worker::HandleClientFd(int client_fd,int weak_thread_id){
+		
 	/* read message */
 	std::string message = ReadMsg(client_fd);
 
