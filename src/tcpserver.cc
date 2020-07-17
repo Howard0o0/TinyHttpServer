@@ -75,6 +75,8 @@ void TcpServer::Start() {
 			else
 				/* a new message arrived */
 				worker_.HandleResponse(active_fd);
+				DelEpoll(active_fd);
+
 		}
 	}
 }
@@ -95,6 +97,17 @@ void TcpServer::RegisterEpoll(int fd) {
 	epollinfo_.event.data.fd = fd;
 
 	if (epoll_ctl(epollinfo_.epollfd, EPOLL_CTL_ADD, fd, &epollinfo_.event)
+	    != 0) {
+		LOG_ERR("epoll add fd error: %s \n", strerror(errno));
+		// exit(-1);
+	}
+}
+
+void TcpServer::DelEpoll(int fd){
+
+	epollinfo_.event.data.fd = fd;
+
+	if (epoll_ctl(epollinfo_.epollfd, EPOLL_CTL_DEL, fd, NULL)
 	    != 0) {
 		LOG_ERR("epoll add fd error: %s \n", strerror(errno));
 		// exit(-1);

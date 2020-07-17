@@ -20,7 +20,15 @@ void Worker::SetOnMessageCallback(const OnMsgCallback& cb) {
 	on_msg_cb_ = cb;
 }
 void Worker::HandleResponse(int client_fd) {
+	/* throw into threadpool to handle */
+	threadpool_.RunTask(
+		std::bind(&Worker::HandleClientFd, this, client_fd));
+}
 
+/* private  */
+
+void Worker::HandleClientFd(int client_fd){
+	
 	/* read message */
 	std::string message = ReadMsg(client_fd);
 
@@ -30,14 +38,8 @@ void Worker::HandleResponse(int client_fd) {
 		close(client_fd);
 		return;
 	}
-
-	/* throw into threadpool to handle */
-	threadpool_.RunTask(
-		std::bind(&Worker::OnMsgArrived, this, client_fd, message));
+	OnMsgArrived(client_fd,message);
 }
-
-/* private  */
-
 void Worker::OnMsgArrived(int sockfd, std::string msg) {
 	on_msg_cb_(sockfd, msg);
 }

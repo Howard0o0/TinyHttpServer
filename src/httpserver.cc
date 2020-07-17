@@ -1,4 +1,5 @@
 #include "httpserver.h"
+#include <unistd.h>
 #include "log.h"
 #include <sstream>
 #include <string>
@@ -23,24 +24,26 @@ void HttpServer::OnMsgArrived(int client_fd, const std::string& message) {
 
 	std::istringstream iss(message);
 	std::string	strline;
+	std::string response = ResponseGet();
 	while (getline(iss, strline)) {
-		if (strline == "\r") {
-			std::string response = ResponseGet();
+		if (strline.find("GET") != std::string::npos) {
 			send(client_fd, response.data(), response.size(), 0);
 			LOG_INFO("sent response:\n%s\n", response.data());
 		}
 	}
+	close(client_fd);
 }
 std::string HttpServer::ResponseGet() {
-	std::string ResponseBody   = MakeResponseBody("welcome to index!");
-	std::string ResponseHeader = MakeResponseHeader(ResponseBody.size());
-	return ResponseHeader + ResponseBody;
+	// std::string ResponseBody   = MakeResponseBody("welcome to index!");
+	std::string ResponseHeader = MakeResponseHeader();
+	return ResponseHeader ;
 }
 std::string HttpServer::MakeResponseHeader(int body_len) {
-	std::string header = std::string("HTTP/1.1 200 OK\r\n")
-			     + "Content-Type : text/html\r\n"
-			     + "Content-Length:" + std::to_string(body_len)
-			     + "\r\n" + "\r\n";
+	std::string header = std::string("HTTP/1.0 200 OK\r\n")
+			     + "Content-Type : text/html\r\n";
+	if(body_len > 0)
+		header += "Content-Length:" + std::to_string(body_len) + "\r\n" ;
+	header +=  "\r\n";
 	return header;
 }
 std::string HttpServer::MakeResponseBody(const std::string& body) {

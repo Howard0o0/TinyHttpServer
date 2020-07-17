@@ -14,6 +14,7 @@ class Worker {
     public:
 	Worker(const OnMsgCallback& cb);
 	void HandleResponse(int client_fd);
+	void HandleClientFd(int client_fd);
 	void SetOnMessageCallback(const OnMsgCallback& cb);
 
     private:

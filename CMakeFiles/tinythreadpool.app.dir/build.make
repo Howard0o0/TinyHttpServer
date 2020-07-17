@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/howard/work/TinyThreadPool
+CMAKE_SOURCE_DIR = /home/howard/TinyThreadPool
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/howard/work/TinyThreadPool
+CMAKE_BINARY_DIR = /home/howard/TinyThreadPool
 
 # Include any dependencies generated for this target.
 include CMakeFiles/tinythreadpool.app.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/tinythreadpool.app.dir/flags.make
 
 CMakeFiles/tinythreadpool.app.dir/src/connection.cc.o: CMakeFiles/tinythreadpool.app.dir/flags.make
 CMakeFiles/tinythreadpool.app.dir/src/connection.cc.o: src/connection.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/tinythreadpool.app.dir/src/connection.cc.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tinythreadpool.app.dir/src/connection.cc.o -c /home/howard/work/TinyThreadPool/src/connection.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/tinythreadpool.app.dir/src/connection.cc.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tinythreadpool.app.dir/src/connection.cc.o -c /home/howard/TinyThreadPool/src/connection.cc
 
 CMakeFiles/tinythreadpool.app.dir/src/connection.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tinythreadpool.app.dir/src/connection.cc.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/howard/work/TinyThreadPool/src/connection.cc > CMakeFiles/tinythreadpool.app.dir/src/connection.cc.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/howard/TinyThreadPool/src/connection.cc > CMakeFiles/tinythreadpool.app.dir/src/connection.cc.i
 
 CMakeFiles/tinythreadpool.app.dir/src/connection.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tinythreadpool.app.dir/src/connection.cc.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/howard/work/TinyThreadPool/src/connection.cc -o CMakeFiles/tinythreadpool.app.dir/src/connection.cc.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/howard/TinyThreadPool/src/connection.cc -o CMakeFiles/tinythreadpool.app.dir/src/connection.cc.s
 
 CMakeFiles/tinythreadpool.app.dir/src/connection.cc.o.requires:
 
@@ -83,16 +83,16 @@ CMakeFiles/tinythreadpool.app.dir/src/connection.cc.o.provides.build: CMakeFiles
 
 CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.o: CMakeFiles/tinythreadpool.app.dir/flags.make
 CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.o: src/httpserver.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.o -c /home/howard/work/TinyThreadPool/src/httpserver.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.o -c /home/howard/TinyThreadPool/src/httpserver.cc
 
 CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/howard/work/TinyThreadPool/src/httpserver.cc > CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/howard/TinyThreadPool/src/httpserver.cc > CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.i
 
 CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/howard/work/TinyThreadPool/src/httpserver.cc -o CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/howard/TinyThreadPool/src/httpserver.cc -o CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.s
 
 CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.o.requires:
 
@@ -107,16 +107,16 @@ CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.o.provides.build: CMakeFiles
 
 CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.o: CMakeFiles/tinythreadpool.app.dir/flags.make
 CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.o: src/lockfreethreadpool.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.o -c /home/howard/work/TinyThreadPool/src/lockfreethreadpool.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.o -c /home/howard/TinyThreadPool/src/lockfreethreadpool.cc
 
 CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/howard/work/TinyThreadPool/src/lockfreethreadpool.cc > CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/howard/TinyThreadPool/src/lockfreethreadpool.cc > CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.i
 
 CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/howard/work/TinyThreadPool/src/lockfreethreadpool.cc -o CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/howard/TinyThreadPool/src/lockfreethreadpool.cc -o CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.s
 
 CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.o.requires:
 
@@ -131,16 +131,16 @@ CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.o.provides.build: CM
 
 CMakeFiles/tinythreadpool.app.dir/src/main.cc.o: CMakeFiles/tinythreadpool.app.dir/flags.make
 CMakeFiles/tinythreadpool.app.dir/src/main.cc.o: src/main.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/tinythreadpool.app.dir/src/main.cc.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tinythreadpool.app.dir/src/main.cc.o -c /home/howard/work/TinyThreadPool/src/main.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/tinythreadpool.app.dir/src/main.cc.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tinythreadpool.app.dir/src/main.cc.o -c /home/howard/TinyThreadPool/src/main.cc
 
 CMakeFiles/tinythreadpool.app.dir/src/main.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tinythreadpool.app.dir/src/main.cc.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/howard/work/TinyThreadPool/src/main.cc > CMakeFiles/tinythreadpool.app.dir/src/main.cc.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/howard/TinyThreadPool/src/main.cc > CMakeFiles/tinythreadpool.app.dir/src/main.cc.i
 
 CMakeFiles/tinythreadpool.app.dir/src/main.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tinythreadpool.app.dir/src/main.cc.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/howard/work/TinyThreadPool/src/main.cc -o CMakeFiles/tinythreadpool.app.dir/src/main.cc.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/howard/TinyThreadPool/src/main.cc -o CMakeFiles/tinythreadpool.app.dir/src/main.cc.s
 
 CMakeFiles/tinythreadpool.app.dir/src/main.cc.o.requires:
 
@@ -155,16 +155,16 @@ CMakeFiles/tinythreadpool.app.dir/src/main.cc.o.provides.build: CMakeFiles/tinyt
 
 CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.o: CMakeFiles/tinythreadpool.app.dir/flags.make
 CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.o: src/tcpserver.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.o -c /home/howard/work/TinyThreadPool/src/tcpserver.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.o -c /home/howard/TinyThreadPool/src/tcpserver.cc
 
 CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/howard/work/TinyThreadPool/src/tcpserver.cc > CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/howard/TinyThreadPool/src/tcpserver.cc > CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.i
 
 CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/howard/work/TinyThreadPool/src/tcpserver.cc -o CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/howard/TinyThreadPool/src/tcpserver.cc -o CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.s
 
 CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.o.requires:
 
@@ -179,16 +179,16 @@ CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.o.provides.build: CMakeFiles/
 
 CMakeFiles/tinythreadpool.app.dir/src/test.cc.o: CMakeFiles/tinythreadpool.app.dir/flags.make
 CMakeFiles/tinythreadpool.app.dir/src/test.cc.o: src/test.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/tinythreadpool.app.dir/src/test.cc.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tinythreadpool.app.dir/src/test.cc.o -c /home/howard/work/TinyThreadPool/src/test.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/tinythreadpool.app.dir/src/test.cc.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tinythreadpool.app.dir/src/test.cc.o -c /home/howard/TinyThreadPool/src/test.cc
 
 CMakeFiles/tinythreadpool.app.dir/src/test.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tinythreadpool.app.dir/src/test.cc.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/howard/work/TinyThreadPool/src/test.cc > CMakeFiles/tinythreadpool.app.dir/src/test.cc.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/howard/TinyThreadPool/src/test.cc > CMakeFiles/tinythreadpool.app.dir/src/test.cc.i
 
 CMakeFiles/tinythreadpool.app.dir/src/test.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tinythreadpool.app.dir/src/test.cc.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/howard/work/TinyThreadPool/src/test.cc -o CMakeFiles/tinythreadpool.app.dir/src/test.cc.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/howard/TinyThreadPool/src/test.cc -o CMakeFiles/tinythreadpool.app.dir/src/test.cc.s
 
 CMakeFiles/tinythreadpool.app.dir/src/test.cc.o.requires:
 
@@ -203,16 +203,16 @@ CMakeFiles/tinythreadpool.app.dir/src/test.cc.o.provides.build: CMakeFiles/tinyt
 
 CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.o: CMakeFiles/tinythreadpool.app.dir/flags.make
 CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.o: src/threadpool.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.o -c /home/howard/work/TinyThreadPool/src/threadpool.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.o -c /home/howard/TinyThreadPool/src/threadpool.cc
 
 CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/howard/work/TinyThreadPool/src/threadpool.cc > CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/howard/TinyThreadPool/src/threadpool.cc > CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.i
 
 CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/howard/work/TinyThreadPool/src/threadpool.cc -o CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/howard/TinyThreadPool/src/threadpool.cc -o CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.s
 
 CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.o.requires:
 
@@ -227,16 +227,16 @@ CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.o.provides.build: CMakeFiles
 
 CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o: CMakeFiles/tinythreadpool.app.dir/flags.make
 CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o: src/worker.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o -c /home/howard/work/TinyThreadPool/src/worker.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o -c /home/howard/TinyThreadPool/src/worker.cc
 
 CMakeFiles/tinythreadpool.app.dir/src/worker.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tinythreadpool.app.dir/src/worker.cc.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/howard/work/TinyThreadPool/src/worker.cc > CMakeFiles/tinythreadpool.app.dir/src/worker.cc.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/howard/TinyThreadPool/src/worker.cc > CMakeFiles/tinythreadpool.app.dir/src/worker.cc.i
 
 CMakeFiles/tinythreadpool.app.dir/src/worker.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tinythreadpool.app.dir/src/worker.cc.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/howard/work/TinyThreadPool/src/worker.cc -o CMakeFiles/tinythreadpool.app.dir/src/worker.cc.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/howard/TinyThreadPool/src/worker.cc -o CMakeFiles/tinythreadpool.app.dir/src/worker.cc.s
 
 CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o.requires:
 
@@ -273,7 +273,7 @@ tinythreadpool.app: CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.o
 tinythreadpool.app: CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o
 tinythreadpool.app: CMakeFiles/tinythreadpool.app.dir/build.make
 tinythreadpool.app: CMakeFiles/tinythreadpool.app.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable tinythreadpool.app"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/howard/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable tinythreadpool.app"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/tinythreadpool.app.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -297,6 +297,6 @@ CMakeFiles/tinythreadpool.app.dir/clean:
 .PHONY : CMakeFiles/tinythreadpool.app.dir/clean
 
 CMakeFiles/tinythreadpool.app.dir/depend:
-	cd /home/howard/work/TinyThreadPool && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/howard/work/TinyThreadPool /home/howard/work/TinyThreadPool /home/howard/work/TinyThreadPool /home/howard/work/TinyThreadPool /home/howard/work/TinyThreadPool/CMakeFiles/tinythreadpool.app.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/howard/TinyThreadPool && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/howard/TinyThreadPool /home/howard/TinyThreadPool /home/howard/TinyThreadPool /home/howard/TinyThreadPool /home/howard/TinyThreadPool/CMakeFiles/tinythreadpool.app.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/tinythreadpool.app.dir/depend
 

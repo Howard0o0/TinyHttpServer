@@ -1,0 +1,12 @@
+bind in 0.0.0.0 : 10000
+bind error
+create socket error: Address already in use
+bind in 0.0.0.0 : 10000
+bind error
+create socket error: Address already in use
+bind in 0.0.0.0 : 10000
+bind error
+create socket error: Address already in use
+bind in 0.0.0.0 : 10000
+bind error
+create socket error: Address already in use

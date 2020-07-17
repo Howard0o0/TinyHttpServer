@@ -42,6 +42,7 @@ class TcpServer {
 	}
 	void		   InitialEpollinfo();
 	void		   RegisterEpoll(int fd);
+	void DelEpoll(int fd);
 	std::vector< int > GotEpollActiveFd();
 
 	void SetSocketReuse(int socket_fd);
