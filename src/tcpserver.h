@@ -2,7 +2,7 @@
 #define TINYHTTPSERVER_TCPSERVER_H
 
 #include "connection.h"
-#include "epollinfo.h"
+#include "epolltool.h"
 #include "lockfreeque.h"
 #include "log.h"
 #include "worker.h"
@@ -42,7 +42,7 @@ class TcpServer {
 	}
 	void		   InitialEpollinfo();
 	void		   RegisterEpoll(int fd);
-	void DelEpoll(int fd);
+	void		   DelEpoll(int fd);
 	std::vector< int > GotEpollActiveFd();
 
 	void SetSocketReuse(int socket_fd);

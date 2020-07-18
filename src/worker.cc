@@ -1,4 +1,5 @@
 #include "worker.h"
+#include "epolltool.h"
 #include "log.h"
 #include <string.h>
 #include <sys/epoll.h>
@@ -9,11 +10,20 @@
 using namespace ths;
 
 /* public */
-Worker::Worker(const OnMsgCallback& cb,int thread_cnt) :thread_cnt_(thread_cnt),epollfds_(thread_cnt,0){
+Worker::Worker(const OnMsgCallback& cb, int thread_cnt)
+	: thread_cnt_(thread_cnt), epollfds_(thread_cnt, 0) {
 	on_msg_cb_ = cb;
-	wakeup_fd_ = socket(AF_UNIX, SOCK_STREAM, 0);
-	LOG_DEBUG("wakeup_fd: %d\n", wakeup_fd_);
 	threadpool_.Start(thread_cnt_);
+	for (int weak_threadid = 0; weak_threadid < thread_cnt;
+	     ++weak_threadid) {
+		EpollInfo epollinfo;
+		EpollTool::InitialEpollinfo(epollinfo);
+		epollfds_[ weak_threadid ] = epollinfo.epollfd;
+		LOG_DEBUG("created epollfd : %d \n",
+			  epollfds_[ weak_threadid ]);
+		threadpool_.RunTask(std::bind(&Worker::HandleClientFd, this, 0,
+					      weak_threadid));
+	}
 }
 
 void Worker::SetOnMessageCallback(const OnMsgCallback& cb) {
@@ -21,24 +31,40 @@ void Worker::SetOnMessageCallback(const OnMsgCallback& cb) {
 }
 void Worker::HandleResponse(int client_fd) {
 	/* throw into threadpool to handle */
-	threadpool_.RunTask(
-		std::bind(&Worker::HandleClientFd, this, client_fd));
+	static int weak_thread_id = 0;
+	weak_thread_id		  = (weak_thread_id + 1) % thread_cnt_;
+
+	static EpollInfo epollinfo;
+	epollinfo.epollfd = epollfds_[ weak_thread_id ];
+	EpollTool::RegisterEpoll(client_fd, epollinfo);
+	LOG_INFO("register clientfd(%d) into epollfd(%d) \n", client_fd,
+		 epollinfo.epollfd);
 }
 
 /* private  */
 
-void Worker::HandleClientFd(int client_fd,int weak_thread_id){
-		
-	/* read message */
-	std::string message = ReadMsg(client_fd);
+void Worker::HandleClientFd(int client_fd, int weak_thread_id) {
 
-	/* if socket was close by client, server close too */
-	if (message.empty()) {
-		LOG_INFO("close fd[%d]\n", client_fd);
-		close(client_fd);
-		return;
+	EpollInfo epollinfo;
+	epollinfo.epollfd = epollfds_[ weak_thread_id ];
+	while (1) {
+		LOG_DEBUG("epoll wait : %d \n", epollinfo.epollfd);
+		std::vector< int > active_fds =
+			EpollTool::GotEpollActiveFd(epollinfo, 2000);
+		for (auto active_fd : active_fds) {
+			/* read message */
+			std::string message = ReadMsg(active_fd);
+
+			/* if socket was close by client, server close too */
+			if (message.empty()) {
+				LOG_INFO("close fd[%d]\n", active_fd);
+				EpollTool::DelEpoll(active_fd, epollinfo);
+				close(active_fd);
+				continue;
+			}
+			OnMsgArrived(active_fd, message);
+		}
 	}
-	OnMsgArrived(client_fd,message);
 }
 void Worker::OnMsgArrived(int sockfd, std::string msg) {
 	on_msg_cb_(sockfd, msg);

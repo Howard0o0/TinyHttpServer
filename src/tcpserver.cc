@@ -47,37 +47,18 @@ void TcpServer::Start() {
 		LOG_ERR("create socket error: %s\n", strerror(errno));
 		exit(-1);
 	}
-	LOG_DEBUG("created server socket \n");
-
-	RegisterEpoll(server_sockfd_);
 
 	while (1) {
-
-		LOG_DEBUG("waiting connection or message ...\n");
-		std::vector< int > active_fds = GotEpollActiveFd();
-		for (auto active_fd : active_fds) {
-			if (active_fd == server_sockfd_) {
-				/* a new connection arrived */
-				int client_sockfd = accept(
-					server_sockfd_,
-					( struct sockaddr* )&client_addr,
-					( unsigned int* )&client_addr_len);
-				LOG_DEBUG("got client_fd: %d \n",
-					  client_sockfd);
-				if (client_sockfd < 0) {
-					LOG_ERR("accept error : %s\n",
-						strerror(errno));
-					continue;
-				}
-				SetSocketNonblock(client_sockfd);
-				RegisterEpoll(client_sockfd);
-			}
-			else
-				/* a new message arrived */
-				worker_.HandleResponse(active_fd);
-				DelEpoll(active_fd);
-
+		// int client_sockfd =
+		// 	accept(server_sockfd_, ( struct sockaddr* )&client_addr,
+		// 	       ( unsigned int* )&client_addr_len);
+		int client_sockfd = accept(server_sockfd_, NULL, NULL);
+		if (client_sockfd < 0) {
+			LOG_ERR("accept error : %s\n", strerror(errno));
+			continue;
 		}
+		LOG_INFO("accept a new client_fd:%d \n", client_sockfd);
+		worker_.HandleResponse(client_sockfd);
 	}
 }
 
@@ -103,12 +84,11 @@ void TcpServer::RegisterEpoll(int fd) {
 	}
 }
 
-void TcpServer::DelEpoll(int fd){
+void TcpServer::DelEpoll(int fd) {
 
 	epollinfo_.event.data.fd = fd;
 
-	if (epoll_ctl(epollinfo_.epollfd, EPOLL_CTL_DEL, fd, NULL)
-	    != 0) {
+	if (epoll_ctl(epollinfo_.epollfd, EPOLL_CTL_DEL, fd, NULL) != 0) {
 		LOG_ERR("epoll add fd error: %s \n", strerror(errno));
 		// exit(-1);
 	}

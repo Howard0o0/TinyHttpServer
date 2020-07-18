@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/howard/TinyThreadPool
+CMAKE_SOURCE_DIR = /home/howard/work/TinyThreadPool
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/howard/TinyThreadPool
+CMAKE_BINARY_DIR = /home/howard/work/TinyThreadPool
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/howard/TinyThreadPool/CMakeFiles /home/howard/TinyThreadPool/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/howard/work/TinyThreadPool/CMakeFiles /home/howard/work/TinyThreadPool/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/howard/TinyThreadPool/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/howard/work/TinyThreadPool/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -149,6 +149,33 @@ src/connection.s: src/connection.cc.s
 src/connection.cc.s:
 	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/connection.cc.s
 .PHONY : src/connection.cc.s
+
+src/epolltool.o: src/epolltool.cc.o
+
+.PHONY : src/epolltool.o
+
+# target to build an object file
+src/epolltool.cc.o:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/epolltool.cc.o
+.PHONY : src/epolltool.cc.o
+
+src/epolltool.i: src/epolltool.cc.i
+
+.PHONY : src/epolltool.i
+
+# target to preprocess a source file
+src/epolltool.cc.i:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/epolltool.cc.i
+.PHONY : src/epolltool.cc.i
+
+src/epolltool.s: src/epolltool.cc.s
+
+.PHONY : src/epolltool.s
+
+# target to generate assembly for a file
+src/epolltool.cc.s:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/epolltool.cc.s
+.PHONY : src/epolltool.cc.s
 
 src/httpserver.o: src/httpserver.cc.o
 
@@ -351,6 +378,9 @@ help:
 	@echo "... src/connection.o"
 	@echo "... src/connection.i"
 	@echo "... src/connection.s"
+	@echo "... src/epolltool.o"
+	@echo "... src/epolltool.i"
+	@echo "... src/epolltool.s"
 	@echo "... src/httpserver.o"
 	@echo "... src/httpserver.i"
 	@echo "... src/httpserver.s"
