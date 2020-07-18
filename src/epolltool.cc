@@ -2,6 +2,7 @@
 #include "log.h"
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include <vector>
 
 void EpollTool::InitialEpollinfo(EpollInfo& epoll_info) {
@@ -41,6 +42,11 @@ std::vector< int > EpollTool::GotEpollActiveFd(EpollInfo& epoll_info,
 		if (epoll_info.active_events[ i ].events & EPOLLIN)
 			active_fds.push_back(
 				epoll_info.active_events[ i ].data.fd);
+		else {
+			DelEpoll(epoll_info.active_events[ i ].data.fd,
+				 epoll_info);
+			close(epoll_info.active_events[ i ].data.fd);
+		}
 	}
 	return active_fds;
 }

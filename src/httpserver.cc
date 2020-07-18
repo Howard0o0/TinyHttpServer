@@ -29,9 +29,10 @@ void HttpServer::OnMsgArrived(int client_fd, const std::string& message) {
 		if (strline.find("GET") != std::string::npos) {
 			send(client_fd, response.data(), response.size(), 0);
 			// LOG_INFO("sent response:\n%s\n", response.data());
-			LOG_DEBUG("handled client(%d) \n",client_fd);
+			LOG_DEBUG("handled client(%d) \n", client_fd);
 		}
 	}
+	close(client_fd);
 }
 std::string HttpServer::ResponseGet() {
 	std::string ResponseBody   = MakeResponseBody("welcome to index!");
@@ -43,6 +44,7 @@ std::string HttpServer::MakeResponseHeader(int body_len) {
 			     + "Content-Type : text/html\r\n";
 	if (body_len > 0)
 		header += "Content-Length:" + std::to_string(body_len) + "\r\n";
+	header += "Connection: Keep-Alive";
 	header += "\r\n";
 	return header;
 }

@@ -59,21 +59,9 @@ void Worker::HandleClientFd(int client_fd, int weak_thread_id) {
 			EpollTool::GotEpollActiveFd(epollinfo, 2000);
 		for (auto active_fd : active_fds) {
 			/* read message */
-			std::string message   = ReadMsg(active_fd);
-			int	 empty_cnt = 0;
-			while (empty_cnt < 3 && message.empty()) {
-				++empty_cnt;
-				message = ReadMsg(active_fd);
-			}
+			std::string message = ReadMsg(active_fd);
 
-			/* if socket was close by client, server close too */
-			if (message.empty()) {
-				expired_fds[ active_fd ] = 0;
-				LOG_INFO("close fd[%d]\n", active_fd);
-				EpollTool::DelEpoll(active_fd, epollinfo);
-				close(active_fd);
-				continue;
-			}
+			EpollTool::DelEpoll(active_fd, epollinfo);
 			OnMsgArrived(active_fd, message);
 		}
 	}
