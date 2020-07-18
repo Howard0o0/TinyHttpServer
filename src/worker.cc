@@ -5,15 +5,17 @@
 #include <sys/epoll.h>
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <thread>
 #include <unistd.h>
 
 using namespace ths;
 
 /* public */
 Worker::Worker(const OnMsgCallback& cb, int thread_cnt)
-	: thread_cnt_(thread_cnt), epollfds_(thread_cnt, 0) {
+	: thread_cnt_(thread_cnt), epollfds_(thread_cnt, 0),
+	  expired_fds(10000, 0) {
 	on_msg_cb_ = cb;
-	threadpool_.Start(thread_cnt_);
+	// threadpool_.Start(thread_cnt_);
 	for (int weak_threadid = 0; weak_threadid < thread_cnt;
 	     ++weak_threadid) {
 		EpollInfo epollinfo;
@@ -21,8 +23,12 @@ Worker::Worker(const OnMsgCallback& cb, int thread_cnt)
 		epollfds_[ weak_threadid ] = epollinfo.epollfd;
 		LOG_DEBUG("created epollfd : %d \n",
 			  epollfds_[ weak_threadid ]);
-		threadpool_.RunTask(std::bind(&Worker::HandleClientFd, this, 0,
-					      weak_threadid));
+		// threadpool_.RunTask(std::bind(&Worker::HandleClientFd, this,
+		// 0, 			      weak_threadid));
+		std::thread t1 = std::thread(std::bind(&Worker::HandleClientFd,
+						       this, 0, weak_threadid));
+		t1.detach();
+		LOG_DEBUG("created thread\n");
 	}
 }
 
@@ -53,10 +59,16 @@ void Worker::HandleClientFd(int client_fd, int weak_thread_id) {
 			EpollTool::GotEpollActiveFd(epollinfo, 2000);
 		for (auto active_fd : active_fds) {
 			/* read message */
-			std::string message = ReadMsg(active_fd);
+			std::string message   = ReadMsg(active_fd);
+			int	 empty_cnt = 0;
+			while (empty_cnt < 3 && message.empty()) {
+				++empty_cnt;
+				message = ReadMsg(active_fd);
+			}
 
 			/* if socket was close by client, server close too */
 			if (message.empty()) {
+				expired_fds[ active_fd ] = 0;
 				LOG_INFO("close fd[%d]\n", active_fd);
 				EpollTool::DelEpoll(active_fd, epollinfo);
 				close(active_fd);
