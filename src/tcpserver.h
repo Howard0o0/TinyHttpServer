@@ -14,11 +14,12 @@ namespace ths {
 
 class TcpServer {
     public:
-	TcpServer(int port, int backlog = 2048)
+	TcpServer(int port, int backlog = 1024)
 		: port_(port), backlog_(backlog),
 		  worker_(std::bind(&TcpServer::OnMsgArrived, this,
 				    std::placeholders::_1,
-				    std::placeholders::_2)) {
+				    std::placeholders::_2),
+			  4) {
 		InitialEpollinfo();
 	}
 	void Start();
@@ -36,9 +37,9 @@ class TcpServer {
 	int  CreateSocket();
 	void StartWorkThreadsPool();
 	void OnMsgArrived(int client_fd, const std::string& msg) {
-		LOG_INFO("===========new message==========\n");
-		LOG_INFO("%s\n", msg.data());
-		LOG_INFO("================================\n");
+		LOG_DEBUG("===========new message==========\n");
+		LOG_DEBUG("%s\n", msg.data());
+		LOG_DEBUG("================================\n");
 	}
 	void		   InitialEpollinfo();
 	void		   RegisterEpoll(int fd);

@@ -43,8 +43,8 @@ void Worker::HandleResponse(int client_fd) {
 	static EpollInfo epollinfo;
 	epollinfo.epollfd = epollfds_[ weak_thread_id ];
 	EpollTool::RegisterEpoll(client_fd, epollinfo);
-	LOG_INFO("register clientfd(%d) into epollfd(%d) \n", client_fd,
-		 epollinfo.epollfd);
+	LOG_DEBUG("register clientfd(%d) into epollfd(%d) \n", client_fd,
+		  epollinfo.epollfd);
 }
 
 /* private  */
@@ -103,16 +103,16 @@ void Worker::WorkFunc() {
 			  << std::endl;
 		int active_events_cnt =
 			epoll_wait(epollfd, active_events, MAX_EVENTS_CNT, -1);
-		LOG_INFO("epoll wait return \n");
+		LOG_DEBUG("epoll wait return \n");
 		for (int i = 0; i < active_events_cnt; ++i) {
-			LOG_INFO("[%d] active cnt:%d,  active event fd: %d\n",
-				 i, active_events_cnt,
-				 active_events[ i ].data.fd);
+			LOG_DEBUG("[%d] active cnt:%d,  active event fd: %d\n",
+				  i, active_events_cnt,
+				  active_events[ i ].data.fd);
 			if (wakeup_fd_ == active_events[ i ].data.fd) {
 				char temp[ 10 ];
 				read(wakeup_fd_, temp, 10);
 
-				LOG_INFO("new connection arrived\n");
+				LOG_DEBUG("new connection arrived\n");
 				/* new connection arrived */
 				int client_fd = fd_translator_.PopInThread();
 
@@ -134,11 +134,10 @@ void Worker::WorkFunc() {
 				epoll_ctl(epollfd, EPOLL_CTL_DEL, expired_fd,
 					  NULL);
 				// close(expired_fd);
-				LOG_INFO("close expired fd:%d\n", expired_fd);
 				continue;
 			}
-			LOG_INFO("new msg:\n");
-			LOG_INFO("%s\n", msg.data());
+			LOG_DEBUG("new msg:\n");
+			LOG_DEBUG("%s\n", msg.data());
 			on_msg_cb_(active_events[ i ].data.fd, msg);
 		}
 	}

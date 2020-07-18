@@ -57,7 +57,7 @@ void TcpServer::Start() {
 			LOG_ERR("accept error : %s\n", strerror(errno));
 			continue;
 		}
-		LOG_INFO("accept a new client_fd:%d \n", client_sockfd);
+		LOG_DEBUG("accept a new client_fd:%d \n", client_sockfd);
 		worker_.HandleResponse(client_sockfd);
 	}
 }
@@ -129,18 +129,13 @@ int TcpServer::CreateSocket() {
 		return -1;
 	}
 
-	LOG_INFO("bind done\n");
+	LOG_DEBUG("bind done\n");
 
 	if (listen(server_sock, backlog_)) {
 		printf("listen error\n");
 		return -1;
 	}
-	LOG_INFO("listen done\n");
-
-	// int flags;
-
-	// flags = fcntl(server_sockfd_, F_GETFL, 0);
-	// flags |= O_NONBLOCK;
+	LOG_DEBUG("listen done\n");
 
 	return server_sock;
 }

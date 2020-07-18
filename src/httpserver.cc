@@ -1,5 +1,6 @@
 #include "httpserver.h"
 #include "log.h"
+#include "threadpool.h"
 #include <sstream>
 #include <string>
 #include <sys/socket.h>
@@ -18,9 +19,6 @@ void HttpServer::StartLoop() {
 /* private */
 
 void HttpServer::OnMsgArrived(int client_fd, const std::string& message) {
-	// LOG_INFO("\n=====================");
-	// LOG_INFO("new message :\n%s \n", message.data());
-	// LOG_INFO("=====================\n");
 
 	std::istringstream iss(message);
 	std::string	strline;
@@ -28,8 +26,8 @@ void HttpServer::OnMsgArrived(int client_fd, const std::string& message) {
 	while (getline(iss, strline)) {
 		if (strline.find("GET") != std::string::npos) {
 			send(client_fd, response.data(), response.size(), 0);
-			// LOG_INFO("sent response:\n%s\n", response.data());
-			LOG_DEBUG("handled client(%d) \n", client_fd);
+			LOG_DEBUG("sent response:\n%s\n", response.data());
+			LOG_INFO("handled client(%d) \n", client_fd);
 		}
 	}
 	close(client_fd);
@@ -44,7 +42,7 @@ std::string HttpServer::MakeResponseHeader(int body_len) {
 			     + "Content-Type : text/html\r\n";
 	if (body_len > 0)
 		header += "Content-Length:" + std::to_string(body_len) + "\r\n";
-	header += "Connection: Keep-Alive";
+	header += "Connection: close\r\n";
 	header += "\r\n";
 	return header;
 }

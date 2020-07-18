@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#define __LOG_LEVEL_DEBUG__
+// #define __LOG_LEVEL_DEBUG__
 #define __LOG_LEVEL_INFO__
 #define __LOG_LEVEL_ERR__
 

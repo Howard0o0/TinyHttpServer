@@ -41,6 +41,8 @@ httpserver.h
 /home/howard/work/TinyThreadPool/src/httpserver.h
 log.h
 /home/howard/work/TinyThreadPool/src/log.h
+threadpool.h
+/home/howard/work/TinyThreadPool/src/threadpool.h
 sstream
 -
 string
