@@ -19,31 +19,25 @@ class TcpServer {
 		  worker_(std::bind(&TcpServer::OnMsgArrived, this,
 				    std::placeholders::_1,
 				    std::placeholders::_2)) {
-		InitialEpollinfo();
 	}
 	void Start();
 	void SingleLoop();
 	void SetOnMsgCallback(const OnMsgCallback& cb);
 
     private:
-	int	   port_;
-	int	   backlog_;
-	int	   server_sockfd_;
-	Worker	worker_;
-	EpollInfo     epollinfo_;
+	int	      port_;
+	int	      backlog_;
+	int	      server_sockfd_;
+	Worker	      worker_;
 	OnMsgCallback on_msg_cb_;
 
-	int  CreateSocket();
+	int  CreateSocket(bool block = true);
 	void StartWorkThreadsPool();
 	void OnMsgArrived(int client_fd, const std::string& msg) {
 		LOG_INFO("===========new message==========\n");
 		LOG_INFO("%s\n", msg.data());
 		LOG_INFO("================================\n");
 	}
-	void		   InitialEpollinfo();
-	void		   RegisterEpoll(int fd);
-	void		   DelEpoll(int fd);
-	std::vector< int > GotEpollActiveFd();
 
 	void SetSocketReuse(int socket_fd);
 };

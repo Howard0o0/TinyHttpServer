@@ -34,12 +34,17 @@ CMakeFiles/tinythreadpool.app.dir/src/main.cc.o
  /home/howard/work/TinyThreadPool/src/test.h
  /home/howard/work/TinyThreadPool/src/threadpool.h
  /home/howard/work/TinyThreadPool/src/worker.h
+CMakeFiles/tinythreadpool.app.dir/src/sockettool.cc.o
+ ./src/log.h
+ /home/howard/work/TinyThreadPool/src/sockettool.cc
+ /home/howard/work/TinyThreadPool/src/sockettool.h
 CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.o
  /home/howard/work/TinyThreadPool/src/connection.h
  /home/howard/work/TinyThreadPool/src/epolltool.h
  /home/howard/work/TinyThreadPool/src/lockfreeque.h
  /home/howard/work/TinyThreadPool/src/lockfreethreadpool.h
  /home/howard/work/TinyThreadPool/src/log.h
+ /home/howard/work/TinyThreadPool/src/sockettool.h
  /home/howard/work/TinyThreadPool/src/tcpserver.cc
  /home/howard/work/TinyThreadPool/src/tcpserver.h
  /home/howard/work/TinyThreadPool/src/threadpool.h
@@ -61,3 +66,11 @@ CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o
  /home/howard/work/TinyThreadPool/src/threadpool.h
  /home/howard/work/TinyThreadPool/src/worker.cc
  /home/howard/work/TinyThreadPool/src/worker.h
+ third-party-libs/muduo/include/muduo/base/Atomic.h
+ third-party-libs/muduo/include/muduo/base/Condition.h
+ third-party-libs/muduo/include/muduo/base/CountDownLatch.h
+ third-party-libs/muduo/include/muduo/base/CurrentThread.h
+ third-party-libs/muduo/include/muduo/base/Mutex.h
+ third-party-libs/muduo/include/muduo/base/Thread.h
+ third-party-libs/muduo/include/muduo/base/Types.h
+ third-party-libs/muduo/include/muduo/base/noncopyable.h

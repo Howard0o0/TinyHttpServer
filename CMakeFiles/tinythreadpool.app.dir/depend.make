@@ -34,11 +34,16 @@ CMakeFiles/tinythreadpool.app.dir/src/main.cc.o: src/test.h
 CMakeFiles/tinythreadpool.app.dir/src/main.cc.o: src/threadpool.h
 CMakeFiles/tinythreadpool.app.dir/src/main.cc.o: src/worker.h
 
+CMakeFiles/tinythreadpool.app.dir/src/sockettool.cc.o: ./src/log.h
+CMakeFiles/tinythreadpool.app.dir/src/sockettool.cc.o: src/sockettool.cc
+CMakeFiles/tinythreadpool.app.dir/src/sockettool.cc.o: src/sockettool.h
+
 CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.o: src/connection.h
 CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.o: src/epolltool.h
 CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.o: src/lockfreeque.h
 CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.o: src/lockfreethreadpool.h
 CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.o: src/log.h
+CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.o: src/sockettool.h
 CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.o: src/tcpserver.cc
 CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.o: src/tcpserver.h
 CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.o: src/threadpool.h
@@ -60,4 +65,12 @@ CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o: src/log.h
 CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o: src/threadpool.h
 CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o: src/worker.cc
 CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o: src/worker.h
+CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o: third-party-libs/muduo/include/muduo/base/Atomic.h
+CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o: third-party-libs/muduo/include/muduo/base/Condition.h
+CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o: third-party-libs/muduo/include/muduo/base/CountDownLatch.h
+CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o: third-party-libs/muduo/include/muduo/base/CurrentThread.h
+CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o: third-party-libs/muduo/include/muduo/base/Mutex.h
+CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o: third-party-libs/muduo/include/muduo/base/Thread.h
+CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o: third-party-libs/muduo/include/muduo/base/Types.h
+CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o: third-party-libs/muduo/include/muduo/base/noncopyable.h
 

@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/howard/work/TinyThreadPool/src/httpserver.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.o"
   "/home/howard/work/TinyThreadPool/src/lockfreethreadpool.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.o"
   "/home/howard/work/TinyThreadPool/src/main.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tinythreadpool.app.dir/src/main.cc.o"
+  "/home/howard/work/TinyThreadPool/src/sockettool.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tinythreadpool.app.dir/src/sockettool.cc.o"
   "/home/howard/work/TinyThreadPool/src/tcpserver.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.o"
   "/home/howard/work/TinyThreadPool/src/test.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tinythreadpool.app.dir/src/test.cc.o"
   "/home/howard/work/TinyThreadPool/src/threadpool.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.o"
@@ -18,6 +19,7 @@ set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "third-party-libs/muduo/include"
   "./src"
   )
 

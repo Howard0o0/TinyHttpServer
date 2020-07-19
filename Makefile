@@ -258,6 +258,33 @@ src/main.cc.s:
 	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/main.cc.s
 .PHONY : src/main.cc.s
 
+src/sockettool.o: src/sockettool.cc.o
+
+.PHONY : src/sockettool.o
+
+# target to build an object file
+src/sockettool.cc.o:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/sockettool.cc.o
+.PHONY : src/sockettool.cc.o
+
+src/sockettool.i: src/sockettool.cc.i
+
+.PHONY : src/sockettool.i
+
+# target to preprocess a source file
+src/sockettool.cc.i:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/sockettool.cc.i
+.PHONY : src/sockettool.cc.i
+
+src/sockettool.s: src/sockettool.cc.s
+
+.PHONY : src/sockettool.s
+
+# target to generate assembly for a file
+src/sockettool.cc.s:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/sockettool.cc.s
+.PHONY : src/sockettool.cc.s
+
 src/tcpserver.o: src/tcpserver.cc.o
 
 .PHONY : src/tcpserver.o
@@ -390,6 +417,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/sockettool.o"
+	@echo "... src/sockettool.i"
+	@echo "... src/sockettool.s"
 	@echo "... src/tcpserver.o"
 	@echo "... src/tcpserver.i"
 	@echo "... src/tcpserver.s"

@@ -4,6 +4,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.o"
   "CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.o"
   "CMakeFiles/tinythreadpool.app.dir/src/main.cc.o"
+  "CMakeFiles/tinythreadpool.app.dir/src/sockettool.cc.o"
   "CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.o"
   "CMakeFiles/tinythreadpool.app.dir/src/test.cc.o"
   "CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.o"
