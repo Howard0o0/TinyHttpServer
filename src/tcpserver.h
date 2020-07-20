@@ -18,9 +18,7 @@ class TcpServer {
 		: port_(port), backlog_(backlog),
 		  worker_(std::bind(&TcpServer::OnMsgArrived, this,
 				    std::placeholders::_1,
-				    std::placeholders::_2),
-			  4) {
-		InitialEpollinfo();
+				    std::placeholders::_2)) {
 	}
 	void Start();
 	void SingleLoop();
@@ -31,20 +29,15 @@ class TcpServer {
 	int	   backlog_;
 	int	   server_sockfd_;
 	Worker	worker_;
-	EpollInfo     epollinfo_;
 	OnMsgCallback on_msg_cb_;
 
-	int  CreateSocket();
+	int  CreateSocket(bool block = true);
 	void StartWorkThreadsPool();
 	void OnMsgArrived(int client_fd, const std::string& msg) {
 		LOG_DEBUG("===========new message==========\n");
 		LOG_DEBUG("%s\n", msg.data());
 		LOG_DEBUG("================================\n");
 	}
-	void		   InitialEpollinfo();
-	void		   RegisterEpoll(int fd);
-	void		   DelEpoll(int fd);
-	std::vector< int > GotEpollActiveFd();
 
 	void SetSocketReuse(int socket_fd);
 };

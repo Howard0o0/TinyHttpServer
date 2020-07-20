@@ -22,10 +22,11 @@ struct EpollInfo {
 class EpollTool {
     public:
 	static void		  InitialEpollinfo(EpollInfo& epoll_info);
-	static void		  RegisterEpoll(int fd, EpollInfo& epoll_info);
+	static void		  RegisterEpoll(int fd, EpollInfo& epoll_info,
+						uint32_t events = EPOLLIN | EPOLLET);
 	static void		  DelEpoll(int fd, EpollInfo& epoll_info);
 	static std::vector< int > GotEpollActiveFd(EpollInfo& epoll_info,
-						   int	timeout = 0);
+						   int	      timeout = 0);
 };
 
 #endif
