@@ -23,6 +23,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "./src"
   "./src/base"
   "./src/net"
+  "third-party-libs/curl/include"
   )
 
 # Targets to which this target links.

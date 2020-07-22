@@ -23,6 +23,8 @@ set(CXX_FLAGS
  -rdynamic
  )
 set (MUDUO_PATH "${CMAKE_SOURCE_DIR}/third-party-libs/muduo")
+set (CURL_PATH "${CMAKE_SOURCE_DIR}/third-party-libs/curl")
+
 find_path(Muduo_INCLUDE_DIR muduo "${MUDUO_PATH}/include")
 find_path(Muduo_LIBRARY_DIR libmuduo_net.a "${MUDUO_PATH}/lib")
 set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} ${Muduo_LIBRARY_DIR})
@@ -40,8 +42,10 @@ message(STATUS ${muduo_net})
 include_directories( ./src) 
 include_directories( ./src/base) 
 include_directories( ./src/net) 
+include_directories (${CURL_PATH}/include)
 
-link_directories(${MUDUO_PATH}/lib)
+link_directories(${MUDUO_PATH}/lib ${CURL_PATH}/lib)
+ 
 
 #find source files
 aux_source_directory(./src SRC_FILES)
@@ -51,6 +55,6 @@ aux_source_directory(./src/net SRC_NET_FILES)
 #创建工程文件
 add_executable(httptest.app ${SRC_FILES} ${SRC_BASE_FILES} ${SRC_NET_FILES})
 
-target_link_libraries(httptest.app ${muduo_net} ${muduo_base} pthread )
+target_link_libraries(httptest.app ${muduo_net} ${muduo_base} pthread curl )
 
  
