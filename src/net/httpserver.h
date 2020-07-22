@@ -6,7 +6,7 @@
 namespace nethelper {
 class HttpServer {
     public:
-	HttpServer(int port) : tcpserver_(port) {
+	HttpServer(int port, int threadnum = 1) : tcpserver_(port, threadnum) {
 	}
 	void StartLoop();
 
