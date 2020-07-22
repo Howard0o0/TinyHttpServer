@@ -1,5 +1,4 @@
 #include "tcpserver.h"
-#include "connection.h"
 #include "lockfreethreadpool.h"
 #include "log.h"
 #include "sockettool.h"

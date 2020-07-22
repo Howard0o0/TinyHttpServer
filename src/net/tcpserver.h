@@ -1,7 +1,6 @@
 #ifndef TINYHTTPSERVER_TCPSERVER_H
 #define TINYHTTPSERVER_TCPSERVER_H
 
-#include "connection.h"
 #include "epolltool.h"
 #include "lockfreeque.h"
 #include "log.h"

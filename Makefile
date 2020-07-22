@@ -123,113 +123,86 @@ tinythreadpool.app/fast:
 	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/build
 .PHONY : tinythreadpool.app/fast
 
-src/connection.o: src/connection.cc.o
+src/base/lockfreethreadpool.o: src/base/lockfreethreadpool.cc.o
 
-.PHONY : src/connection.o
-
-# target to build an object file
-src/connection.cc.o:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/connection.cc.o
-.PHONY : src/connection.cc.o
-
-src/connection.i: src/connection.cc.i
-
-.PHONY : src/connection.i
-
-# target to preprocess a source file
-src/connection.cc.i:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/connection.cc.i
-.PHONY : src/connection.cc.i
-
-src/connection.s: src/connection.cc.s
-
-.PHONY : src/connection.s
-
-# target to generate assembly for a file
-src/connection.cc.s:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/connection.cc.s
-.PHONY : src/connection.cc.s
-
-src/epolltool.o: src/epolltool.cc.o
-
-.PHONY : src/epolltool.o
+.PHONY : src/base/lockfreethreadpool.o
 
 # target to build an object file
-src/epolltool.cc.o:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/epolltool.cc.o
-.PHONY : src/epolltool.cc.o
+src/base/lockfreethreadpool.cc.o:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/base/lockfreethreadpool.cc.o
+.PHONY : src/base/lockfreethreadpool.cc.o
 
-src/epolltool.i: src/epolltool.cc.i
+src/base/lockfreethreadpool.i: src/base/lockfreethreadpool.cc.i
 
-.PHONY : src/epolltool.i
+.PHONY : src/base/lockfreethreadpool.i
 
 # target to preprocess a source file
-src/epolltool.cc.i:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/epolltool.cc.i
-.PHONY : src/epolltool.cc.i
+src/base/lockfreethreadpool.cc.i:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/base/lockfreethreadpool.cc.i
+.PHONY : src/base/lockfreethreadpool.cc.i
 
-src/epolltool.s: src/epolltool.cc.s
+src/base/lockfreethreadpool.s: src/base/lockfreethreadpool.cc.s
 
-.PHONY : src/epolltool.s
+.PHONY : src/base/lockfreethreadpool.s
 
 # target to generate assembly for a file
-src/epolltool.cc.s:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/epolltool.cc.s
-.PHONY : src/epolltool.cc.s
+src/base/lockfreethreadpool.cc.s:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/base/lockfreethreadpool.cc.s
+.PHONY : src/base/lockfreethreadpool.cc.s
 
-src/httpserver.o: src/httpserver.cc.o
+src/base/thread.o: src/base/thread.cc.o
 
-.PHONY : src/httpserver.o
+.PHONY : src/base/thread.o
 
 # target to build an object file
-src/httpserver.cc.o:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.o
-.PHONY : src/httpserver.cc.o
+src/base/thread.cc.o:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/base/thread.cc.o
+.PHONY : src/base/thread.cc.o
 
-src/httpserver.i: src/httpserver.cc.i
+src/base/thread.i: src/base/thread.cc.i
 
-.PHONY : src/httpserver.i
+.PHONY : src/base/thread.i
 
 # target to preprocess a source file
-src/httpserver.cc.i:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.i
-.PHONY : src/httpserver.cc.i
+src/base/thread.cc.i:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/base/thread.cc.i
+.PHONY : src/base/thread.cc.i
 
-src/httpserver.s: src/httpserver.cc.s
+src/base/thread.s: src/base/thread.cc.s
 
-.PHONY : src/httpserver.s
+.PHONY : src/base/thread.s
 
 # target to generate assembly for a file
-src/httpserver.cc.s:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/httpserver.cc.s
-.PHONY : src/httpserver.cc.s
+src/base/thread.cc.s:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/base/thread.cc.s
+.PHONY : src/base/thread.cc.s
 
-src/lockfreethreadpool.o: src/lockfreethreadpool.cc.o
+src/base/threadpool.o: src/base/threadpool.cc.o
 
-.PHONY : src/lockfreethreadpool.o
+.PHONY : src/base/threadpool.o
 
 # target to build an object file
-src/lockfreethreadpool.cc.o:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.o
-.PHONY : src/lockfreethreadpool.cc.o
+src/base/threadpool.cc.o:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/base/threadpool.cc.o
+.PHONY : src/base/threadpool.cc.o
 
-src/lockfreethreadpool.i: src/lockfreethreadpool.cc.i
+src/base/threadpool.i: src/base/threadpool.cc.i
 
-.PHONY : src/lockfreethreadpool.i
+.PHONY : src/base/threadpool.i
 
 # target to preprocess a source file
-src/lockfreethreadpool.cc.i:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.i
-.PHONY : src/lockfreethreadpool.cc.i
+src/base/threadpool.cc.i:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/base/threadpool.cc.i
+.PHONY : src/base/threadpool.cc.i
 
-src/lockfreethreadpool.s: src/lockfreethreadpool.cc.s
+src/base/threadpool.s: src/base/threadpool.cc.s
 
-.PHONY : src/lockfreethreadpool.s
+.PHONY : src/base/threadpool.s
 
 # target to generate assembly for a file
-src/lockfreethreadpool.cc.s:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/lockfreethreadpool.cc.s
-.PHONY : src/lockfreethreadpool.cc.s
+src/base/threadpool.cc.s:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/base/threadpool.cc.s
+.PHONY : src/base/threadpool.cc.s
 
 src/main.o: src/main.cc.o
 
@@ -258,59 +231,140 @@ src/main.cc.s:
 	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/main.cc.s
 .PHONY : src/main.cc.s
 
-src/sockettool.o: src/sockettool.cc.o
+src/net/epolltool.o: src/net/epolltool.cc.o
 
-.PHONY : src/sockettool.o
-
-# target to build an object file
-src/sockettool.cc.o:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/sockettool.cc.o
-.PHONY : src/sockettool.cc.o
-
-src/sockettool.i: src/sockettool.cc.i
-
-.PHONY : src/sockettool.i
-
-# target to preprocess a source file
-src/sockettool.cc.i:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/sockettool.cc.i
-.PHONY : src/sockettool.cc.i
-
-src/sockettool.s: src/sockettool.cc.s
-
-.PHONY : src/sockettool.s
-
-# target to generate assembly for a file
-src/sockettool.cc.s:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/sockettool.cc.s
-.PHONY : src/sockettool.cc.s
-
-src/tcpserver.o: src/tcpserver.cc.o
-
-.PHONY : src/tcpserver.o
+.PHONY : src/net/epolltool.o
 
 # target to build an object file
-src/tcpserver.cc.o:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.o
-.PHONY : src/tcpserver.cc.o
+src/net/epolltool.cc.o:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/net/epolltool.cc.o
+.PHONY : src/net/epolltool.cc.o
 
-src/tcpserver.i: src/tcpserver.cc.i
+src/net/epolltool.i: src/net/epolltool.cc.i
 
-.PHONY : src/tcpserver.i
+.PHONY : src/net/epolltool.i
 
 # target to preprocess a source file
-src/tcpserver.cc.i:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.i
-.PHONY : src/tcpserver.cc.i
+src/net/epolltool.cc.i:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/net/epolltool.cc.i
+.PHONY : src/net/epolltool.cc.i
 
-src/tcpserver.s: src/tcpserver.cc.s
+src/net/epolltool.s: src/net/epolltool.cc.s
 
-.PHONY : src/tcpserver.s
+.PHONY : src/net/epolltool.s
 
 # target to generate assembly for a file
-src/tcpserver.cc.s:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/tcpserver.cc.s
-.PHONY : src/tcpserver.cc.s
+src/net/epolltool.cc.s:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/net/epolltool.cc.s
+.PHONY : src/net/epolltool.cc.s
+
+src/net/httpserver.o: src/net/httpserver.cc.o
+
+.PHONY : src/net/httpserver.o
+
+# target to build an object file
+src/net/httpserver.cc.o:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/net/httpserver.cc.o
+.PHONY : src/net/httpserver.cc.o
+
+src/net/httpserver.i: src/net/httpserver.cc.i
+
+.PHONY : src/net/httpserver.i
+
+# target to preprocess a source file
+src/net/httpserver.cc.i:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/net/httpserver.cc.i
+.PHONY : src/net/httpserver.cc.i
+
+src/net/httpserver.s: src/net/httpserver.cc.s
+
+.PHONY : src/net/httpserver.s
+
+# target to generate assembly for a file
+src/net/httpserver.cc.s:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/net/httpserver.cc.s
+.PHONY : src/net/httpserver.cc.s
+
+src/net/sockettool.o: src/net/sockettool.cc.o
+
+.PHONY : src/net/sockettool.o
+
+# target to build an object file
+src/net/sockettool.cc.o:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/net/sockettool.cc.o
+.PHONY : src/net/sockettool.cc.o
+
+src/net/sockettool.i: src/net/sockettool.cc.i
+
+.PHONY : src/net/sockettool.i
+
+# target to preprocess a source file
+src/net/sockettool.cc.i:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/net/sockettool.cc.i
+.PHONY : src/net/sockettool.cc.i
+
+src/net/sockettool.s: src/net/sockettool.cc.s
+
+.PHONY : src/net/sockettool.s
+
+# target to generate assembly for a file
+src/net/sockettool.cc.s:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/net/sockettool.cc.s
+.PHONY : src/net/sockettool.cc.s
+
+src/net/tcpserver.o: src/net/tcpserver.cc.o
+
+.PHONY : src/net/tcpserver.o
+
+# target to build an object file
+src/net/tcpserver.cc.o:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/net/tcpserver.cc.o
+.PHONY : src/net/tcpserver.cc.o
+
+src/net/tcpserver.i: src/net/tcpserver.cc.i
+
+.PHONY : src/net/tcpserver.i
+
+# target to preprocess a source file
+src/net/tcpserver.cc.i:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/net/tcpserver.cc.i
+.PHONY : src/net/tcpserver.cc.i
+
+src/net/tcpserver.s: src/net/tcpserver.cc.s
+
+.PHONY : src/net/tcpserver.s
+
+# target to generate assembly for a file
+src/net/tcpserver.cc.s:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/net/tcpserver.cc.s
+.PHONY : src/net/tcpserver.cc.s
+
+src/net/worker.o: src/net/worker.cc.o
+
+.PHONY : src/net/worker.o
+
+# target to build an object file
+src/net/worker.cc.o:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/net/worker.cc.o
+.PHONY : src/net/worker.cc.o
+
+src/net/worker.i: src/net/worker.cc.i
+
+.PHONY : src/net/worker.i
+
+# target to preprocess a source file
+src/net/worker.cc.i:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/net/worker.cc.i
+.PHONY : src/net/worker.cc.i
+
+src/net/worker.s: src/net/worker.cc.s
+
+.PHONY : src/net/worker.s
+
+# target to generate assembly for a file
+src/net/worker.cc.s:
+	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/net/worker.cc.s
+.PHONY : src/net/worker.cc.s
 
 src/test.o: src/test.cc.o
 
@@ -339,60 +393,6 @@ src/test.cc.s:
 	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/test.cc.s
 .PHONY : src/test.cc.s
 
-src/threadpool.o: src/threadpool.cc.o
-
-.PHONY : src/threadpool.o
-
-# target to build an object file
-src/threadpool.cc.o:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.o
-.PHONY : src/threadpool.cc.o
-
-src/threadpool.i: src/threadpool.cc.i
-
-.PHONY : src/threadpool.i
-
-# target to preprocess a source file
-src/threadpool.cc.i:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.i
-.PHONY : src/threadpool.cc.i
-
-src/threadpool.s: src/threadpool.cc.s
-
-.PHONY : src/threadpool.s
-
-# target to generate assembly for a file
-src/threadpool.cc.s:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/threadpool.cc.s
-.PHONY : src/threadpool.cc.s
-
-src/worker.o: src/worker.cc.o
-
-.PHONY : src/worker.o
-
-# target to build an object file
-src/worker.cc.o:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/worker.cc.o
-.PHONY : src/worker.cc.o
-
-src/worker.i: src/worker.cc.i
-
-.PHONY : src/worker.i
-
-# target to preprocess a source file
-src/worker.cc.i:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/worker.cc.i
-.PHONY : src/worker.cc.i
-
-src/worker.s: src/worker.cc.s
-
-.PHONY : src/worker.s
-
-# target to generate assembly for a file
-src/worker.cc.s:
-	$(MAKE) -f CMakeFiles/tinythreadpool.app.dir/build.make CMakeFiles/tinythreadpool.app.dir/src/worker.cc.s
-.PHONY : src/worker.cc.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -402,36 +402,36 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... tinythreadpool.app"
 	@echo "... edit_cache"
-	@echo "... src/connection.o"
-	@echo "... src/connection.i"
-	@echo "... src/connection.s"
-	@echo "... src/epolltool.o"
-	@echo "... src/epolltool.i"
-	@echo "... src/epolltool.s"
-	@echo "... src/httpserver.o"
-	@echo "... src/httpserver.i"
-	@echo "... src/httpserver.s"
-	@echo "... src/lockfreethreadpool.o"
-	@echo "... src/lockfreethreadpool.i"
-	@echo "... src/lockfreethreadpool.s"
+	@echo "... src/base/lockfreethreadpool.o"
+	@echo "... src/base/lockfreethreadpool.i"
+	@echo "... src/base/lockfreethreadpool.s"
+	@echo "... src/base/thread.o"
+	@echo "... src/base/thread.i"
+	@echo "... src/base/thread.s"
+	@echo "... src/base/threadpool.o"
+	@echo "... src/base/threadpool.i"
+	@echo "... src/base/threadpool.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/sockettool.o"
-	@echo "... src/sockettool.i"
-	@echo "... src/sockettool.s"
-	@echo "... src/tcpserver.o"
-	@echo "... src/tcpserver.i"
-	@echo "... src/tcpserver.s"
+	@echo "... src/net/epolltool.o"
+	@echo "... src/net/epolltool.i"
+	@echo "... src/net/epolltool.s"
+	@echo "... src/net/httpserver.o"
+	@echo "... src/net/httpserver.i"
+	@echo "... src/net/httpserver.s"
+	@echo "... src/net/sockettool.o"
+	@echo "... src/net/sockettool.i"
+	@echo "... src/net/sockettool.s"
+	@echo "... src/net/tcpserver.o"
+	@echo "... src/net/tcpserver.i"
+	@echo "... src/net/tcpserver.s"
+	@echo "... src/net/worker.o"
+	@echo "... src/net/worker.i"
+	@echo "... src/net/worker.s"
 	@echo "... src/test.o"
 	@echo "... src/test.i"
 	@echo "... src/test.s"
-	@echo "... src/threadpool.o"
-	@echo "... src/threadpool.i"
-	@echo "... src/threadpool.s"
-	@echo "... src/worker.o"
-	@echo "... src/worker.i"
-	@echo "... src/worker.s"
 .PHONY : help
 
 

@@ -38,14 +38,18 @@ message(STATUS ${muduo_net})
  
 #find head files
 include_directories( ./src) 
+include_directories( ./src/base) 
+include_directories( ./src/net) 
 
 link_directories(${MUDUO_PATH}/lib)
 
 #find source files
 aux_source_directory(./src SRC_FILES)
+aux_source_directory(./src/base SRC_BASE_FILES)
+aux_source_directory(./src/net SRC_NET_FILES)
 
 #创建工程文件
-add_executable(tinythreadpool.app ${SRC_FILES} )
+add_executable(tinythreadpool.app ${SRC_FILES} ${SRC_BASE_FILES} ${SRC_NET_FILES})
 
 target_link_libraries(tinythreadpool.app ${muduo_net} ${muduo_base} pthread )
 
