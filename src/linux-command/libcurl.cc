@@ -68,40 +68,19 @@ static size_t writer(char* data, size_t size, size_t nmemb,
 	if (NULL == writer_data) {
 		return 0;
 	}
+	// printf("recvbuf: %s \n", data);
 
 	writer_data->append(data, sizes);
 
 	return sizes;
 }
 
-static std::string GetRedirectUrl(const char* url) {
-	curl_global_init(CURL_GLOBAL_DEFAULT);
-	CURL* curl = curl_easy_init();
-	if (curl) {
-		char* res = NULL;
-		curl_easy_setopt(curl, CURLOPT_URL, url);
-		curl_easy_perform(curl);
-		curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-		// 1表示重定向次数，最多允许一次重定向
-		std::cout << curl_easy_getinfo(curl, CURLINFO_REDIRECT_URL, res)
-			  << std::endl;
-		//该函数若返回301，说明是永久重定向；若返回302，说明临时重定向
-		printf("hah:%s\n", res);
-		std::string str(res);
-		curl_easy_cleanup(curl);  //防止内存泄漏 切记
-		return str;
-	}
-	else {
-		return "";
-	}
-}
-
 long libcurl_get(const char* url, struct curl_slist* header,
 		 std::string& buffer) {
 
-	CURL*    conn = NULL;
+	CURL*	 conn = NULL;
 	CURLcode code;
-	long     status_code = -1;
+	long	 status_code = -1;
 
 	curl_global_init(CURL_GLOBAL_DEFAULT);
 	conn = curl_easy_init();
@@ -135,9 +114,9 @@ long libcurl_get(const char* url, struct curl_slist* header,
 
 long libcurl_post(const char* url, struct curl_slist* header, const char* data,
 		  std::string& buffer) {
-	CURL*    conn = NULL;
+	CURL*	 conn = NULL;
 	CURLcode code;
-	long     status_code = -1;
+	long	 status_code = -1;
 
 	curl_global_init(CURL_GLOBAL_DEFAULT);
 	conn = curl_easy_init();

@@ -59,6 +59,10 @@
 		"unordered_set": "cpp",
 		"regex": "cpp",
 		"typeindex": "cpp",
-		"set": "cpp"
+		"set": "cpp",
+		"strstream": "cpp",
+		"iomanip": "cpp",
+		"cfenv": "cpp",
+		"codecvt": "cpp"
 	}
 }

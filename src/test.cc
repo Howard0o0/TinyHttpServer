@@ -3,9 +3,13 @@
 #include "lockfreeque.h"
 #include "lockfreethreadpool.h"
 #include "threadpool.h"
+#include <boost/locale/encoding.hpp>
+#include <codecvt>
 #include <condition_variable>
+#include <fstream>
 #include <functional>
 #include <iostream>
+#include <locale>
 #include <mutex>
 #include <string>
 #include <thread>
@@ -132,6 +136,29 @@ void TestLockFreeThreadPool() {
 				  "print" + std::to_string(i) + "!"));
 }
 
+std::wstring to_wstring(const std::string& src) {
+	//   std::setlocale(LC_CTYPE, "");
+	std::setlocale(LC_CTYPE, "zh_CN");
+	std::wstring	       dest;
+	size_t const	       wcs_len = mbstowcs(NULL, src.c_str(), 0);
+	std::vector< wchar_t > tmp(wcs_len + 1);
+	mbstowcs(&tmp[ 0 ], src.c_str(), src.size());
+
+	dest.assign(tmp.begin(), tmp.end() - 1);
+	printf("hh\n");
+
+	return dest;
+}
+
+std::wstring s2ws(const std::string& s) {
+	const char* str	 = s.c_str();
+	size_t	    len	 = s.size() + 1;
+	wchar_t*    wstr = new wchar_t[ len ];
+	std::mbstowcs(wstr, str, len);
+	std::wstring ret(wstr);
+	delete[] wstr;
+	return ret;
+}
 void LinuxCommandTest() {
 	HttpRequest request;
 	request.clearHeader();
@@ -144,10 +171,26 @@ void LinuxCommandTest() {
 			     "*;q=0.8,application/signed-exchange;v=b3;q=0.9");
 	request.appendHeader("Accept-Encoding: gzip, deflate, br");
 
-	long status_code = request.get("https://raw.githubusercontent.com:8000/"
+	long status_code = request.get("https://raw.githubusercontent.com/"
 				       "jaywcjlove/linux-command/"
 				       "master/command/ab.md");
 	// long status_code = request.get("https://www.baidu.com");
 	printf("%ld\n", status_code);
 	// std::cout << "get response:\n" << request.getResponse() << std::endl;
+	if (status_code == 200) {
+		std::wstring content =
+			boost::locale::conv::utf_to_utf< wchar_t >(
+				request.getResponse());
+
+		// std::wstring content =
+		// 	L"[我是中国人！ I'm a Chinese!我是中国人！";
+		std::wofstream ofs("ab.md", std::ios::ate);
+		ofs.imbue(std::locale(
+			ofs.getloc(),
+			new std::codecvt_utf8< wchar_t, 0x10ffff,
+					       std::little_endian >));
+		ofs << content;
+		std::wcout << content << std::endl;
+		ofs.close();
+	}
 }

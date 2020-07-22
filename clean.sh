@@ -1,0 +1,1 @@
+rm ./CMakeFiles ./CMakeCache.txt ./cmake_install.cmake ./*.app ./Makefile -rf
