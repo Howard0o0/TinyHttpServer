@@ -25,15 +25,13 @@ class ThreadPool {
 
     private:
 	std::vector< std::unique_ptr< std::thread > > threads_;
-	// std::vector<unsigned long long > threadids_;
-	// std::mutex		threadids_lock_;
-	std::queue< Task >      tasks_;
-	bool			running_;
-	std::mutex		tasks_lock_;
-	std::condition_variable tasks_cond_;
-	std::mutex		running_lock_;
-	std::mutex		tasks_empty_;
-	std::condition_variable tasks_empty_cond_;
+	std::queue< Task >			      tasks_;
+	bool					      running_;
+	std::mutex				      tasks_lock_;
+	std::condition_variable			      tasks_cond_;
+	std::mutex				      running_lock_;
+	std::mutex				      tasks_empty_;
+	std::condition_variable			      tasks_empty_cond_;
 
 	void		 ConsumeTask();
 	bool		 IsRunning();

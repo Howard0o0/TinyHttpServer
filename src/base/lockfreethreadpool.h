@@ -1,7 +1,9 @@
 #ifndef TINYTHREADPOOL_LOCKFREETHREADPOOL_H
 #define TINYTHREADPOOL_LOCKFREETHREADPOOL_H
 
+#include "callback.h"
 #include "lockfreeque.h"
+#include "thread.h"
 #include <atomic>
 #include <condition_variable>
 #include <functional>
@@ -17,8 +19,6 @@ namespace nethelper {
 class LockFreeThreadPool {
 
     public:
-	typedef std::function< void() > Task;
-
 	LockFreeThreadPool();
 	~LockFreeThreadPool();
 	void RunTask(Task task);
@@ -28,16 +28,16 @@ class LockFreeThreadPool {
 	static void RunTaskInGlobalThreadPool(Task task);
 
     private:
-	std::vector< std::unique_ptr< std::thread > > threads_;
-	LockFreeQue< Task >			      tasks_;
-	std::atomic_bool			      running_;
-	std::atomic_bool			      wait_tasks_empty_;
-	sem_t					      tasks_empty_;
+	std::vector< std::unique_ptr< Thread > > threads_;
+	LockFreeQue< Task >			 tasks_;
+	std::atomic_bool			 running_;
+	std::atomic_bool			 wait_tasks_empty_;
+	sem_t					 tasks_empty_;
 
-	void			 ConsumeTask();
-	bool			 IsRunning() const;
-	LockFreeThreadPool::Task FetchTask();
-	void			 WaitAllTasksDone();
+	void ConsumeTask();
+	bool IsRunning() const;
+	Task FetchTask();
+	void WaitAllTasksDone();
 };
 
 }  // namespace nethelper

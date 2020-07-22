@@ -43,14 +43,6 @@ void TcpServer::Start() {
 			LOG_INFO("accept a new client_fd:%d \n", connfd);
 			worker_.HandleResponse(connfd);
 		}
-
-		// connfd =
-		// 	accept(server_sockfd_, ( struct sockaddr* )&client_addr,
-		// 	       ( unsigned int* )&client_addr_len);
-		// if (connfd > 0) {
-		// 	LOG_INFO("accept a new client_fd:%d \n", connfd);
-		// 	worker_.HandleResponse(connfd);
-		// }
 	}
 }
 

@@ -49,8 +49,8 @@ aux_source_directory(./src/base SRC_BASE_FILES)
 aux_source_directory(./src/net SRC_NET_FILES)
 
 #创建工程文件
-add_executable(tinythreadpool.app ${SRC_FILES} ${SRC_BASE_FILES} ${SRC_NET_FILES})
+add_executable(httptest.app ${SRC_FILES} ${SRC_BASE_FILES} ${SRC_NET_FILES})
 
-target_link_libraries(tinythreadpool.app ${muduo_net} ${muduo_base} pthread )
+target_link_libraries(httptest.app ${muduo_net} ${muduo_base} pthread )
 
  

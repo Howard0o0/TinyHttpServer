@@ -16,8 +16,8 @@ void LockFreeThreadPool::Start(unsigned int size) {
 	running_ = true;
 
 	for (decltype(size) i = 0; i < size; i++) {
-		threads_.emplace_back(new std::thread(
-			&LockFreeThreadPool::ConsumeTask, this));
+		threads_.emplace_back(new Thread(
+			std::bind(&LockFreeThreadPool::ConsumeTask, this)));
 	}
 }
 LockFreeThreadPool::~LockFreeThreadPool() {
@@ -35,7 +35,7 @@ void LockFreeThreadPool::Stop() {
 	running_ = false;
 
 	for (auto& thrd : threads_)
-		thrd->join();
+		thrd->Join();
 }
 void LockFreeThreadPool::RunTaskInGlobalThreadPool(Task task) {
 	static bool		  global_thread_pool_existed = false;
@@ -59,7 +59,7 @@ void LockFreeThreadPool::WaitAllTasksDone() {
 	// std::cout << "tasks done" << std::endl;
 }
 
-LockFreeThreadPool::Task LockFreeThreadPool::FetchTask() {
+Task LockFreeThreadPool::FetchTask() {
 
 	if (wait_tasks_empty_.load() && tasks_.IsEmpty())
 		sem_post(&tasks_empty_);
