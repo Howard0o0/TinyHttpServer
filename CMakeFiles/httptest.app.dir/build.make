@@ -297,6 +297,54 @@ CMakeFiles/httptest.app.dir/src/net/worker.cc.o.provides: CMakeFiles/httptest.ap
 CMakeFiles/httptest.app.dir/src/net/worker.cc.o.provides.build: CMakeFiles/httptest.app.dir/src/net/worker.cc.o
 
 
+CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o: CMakeFiles/httptest.app.dir/flags.make
+CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o: src/linux-command/httprequest.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o -c /home/howard/work/TinyThreadPool/src/linux-command/httprequest.cc
+
+CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/howard/work/TinyThreadPool/src/linux-command/httprequest.cc > CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.i
+
+CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/howard/work/TinyThreadPool/src/linux-command/httprequest.cc -o CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.s
+
+CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o.requires:
+
+.PHONY : CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o.requires
+
+CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o.provides: CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o.requires
+	$(MAKE) -f CMakeFiles/httptest.app.dir/build.make CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o.provides.build
+.PHONY : CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o.provides
+
+CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o.provides.build: CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o
+
+
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o: CMakeFiles/httptest.app.dir/flags.make
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o: src/linux-command/libcurl.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o -c /home/howard/work/TinyThreadPool/src/linux-command/libcurl.cc
+
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/howard/work/TinyThreadPool/src/linux-command/libcurl.cc > CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.i
+
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/howard/work/TinyThreadPool/src/linux-command/libcurl.cc -o CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.s
+
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o.requires:
+
+.PHONY : CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o.requires
+
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o.provides: CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o.requires
+	$(MAKE) -f CMakeFiles/httptest.app.dir/build.make CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o.provides.build
+.PHONY : CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o.provides
+
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o.provides.build: CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o
+
+
 # Object files for target httptest.app
 httptest_app_OBJECTS = \
 "CMakeFiles/httptest.app.dir/src/main.cc.o" \
@@ -308,7 +356,9 @@ httptest_app_OBJECTS = \
 "CMakeFiles/httptest.app.dir/src/net/httpserver.cc.o" \
 "CMakeFiles/httptest.app.dir/src/net/sockettool.cc.o" \
 "CMakeFiles/httptest.app.dir/src/net/tcpserver.cc.o" \
-"CMakeFiles/httptest.app.dir/src/net/worker.cc.o"
+"CMakeFiles/httptest.app.dir/src/net/worker.cc.o" \
+"CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o" \
+"CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o"
 
 # External object files for target httptest.app
 httptest_app_EXTERNAL_OBJECTS =
@@ -323,11 +373,13 @@ httptest.app: CMakeFiles/httptest.app.dir/src/net/httpserver.cc.o
 httptest.app: CMakeFiles/httptest.app.dir/src/net/sockettool.cc.o
 httptest.app: CMakeFiles/httptest.app.dir/src/net/tcpserver.cc.o
 httptest.app: CMakeFiles/httptest.app.dir/src/net/worker.cc.o
+httptest.app: CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o
+httptest.app: CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o
 httptest.app: CMakeFiles/httptest.app.dir/build.make
 httptest.app: third-party-libs/muduo/lib/libmuduo_net.a
 httptest.app: third-party-libs/muduo/lib/libmuduo_base.a
 httptest.app: CMakeFiles/httptest.app.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable httptest.app"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable httptest.app"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/httptest.app.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -345,6 +397,8 @@ CMakeFiles/httptest.app.dir/requires: CMakeFiles/httptest.app.dir/src/net/httpse
 CMakeFiles/httptest.app.dir/requires: CMakeFiles/httptest.app.dir/src/net/sockettool.cc.o.requires
 CMakeFiles/httptest.app.dir/requires: CMakeFiles/httptest.app.dir/src/net/tcpserver.cc.o.requires
 CMakeFiles/httptest.app.dir/requires: CMakeFiles/httptest.app.dir/src/net/worker.cc.o.requires
+CMakeFiles/httptest.app.dir/requires: CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o.requires
+CMakeFiles/httptest.app.dir/requires: CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o.requires
 
 .PHONY : CMakeFiles/httptest.app.dir/requires
 

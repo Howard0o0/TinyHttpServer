@@ -9,4 +9,6 @@ void Test5();
 void Test6();
 void TestLockFreeThreadPool();
 
+void LinuxCommandTest();
+
 #endif

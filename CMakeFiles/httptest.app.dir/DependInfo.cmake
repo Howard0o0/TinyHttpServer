@@ -7,6 +7,8 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/howard/work/TinyThreadPool/src/base/lockfreethreadpool.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/httptest.app.dir/src/base/lockfreethreadpool.cc.o"
   "/home/howard/work/TinyThreadPool/src/base/thread.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/httptest.app.dir/src/base/thread.cc.o"
   "/home/howard/work/TinyThreadPool/src/base/threadpool.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/httptest.app.dir/src/base/threadpool.cc.o"
+  "/home/howard/work/TinyThreadPool/src/linux-command/httprequest.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o"
+  "/home/howard/work/TinyThreadPool/src/linux-command/libcurl.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o"
   "/home/howard/work/TinyThreadPool/src/main.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/httptest.app.dir/src/main.cc.o"
   "/home/howard/work/TinyThreadPool/src/net/epolltool.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/httptest.app.dir/src/net/epolltool.cc.o"
   "/home/howard/work/TinyThreadPool/src/net/httpserver.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/httptest.app.dir/src/net/httpserver.cc.o"
@@ -23,6 +25,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "./src"
   "./src/base"
   "./src/net"
+  "./src/linux-command"
   "third-party-libs/curl/include"
   )
 

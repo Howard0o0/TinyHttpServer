@@ -54,6 +54,11 @@
 		"map": "cpp",
 		"memory_resource": "cpp",
 		"random": "cpp",
-		"string": "cpp"
+		"string": "cpp",
+		"complex": "cpp",
+		"unordered_set": "cpp",
+		"regex": "cpp",
+		"typeindex": "cpp",
+		"set": "cpp"
 	}
 }

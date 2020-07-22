@@ -13,6 +13,34 @@ CMakeFiles/httptest.app.dir/src/base/thread.cc.o
 CMakeFiles/httptest.app.dir/src/base/threadpool.cc.o
  /home/howard/work/TinyThreadPool/src/base/threadpool.cc
  /home/howard/work/TinyThreadPool/src/base/threadpool.h
+CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o
+ /home/howard/work/TinyThreadPool/src/linux-command/httprequest.cc
+ /home/howard/work/TinyThreadPool/src/linux-command/httprequest.h
+ /home/howard/work/TinyThreadPool/src/linux-command/libcurl.h
+ third-party-libs/curl/include/curl/curl.h
+ third-party-libs/curl/include/curl/curlver.h
+ third-party-libs/curl/include/curl/easy.h
+ third-party-libs/curl/include/curl/multi.h
+ third-party-libs/curl/include/curl/system.h
+ third-party-libs/curl/include/curl/typecheck-gcc.h
+ third-party-libs/curl/include/curl/urlapi.h
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o
+ /home/howard/work/TinyThreadPool/src/linux-command/libcurl.cc
+ /home/howard/work/TinyThreadPool/src/linux-command/libcurl.h
+ third-party-libs/curl/include/curl/curl.h
+ third-party-libs/curl/include/curl/curlver.h
+ third-party-libs/curl/include/curl/easy.h
+ third-party-libs/curl/include/curl/multi.h
+ third-party-libs/curl/include/curl/system.h
+ third-party-libs/curl/include/curl/typecheck-gcc.h
+ third-party-libs/curl/include/curl/urlapi.h
+ third-party-libs/muduo/include/muduo/base/LogStream.h
+ third-party-libs/muduo/include/muduo/base/Logging.h
+ third-party-libs/muduo/include/muduo/base/StringPiece.h
+ third-party-libs/muduo/include/muduo/base/Timestamp.h
+ third-party-libs/muduo/include/muduo/base/Types.h
+ third-party-libs/muduo/include/muduo/base/copyable.h
+ third-party-libs/muduo/include/muduo/base/noncopyable.h
 CMakeFiles/httptest.app.dir/src/main.cc.o
  ./src/base/callback.h
  ./src/base/lockfreeque.h
@@ -21,6 +49,8 @@ CMakeFiles/httptest.app.dir/src/main.cc.o
  ./src/base/noncopyable.h
  ./src/base/thread.h
  ./src/base/threadpool.h
+ ./src/linux-command/httprequest.h
+ ./src/linux-command/libcurl.h
  ./src/net/epolltool.h
  ./src/net/httpserver.h
  ./src/net/tcpserver.h
@@ -87,5 +117,7 @@ CMakeFiles/httptest.app.dir/src/test.cc.o
  ./src/base/noncopyable.h
  ./src/base/thread.h
  ./src/base/threadpool.h
+ ./src/linux-command/httprequest.h
+ ./src/linux-command/libcurl.h
  /home/howard/work/TinyThreadPool/src/test.cc
  /home/howard/work/TinyThreadPool/src/test.h

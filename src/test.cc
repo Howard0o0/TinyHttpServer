@@ -1,4 +1,5 @@
 #include "test.h"
+#include "httprequest.h"
 #include "lockfreeque.h"
 #include "lockfreethreadpool.h"
 #include "threadpool.h"
@@ -6,6 +7,7 @@
 #include <functional>
 #include <iostream>
 #include <mutex>
+#include <string>
 #include <thread>
 #include <unistd.h>
 
@@ -128,4 +130,24 @@ void TestLockFreeThreadPool() {
 		threadpool.RunTask(
 			std::bind(&Printer::PrintWithArg, &printer,
 				  "print" + std::to_string(i) + "!"));
+}
+
+void LinuxCommandTest() {
+	HttpRequest request;
+	request.clearHeader();
+	request.appendHeader("Host:raw.githubusercontent.com");
+	// request.appendHeader("Host:www.baidu.com");
+	request.appendHeader("Cache-Control: no-cache");
+	request.appendHeader("Accept: "
+			     "text/html,application/xhtml+xml,application/"
+			     "xml;q=0.9,image/webp,image/apng,*/"
+			     "*;q=0.8,application/signed-exchange;v=b3;q=0.9");
+	request.appendHeader("Accept-Encoding: gzip, deflate, br");
+
+	long status_code = request.get("https://raw.githubusercontent.com:8000/"
+				       "jaywcjlove/linux-command/"
+				       "master/command/ab.md");
+	// long status_code = request.get("https://www.baidu.com");
+	printf("%ld\n", status_code);
+	// std::cout << "get response:\n" << request.getResponse() << std::endl;
 }

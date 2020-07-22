@@ -42,6 +42,7 @@ message(STATUS ${muduo_net})
 include_directories( ./src) 
 include_directories( ./src/base) 
 include_directories( ./src/net) 
+include_directories( ./src/linux-command) 
 include_directories (${CURL_PATH}/include)
 
 link_directories(${MUDUO_PATH}/lib ${CURL_PATH}/lib)
@@ -51,9 +52,10 @@ link_directories(${MUDUO_PATH}/lib ${CURL_PATH}/lib)
 aux_source_directory(./src SRC_FILES)
 aux_source_directory(./src/base SRC_BASE_FILES)
 aux_source_directory(./src/net SRC_NET_FILES)
+aux_source_directory(./src/linux-command SRC_LINUXCOMMAND_FILES)
 
 #创建工程文件
-add_executable(httptest.app ${SRC_FILES} ${SRC_BASE_FILES} ${SRC_NET_FILES})
+add_executable(httptest.app ${SRC_FILES} ${SRC_BASE_FILES} ${SRC_NET_FILES} ${SRC_LINUXCOMMAND_FILES})
 
 target_link_libraries(httptest.app ${muduo_net} ${muduo_base} pthread curl )
 

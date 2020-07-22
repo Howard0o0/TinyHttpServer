@@ -204,6 +204,60 @@ src/base/threadpool.cc.s:
 	$(MAKE) -f CMakeFiles/httptest.app.dir/build.make CMakeFiles/httptest.app.dir/src/base/threadpool.cc.s
 .PHONY : src/base/threadpool.cc.s
 
+src/linux-command/httprequest.o: src/linux-command/httprequest.cc.o
+
+.PHONY : src/linux-command/httprequest.o
+
+# target to build an object file
+src/linux-command/httprequest.cc.o:
+	$(MAKE) -f CMakeFiles/httptest.app.dir/build.make CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o
+.PHONY : src/linux-command/httprequest.cc.o
+
+src/linux-command/httprequest.i: src/linux-command/httprequest.cc.i
+
+.PHONY : src/linux-command/httprequest.i
+
+# target to preprocess a source file
+src/linux-command/httprequest.cc.i:
+	$(MAKE) -f CMakeFiles/httptest.app.dir/build.make CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.i
+.PHONY : src/linux-command/httprequest.cc.i
+
+src/linux-command/httprequest.s: src/linux-command/httprequest.cc.s
+
+.PHONY : src/linux-command/httprequest.s
+
+# target to generate assembly for a file
+src/linux-command/httprequest.cc.s:
+	$(MAKE) -f CMakeFiles/httptest.app.dir/build.make CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.s
+.PHONY : src/linux-command/httprequest.cc.s
+
+src/linux-command/libcurl.o: src/linux-command/libcurl.cc.o
+
+.PHONY : src/linux-command/libcurl.o
+
+# target to build an object file
+src/linux-command/libcurl.cc.o:
+	$(MAKE) -f CMakeFiles/httptest.app.dir/build.make CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o
+.PHONY : src/linux-command/libcurl.cc.o
+
+src/linux-command/libcurl.i: src/linux-command/libcurl.cc.i
+
+.PHONY : src/linux-command/libcurl.i
+
+# target to preprocess a source file
+src/linux-command/libcurl.cc.i:
+	$(MAKE) -f CMakeFiles/httptest.app.dir/build.make CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.i
+.PHONY : src/linux-command/libcurl.cc.i
+
+src/linux-command/libcurl.s: src/linux-command/libcurl.cc.s
+
+.PHONY : src/linux-command/libcurl.s
+
+# target to generate assembly for a file
+src/linux-command/libcurl.cc.s:
+	$(MAKE) -f CMakeFiles/httptest.app.dir/build.make CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.s
+.PHONY : src/linux-command/libcurl.cc.s
+
 src/main.o: src/main.cc.o
 
 .PHONY : src/main.o
@@ -411,6 +465,12 @@ help:
 	@echo "... src/base/threadpool.o"
 	@echo "... src/base/threadpool.i"
 	@echo "... src/base/threadpool.s"
+	@echo "... src/linux-command/httprequest.o"
+	@echo "... src/linux-command/httprequest.i"
+	@echo "... src/linux-command/httprequest.s"
+	@echo "... src/linux-command/libcurl.o"
+	@echo "... src/linux-command/libcurl.i"
+	@echo "... src/linux-command/libcurl.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

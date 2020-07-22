@@ -9,6 +9,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/httptest.app.dir/src/net/sockettool.cc.o"
   "CMakeFiles/httptest.app.dir/src/net/tcpserver.cc.o"
   "CMakeFiles/httptest.app.dir/src/net/worker.cc.o"
+  "CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o"
+  "CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o"
   "httptest.app.pdb"
   "httptest.app"
 )

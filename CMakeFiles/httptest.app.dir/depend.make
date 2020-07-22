@@ -13,6 +13,34 @@ CMakeFiles/httptest.app.dir/src/base/thread.cc.o: src/base/thread.cc
 CMakeFiles/httptest.app.dir/src/base/threadpool.cc.o: src/base/threadpool.cc
 CMakeFiles/httptest.app.dir/src/base/threadpool.cc.o: src/base/threadpool.h
 
+CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o: src/linux-command/httprequest.cc
+CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o: src/linux-command/httprequest.h
+CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o: src/linux-command/libcurl.h
+CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o: third-party-libs/curl/include/curl/curl.h
+CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o: third-party-libs/curl/include/curl/curlver.h
+CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o: third-party-libs/curl/include/curl/easy.h
+CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o: third-party-libs/curl/include/curl/multi.h
+CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o: third-party-libs/curl/include/curl/system.h
+CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o: third-party-libs/curl/include/curl/typecheck-gcc.h
+CMakeFiles/httptest.app.dir/src/linux-command/httprequest.cc.o: third-party-libs/curl/include/curl/urlapi.h
+
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o: src/linux-command/libcurl.cc
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o: src/linux-command/libcurl.h
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o: third-party-libs/curl/include/curl/curl.h
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o: third-party-libs/curl/include/curl/curlver.h
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o: third-party-libs/curl/include/curl/easy.h
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o: third-party-libs/curl/include/curl/multi.h
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o: third-party-libs/curl/include/curl/system.h
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o: third-party-libs/curl/include/curl/typecheck-gcc.h
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o: third-party-libs/curl/include/curl/urlapi.h
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o: third-party-libs/muduo/include/muduo/base/LogStream.h
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o: third-party-libs/muduo/include/muduo/base/Logging.h
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o: third-party-libs/muduo/include/muduo/base/StringPiece.h
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o: third-party-libs/muduo/include/muduo/base/Timestamp.h
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o: third-party-libs/muduo/include/muduo/base/Types.h
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o: third-party-libs/muduo/include/muduo/base/copyable.h
+CMakeFiles/httptest.app.dir/src/linux-command/libcurl.cc.o: third-party-libs/muduo/include/muduo/base/noncopyable.h
+
 CMakeFiles/httptest.app.dir/src/main.cc.o: ./src/base/callback.h
 CMakeFiles/httptest.app.dir/src/main.cc.o: ./src/base/lockfreeque.h
 CMakeFiles/httptest.app.dir/src/main.cc.o: ./src/base/lockfreethreadpool.h
@@ -20,6 +48,8 @@ CMakeFiles/httptest.app.dir/src/main.cc.o: ./src/base/log.h
 CMakeFiles/httptest.app.dir/src/main.cc.o: ./src/base/noncopyable.h
 CMakeFiles/httptest.app.dir/src/main.cc.o: ./src/base/thread.h
 CMakeFiles/httptest.app.dir/src/main.cc.o: ./src/base/threadpool.h
+CMakeFiles/httptest.app.dir/src/main.cc.o: ./src/linux-command/httprequest.h
+CMakeFiles/httptest.app.dir/src/main.cc.o: ./src/linux-command/libcurl.h
 CMakeFiles/httptest.app.dir/src/main.cc.o: ./src/net/epolltool.h
 CMakeFiles/httptest.app.dir/src/main.cc.o: ./src/net/httpserver.h
 CMakeFiles/httptest.app.dir/src/main.cc.o: ./src/net/tcpserver.h
@@ -86,6 +116,8 @@ CMakeFiles/httptest.app.dir/src/test.cc.o: ./src/base/lockfreethreadpool.h
 CMakeFiles/httptest.app.dir/src/test.cc.o: ./src/base/noncopyable.h
 CMakeFiles/httptest.app.dir/src/test.cc.o: ./src/base/thread.h
 CMakeFiles/httptest.app.dir/src/test.cc.o: ./src/base/threadpool.h
+CMakeFiles/httptest.app.dir/src/test.cc.o: ./src/linux-command/httprequest.h
+CMakeFiles/httptest.app.dir/src/test.cc.o: ./src/linux-command/libcurl.h
 CMakeFiles/httptest.app.dir/src/test.cc.o: src/test.cc
 CMakeFiles/httptest.app.dir/src/test.cc.o: src/test.h
 
