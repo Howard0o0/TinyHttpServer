@@ -26,8 +26,6 @@ Worker::Worker(const OnMsgCallback& cb, int thread_cnt)
 		LOG_DEBUG("created epollfd : %d \n",
 			  epollfds_[ weak_threadid ]);
 
-		// Thread(std::bind(&Worker::HandleClientFd, this, 0,
-		// 		 weak_threadid));
 		threadpool_.RunTask(std::bind(&Worker::HandleClientFd, this, 0,
 					      weak_threadid));
 
@@ -63,8 +61,12 @@ void Worker::HandleClientFd(int client_fd, int weak_thread_id) {
 		for (auto active_fd : active_fds) {
 			/* read message */
 			std::string message = ReadMsg(active_fd);
+			if (message.size() == 0) {
+				EpollTool::DelEpoll(active_fd, epollinfo);
+				close(active_fd);
+				continue;
+			}
 
-			EpollTool::DelEpoll(active_fd, epollinfo);
 			OnMsgArrived(active_fd, message);
 		}
 	}

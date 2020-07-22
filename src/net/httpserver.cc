@@ -25,6 +25,7 @@ void HttpServer::OnMsgArrived(int client_fd, const std::string& message) {
 	std::istringstream iss(message);
 	std::string	strline;
 	std::string	response = ResponseGet();
+
 	while (getline(iss, strline)) {
 		if (strline.find("GET") != std::string::npos) {
 			if (send(client_fd, response.data(), response.size(), 0)
@@ -35,7 +36,7 @@ void HttpServer::OnMsgArrived(int client_fd, const std::string& message) {
 			// LOG_INFO("sent response:\n%s\n", response.data());
 		}
 	}
-	close(client_fd);
+	// close(client_fd);
 }
 std::string HttpServer::ResponseGet() {
 	std::string ResponseBody   = MakeResponseBody("welcome to index!");

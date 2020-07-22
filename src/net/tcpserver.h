@@ -17,7 +17,8 @@ class TcpServer {
 		: port_(port), backlog_(backlog),
 		  worker_(std::bind(&TcpServer::OnMsgArrived, this,
 				    std::placeholders::_1,
-				    std::placeholders::_2)) {
+				    std::placeholders::_2),
+			  4) {
 	}
 	void Start();
 	void SingleLoop();
