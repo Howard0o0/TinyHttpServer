@@ -4,9 +4,7 @@
 #include "threadpool.h"
 #include <functional>
 
-using namespace tinythreadpool;
-
-namespace ths {
+namespace nethelper {
 
 typedef std::function< void(int sockfd, const std::string& msg) > OnMsgCallback;
 
@@ -32,6 +30,6 @@ class Worker {
 	void	OnMsgArrived(int sockfd, std::string msg);
 };
 
-}  // namespace ths
+}  // namespace nethelper
 
 #endif

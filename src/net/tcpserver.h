@@ -7,9 +7,9 @@
 #include "worker.h"
 #include <functional>
 
-using namespace tinythreadpool;
+using namespace nethelper;
 
-namespace ths {
+namespace nethelper {
 
 class TcpServer {
     public:
@@ -41,6 +41,6 @@ class TcpServer {
 	void SetSocketReuse(int socket_fd);
 };
 
-}  // namespace ths
+}  // namespace nethelper
 
 #endif

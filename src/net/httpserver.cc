@@ -7,6 +7,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+using namespace nethelper;
+
 /* public */
 
 void HttpServer::StartLoop() {

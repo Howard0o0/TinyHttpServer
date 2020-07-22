@@ -9,10 +9,13 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+namespace nethelper {
+
 class SocketTool {
 
     public:
 	static void SetSocketNonblocking(int sockfd);
 };
 
+}  // namespace nethelper
 #endif

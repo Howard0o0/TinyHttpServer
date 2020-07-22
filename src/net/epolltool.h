@@ -5,6 +5,8 @@
 #include <sys/epoll.h>
 #include <vector>
 
+namespace nethelper {
+
 struct EpollInfo {
 	int		    epollfd;
 	struct epoll_event  event;
@@ -26,7 +28,9 @@ class EpollTool {
 						uint32_t events = EPOLLIN | EPOLLET);
 	static void		  DelEpoll(int fd, EpollInfo& epoll_info);
 	static std::vector< int > GotEpollActiveFd(EpollInfo& epoll_info,
-						   int	      timeout = 0);
+						   int	timeout = 0);
 };
+
+}  // namespace nethelper
 
 #endif

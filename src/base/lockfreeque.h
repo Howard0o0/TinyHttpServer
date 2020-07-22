@@ -5,7 +5,7 @@
 #include <iostream>
 #include <semaphore.h>
 
-namespace tinythreadpool {
+namespace nethelper {
 
 template < typename T >
 struct ListNode {
@@ -123,6 +123,6 @@ bool LockFreeQue< T >::IsEmpty() {
 	return head_ == tail_;
 }
 
-}  // namespace tinythreadpool
+}  // namespace nethelper
 
 #endif

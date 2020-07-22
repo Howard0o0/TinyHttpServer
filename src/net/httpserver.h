@@ -3,8 +3,7 @@
 
 #include "tcpserver.h"
 
-using namespace ths;
-
+namespace nethelper {
 class HttpServer {
     public:
 	HttpServer(int port) : tcpserver_(port) {
@@ -20,4 +19,5 @@ class HttpServer {
 	std::string MakeResponseBody(const std::string& body);
 };
 
+}  // namespace nethelper
 #endif

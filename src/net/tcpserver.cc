@@ -11,7 +11,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-using namespace ths;
+using namespace nethelper;
 
 void TcpServer::SetSocketReuse(int socket_fd) {
 	int opt = 1;

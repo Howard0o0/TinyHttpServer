@@ -9,7 +9,7 @@
 #include <thread>
 #include <unistd.h>
 
-using namespace ths;
+using namespace nethelper;
 
 /* public */
 Worker::Worker(const OnMsgCallback& cb, int thread_cnt)

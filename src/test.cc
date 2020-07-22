@@ -27,7 +27,7 @@ class Printer {
 void Test1() {
 	std::cout << "==========run function without arg" << std::endl;
 
-	tinythreadpool::ThreadPool threadpool;
+	nethelper::ThreadPool threadpool;
 	threadpool.Start(2);
 	threadpool.RunTask(std::bind(PrintWithoutArg));
 }
@@ -36,14 +36,14 @@ void Test2() {
 	std::cout << "==========run function with arg============="
 		  << std::endl;
 
-	tinythreadpool::ThreadPool threadpool;
+	nethelper::ThreadPool threadpool;
 	threadpool.Start(2);
 	threadpool.RunTask(std::bind(PrintWithArg, "hello world!"));
 }
 void Test3() {
 	std::cout << "==========run object's function with arg============="
 		  << std::endl;
-	tinythreadpool::ThreadPool threadpool;
+	nethelper::ThreadPool threadpool;
 	threadpool.Start(2);
 
 	Printer printer;
@@ -56,11 +56,11 @@ void Test4() {
 		     "pool============="
 		  << std::endl;
 	Printer printer;
-	tinythreadpool::ThreadPool::RunTaskInGlobalThreadPool(
+	nethelper::ThreadPool::RunTaskInGlobalThreadPool(
 		std::bind(&Printer::PrintWithArg, &printer, "hello world!"));
 }
 
-tinythreadpool::LockFreeQue< int > que;
+nethelper::LockFreeQue< int > que;
 
 void LockFreePush() {
 	for (int j = 0; j < 10; j++) {
@@ -120,7 +120,7 @@ void Test7() {
 void TestLockFreeThreadPool() {
 	std::cout << "==========run object's function with arg============="
 		  << std::endl;
-	tinythreadpool::LockFreeThreadPool threadpool;
+	nethelper::LockFreeThreadPool threadpool;
 	threadpool.Start(2);
 
 	Printer printer;

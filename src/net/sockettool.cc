@@ -1,5 +1,7 @@
 #include "sockettool.h"
 
+using namespace nethelper;
+
 void SocketTool::SetSocketNonblocking(int sockfd) {
 	int opts;
 

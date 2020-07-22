@@ -9,7 +9,7 @@
 #include <thread>
 #include <vector>
 
-namespace tinythreadpool {
+namespace nethelper {
 
 class ThreadPool {
 
@@ -42,5 +42,5 @@ class ThreadPool {
 	void		 WaitAllTasksDone();
 };
 
-}  // namespace tinythreadpool
+}  // namespace nethelper
 #endif

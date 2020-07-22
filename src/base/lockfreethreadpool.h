@@ -12,7 +12,7 @@
 #include <thread>
 #include <vector>
 
-namespace tinythreadpool {
+namespace nethelper {
 
 class LockFreeThreadPool {
 
@@ -40,6 +40,6 @@ class LockFreeThreadPool {
 	void			 WaitAllTasksDone();
 };
 
-}  // namespace tinythreadpool
+}  // namespace nethelper
 
 #endif
