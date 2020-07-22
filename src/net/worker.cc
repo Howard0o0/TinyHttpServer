@@ -2,6 +2,7 @@
 #include "epolltool.h"
 #include "log.h"
 #include "muduo/base/Thread.h"
+#include "thread.h"
 #include <string.h>
 #include <sys/epoll.h>
 #include <sys/socket.h>
@@ -24,14 +25,9 @@ Worker::Worker(const OnMsgCallback& cb, int thread_cnt)
 		epollfds_[ weak_threadid ] = epollinfo.epollfd;
 		LOG_DEBUG("created epollfd : %d \n",
 			  epollfds_[ weak_threadid ]);
-		// threadpool_.RunTask(std::bind(&Worker::HandleClientFd, this,
-		// 0, 			      weak_threadid));
-		// std::thread t1 =
-		// std::thread(std::bind(&Worker::HandleClientFd,
-		// this, 0, weak_threadid)); t1.detach();
-		muduo::Thread(std::bind(&Worker::HandleClientFd, this, 0,
-					weak_threadid))
-			.start();
+
+		Thread(std::bind(&Worker::HandleClientFd, this, 0,
+				 weak_threadid));
 
 		LOG_DEBUG("created thread\n");
 	}
@@ -77,8 +73,8 @@ void Worker::OnMsgArrived(int sockfd, std::string msg) {
 
 std::string Worker::ReadMsg(int client_fd) {
 	const int   READBUF_LEN = 1024;
-	char	    readbuf[ READBUF_LEN ];
-	int	    read_len;
+	char	readbuf[ READBUF_LEN ];
+	int	 read_len;
 	std::string msg = "";
 	while ((read_len = recv(client_fd, readbuf, READBUF_LEN, MSG_DONTWAIT))
 	       > 0) {

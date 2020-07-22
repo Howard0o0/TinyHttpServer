@@ -50,9 +50,12 @@ CMakeFiles/tinythreadpool.app.dir/src/net/tcpserver.cc.o
  /home/howard/work/TinyThreadPool/src/net/tcpserver.h
  /home/howard/work/TinyThreadPool/src/net/worker.h
 CMakeFiles/tinythreadpool.app.dir/src/net/worker.cc.o
+ ./src/base/callback.h
  ./src/base/lockfreeque.h
  ./src/base/lockfreethreadpool.h
  ./src/base/log.h
+ ./src/base/noncopyable.h
+ ./src/base/thread.h
  ./src/base/threadpool.h
  /home/howard/work/TinyThreadPool/src/net/epolltool.h
  /home/howard/work/TinyThreadPool/src/net/worker.cc

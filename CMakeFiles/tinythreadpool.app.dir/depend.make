@@ -49,9 +49,12 @@ CMakeFiles/tinythreadpool.app.dir/src/net/tcpserver.cc.o: src/net/tcpserver.cc
 CMakeFiles/tinythreadpool.app.dir/src/net/tcpserver.cc.o: src/net/tcpserver.h
 CMakeFiles/tinythreadpool.app.dir/src/net/tcpserver.cc.o: src/net/worker.h
 
+CMakeFiles/tinythreadpool.app.dir/src/net/worker.cc.o: ./src/base/callback.h
 CMakeFiles/tinythreadpool.app.dir/src/net/worker.cc.o: ./src/base/lockfreeque.h
 CMakeFiles/tinythreadpool.app.dir/src/net/worker.cc.o: ./src/base/lockfreethreadpool.h
 CMakeFiles/tinythreadpool.app.dir/src/net/worker.cc.o: ./src/base/log.h
+CMakeFiles/tinythreadpool.app.dir/src/net/worker.cc.o: ./src/base/noncopyable.h
+CMakeFiles/tinythreadpool.app.dir/src/net/worker.cc.o: ./src/base/thread.h
 CMakeFiles/tinythreadpool.app.dir/src/net/worker.cc.o: ./src/base/threadpool.h
 CMakeFiles/tinythreadpool.app.dir/src/net/worker.cc.o: src/net/epolltool.h
 CMakeFiles/tinythreadpool.app.dir/src/net/worker.cc.o: src/net/worker.cc

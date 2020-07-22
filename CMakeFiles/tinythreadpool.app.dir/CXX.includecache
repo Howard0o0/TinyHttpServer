@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+./src/base/callback.h
+functional
+-
+
 ./src/base/lockfreeque.h
 atomic
 -
@@ -38,6 +42,20 @@ vector
 
 ./src/base/log.h
 iostream
+-
+
+./src/base/noncopyable.h
+
+./src/base/thread.h
+callback.h
+./src/base/callback.h
+noncopyable.h
+./src/base/noncopyable.h
+assert.h
+-
+functional
+-
+pthread.h
 -
 
 ./src/base/threadpool.h
@@ -285,6 +303,8 @@ log.h
 /home/howard/work/TinyThreadPool/src/net/log.h
 muduo/base/Thread.h
 /home/howard/work/TinyThreadPool/src/net/muduo/base/Thread.h
+thread.h
+/home/howard/work/TinyThreadPool/src/net/thread.h
 string.h
 -
 sys/epoll.h
