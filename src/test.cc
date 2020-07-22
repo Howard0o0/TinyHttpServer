@@ -11,6 +11,7 @@
 #include <iostream>
 #include <locale>
 #include <mutex>
+#include <re2/re2.h>
 #include <string>
 #include <thread>
 #include <unistd.h>
@@ -162,8 +163,7 @@ std::wstring s2ws(const std::string& s) {
 void LinuxCommandTest() {
 	HttpRequest request;
 	request.clearHeader();
-	request.appendHeader("Host:raw.githubusercontent.com");
-	// request.appendHeader("Host:www.baidu.com");
+	request.appendHeader("Host:man.he.net");
 	request.appendHeader("Cache-Control: no-cache");
 	request.appendHeader("Accept: "
 			     "text/html,application/xhtml+xml,application/"
@@ -171,26 +171,15 @@ void LinuxCommandTest() {
 			     "*;q=0.8,application/signed-exchange;v=b3;q=0.9");
 	request.appendHeader("Accept-Encoding: gzip, deflate, br");
 
-	long status_code = request.get("https://raw.githubusercontent.com/"
-				       "jaywcjlove/linux-command/"
-				       "master/command/ab.md");
-	// long status_code = request.get("https://www.baidu.com");
+	long status_code =
+		request.get("http://man.he.net/?topic=ab&section=all");
 	printf("%ld\n", status_code);
-	// std::cout << "get response:\n" << request.getResponse() << std::endl;
 	if (status_code == 200) {
-		std::wstring content =
-			boost::locale::conv::utf_to_utf< wchar_t >(
-				request.getResponse());
-
-		// std::wstring content =
-		// 	L"[我是中国人！ I'm a Chinese!我是中国人！";
-		std::wofstream ofs("ab.md", std::ios::ate);
-		ofs.imbue(std::locale(
-			ofs.getloc(),
-			new std::codecvt_utf8< wchar_t, 0x10ffff,
-					       std::little_endian >));
-		ofs << content;
-		std::wcout << content << std::endl;
-		ofs.close();
+		std::string content = request.getResponse();
+		RE2::GlobalReplace(&content, "<.*?>", "");
+		// std::ofstream ofs("ab.md", std::ios::out);
+		// ofs << content;
+		std::cout << content << std::endl;
+		// ofs.close();
 	}
 }

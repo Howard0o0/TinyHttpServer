@@ -47,7 +47,7 @@ include_directories (${CURL_PATH}/include)
 find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
-link_directories(${MUDUO_PATH}/lib ${CURL_PATH}/lib)
+link_directories(${MUDUO_PATH}/lib ${CURL_PATH}/lib /usr/local/lib)
  
 
 #find source files
@@ -59,6 +59,6 @@ aux_source_directory(./src/linux-command SRC_LINUXCOMMAND_FILES)
 #创建工程文件
 add_executable(httptest.app ${SRC_FILES} ${SRC_BASE_FILES} ${SRC_NET_FILES} ${SRC_LINUXCOMMAND_FILES})
 
-target_link_libraries(httptest.app ${muduo_net} ${muduo_base} pthread curl boost_locale)
+target_link_libraries(httptest.app ${muduo_net} ${muduo_base} pthread curl boost_locale re2)
 
  
