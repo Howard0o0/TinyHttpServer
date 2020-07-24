@@ -1,4 +1,5 @@
 #include "httpserver.h"
+#include "httpcontext.h"
 #include "log.h"
 #include "threadpool.h"
 #include <sstream>
@@ -18,13 +19,34 @@ void HttpServer::StartLoop() {
 	tcpserver_.Start();
 }
 
+std::string HttpServer::FetchParamsStr(const std::string& message) {
+	std::istringstream iss(message);
+	std::string	   firstline;
+	if (!getline(iss, firstline))
+		return "";
+
+	int startpos = firstline.find_first_of("/");
+	int endpos   = firstline.find_first_of(" ", startpos);
+	return firstline.substr(startpos + 1, endpos - startpos - 1);
+}
+
+void HttpServer::ResponseClient(int connfd, int statuscode,
+				const std::string& body) {
+	HttpContext httpcontext;
+	httpcontext.SetStatuscode(statuscode);
+	httpcontext.SetBody(body);
+	httpcontext.SetHeader("content-type", "text/plain");
+	std::string context = httpcontext.GetHttpContextStr();
+
+	send(connfd, context.c_str(), context.size(), 0);
+}
 /* private */
 
 void HttpServer::OnMsgArrived(int client_fd, const std::string& message) {
 
 	std::istringstream iss(message);
-	std::string	strline;
-	std::string	response = ResponseGet();
+	std::string	   strline;
+	std::string	   response = ResponseGet();
 
 	while (getline(iss, strline)) {
 		if (strline.find("GET") != std::string::npos) {
@@ -43,8 +65,9 @@ std::string HttpServer::ResponseGet() {
 	std::string ResponseHeader = MakeResponseHeader(ResponseBody.size());
 	return ResponseHeader + ResponseBody;
 }
-std::string HttpServer::MakeResponseHeader(int body_len) {
-	std::string header = std::string("HTTP/1.0 200 OK\r\n")
+std::string HttpServer::MakeResponseHeader(int statuscode, int body_len) {
+	std::string header = std::string("HTTP/1.1")
+			     + std::to_string(statuscode) + " OK\r\n"
 			     + "Content-Type : text/html\r\n";
 	if (body_len > 0)
 		header += "Content-Length:" + std::to_string(body_len) + "\r\n";

@@ -1,5 +1,6 @@
 #include "httprequest.h"
 #include "httpserver.h"
+#include "men.h"
 #include "tcpserver.h"
 #include "test.h"
 #include "threadpool.h"
@@ -19,8 +20,8 @@ int main() {
 
 	// HttpServer httpserver(10000, 4);
 	// httpserver.StartLoop();
-
-	LinuxCommandTest();
+	Men men(10000, 4);
+	men.StartLoop();
 
 	return 0;
 }
