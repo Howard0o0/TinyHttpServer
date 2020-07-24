@@ -24,6 +24,7 @@ set(CXX_FLAGS
  )
 set (MUDUO_PATH "${CMAKE_SOURCE_DIR}/third-party-libs/muduo")
 set (CURL_PATH "${CMAKE_SOURCE_DIR}/third-party-libs/curl")
+set (HIREDIS_PATH "${CMAKE_SOURCE_DIR}/third-party-libs/hiredis")
 
 find_path(Muduo_INCLUDE_DIR muduo "${MUDUO_PATH}/include")
 find_path(Muduo_LIBRARY_DIR libmuduo_net.a "${MUDUO_PATH}/lib")
@@ -44,10 +45,11 @@ include_directories( ./src/base)
 include_directories( ./src/net) 
 include_directories( ./src/men) 
 include_directories (${CURL_PATH}/include)
+include_directories (${HIREDIS_PATH}/include)
 find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
-link_directories(${MUDUO_PATH}/lib ${CURL_PATH}/lib /usr/local/lib)
+link_directories(/usr/local/lib ${MUDUO_PATH}/lib ${CURL_PATH}/lib ${HIREDIS_PATH}/lib)
  
 
 #find source files
@@ -59,6 +61,6 @@ aux_source_directory(./src/men SRC_MEN_FILES)
 #创建工程文件
 add_executable(httptest.app ${SRC_FILES} ${SRC_BASE_FILES} ${SRC_NET_FILES} ${SRC_MEN_FILES})
 
-target_link_libraries(httptest.app ${muduo_net} ${muduo_base} pthread curl boost_locale re2)
+target_link_libraries(httptest.app ${muduo_net} ${muduo_base} pthread curl boost_locale re2 hiredis)
 
  

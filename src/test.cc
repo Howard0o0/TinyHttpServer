@@ -1,7 +1,10 @@
 #include "test.h"
+#include "hiredis/hiredis.h"
 #include "httprequest.h"
 #include "lockfreeque.h"
 #include "lockfreethreadpool.h"
+#include "log.h"
+#include "redistool.h"
 #include "threadpool.h"
 #include <boost/locale/encoding.hpp>
 #include <codecvt>
@@ -182,4 +185,41 @@ void LinuxCommandTest() {
 		std::cout << content << std::endl;
 		// ofs.close();
 	}
+}
+
+void HiredisTest() {
+
+	RedisTool redistool;
+	redistool.ConnectDatabase("127.0.0.1", 6379);
+	std::string value = redistool.GetString("foo");
+	std::cout << value << std::endl;
+	std::cout << "curr tid:" << nethelper::Thread::GetThreadid()
+		  << std::endl;
+
+	// redisContext* conn = redisConnect("127.0.0.1", 6379);
+	// if (conn->err)
+	// 	printf("connection error:%s\n", conn->errstr);
+
+	// redisReply* reply = ( redisReply* )redisCommand(conn, "set foo
+	// 1234"); freeReplyObject(reply);
+
+	// reply = ( redisReply* )redisCommand(conn, "get foo");
+
+	// printf("%s\n", reply->str);
+	// freeReplyObject(reply);
+
+	// redisFree(conn);
+
+	// RedisTool redis_tool;
+	// if (!redis_tool.ConnectDatabase("127.0.0.1", 6379))
+	// 	return;
+
+	// std::cout << redis_tool.GetString("k1") << std::endl;
+}
+
+void HiredisTest2() {
+	nethelper::LockFreeThreadPool threadpool;
+	threadpool.Start(4);
+	for (int i = 0; i < 100; ++i)
+		threadpool.RunTask(HiredisTest);
 }

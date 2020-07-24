@@ -6,6 +6,9 @@
 #include <assert.h>
 #include <functional>
 #include <pthread.h>
+#include <sys/syscall.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 namespace nethelper {
 
@@ -26,11 +29,14 @@ class Thread : Noncopyable {
 		assert(!pthread_join(tid_, NULL));
 		is_running_ = false;
 	}
+	static int GetThreadid() {
+		return syscall(SYS_gettid);
+	}
 
     private:
-	Task      task_;
+	Task	  task_;
 	pthread_t tid_;
-	bool      is_running_;
+	bool	  is_running_;
 
     private:
 	static void* ThreadFunc(void* arg) {
