@@ -85,7 +85,8 @@ std::string Men::ScrawResult(const std::string& params) {
 	long	    status_code = request.get(url.c_str());
 	if (status_code == 200) {
 		std::string content = request.getResponse();
-		RE2::GlobalReplace(&content, "<.*?>", "");
+		RE2::GlobalReplace(&content, "<.*>", "");
+		RE2::GlobalReplace(&content, "^\\s+|\\s+$", "");
 		// std::ofstream ofs("ab.md", std::ios::out);
 		// ofs << content;
 		LOG_DEBUG("scraw : \n%s\n", content.c_str());
