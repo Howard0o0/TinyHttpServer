@@ -11,7 +11,7 @@ project(tinythreadpool)
 
 
  
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}) 
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin) 
 add_definitions(-std=c++11)
 set(CXX_FLAGS
  -g
