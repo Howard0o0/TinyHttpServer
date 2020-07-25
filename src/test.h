@@ -10,5 +10,8 @@ void Test6();
 void TestLockFreeThreadPool();
 
 void LinuxCommandTest();
+void HiredisTest();
+void HiredisTest2();
+void LogTest();
 
 #endif

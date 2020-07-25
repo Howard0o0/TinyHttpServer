@@ -3,8 +3,15 @@ cmake_minimum_required(VERSION 3.4.0)
  
 #设置工程名称
 project(tinythreadpool)
+
+#option(build_men_client "build men client" ON)
  
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}) 
+
+#pack in deb info
+
+
+ 
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin) 
 add_definitions(-std=c++11)
 set(CXX_FLAGS
  -g
@@ -24,6 +31,8 @@ set(CXX_FLAGS
  )
 set (MUDUO_PATH "${CMAKE_SOURCE_DIR}/third-party-libs/muduo")
 set (CURL_PATH "${CMAKE_SOURCE_DIR}/third-party-libs/curl")
+set (HIREDIS_PATH "${CMAKE_SOURCE_DIR}/third-party-libs/hiredis")
+set (SPDLOG_PATH "${CMAKE_SOURCE_DIR}/third-party-libs/spdlog")
 
 find_path(Muduo_INCLUDE_DIR muduo "${MUDUO_PATH}/include")
 find_path(Muduo_LIBRARY_DIR libmuduo_net.a "${MUDUO_PATH}/lib")
@@ -43,11 +52,14 @@ include_directories( ./src)
 include_directories( ./src/base) 
 include_directories( ./src/net) 
 include_directories( ./src/men) 
+include_directories( ./src/men-client) 
 include_directories (${CURL_PATH}/include)
+include_directories (${HIREDIS_PATH}/include)
+include_directories (${SPDLOG_PATH}/include)
 find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
-link_directories(${MUDUO_PATH}/lib ${CURL_PATH}/lib /usr/local/lib)
+link_directories(/usr/local/lib ${MUDUO_PATH}/lib ${CURL_PATH}/lib ${HIREDIS_PATH}/lib)
  
 
 #find source files
@@ -55,10 +67,12 @@ aux_source_directory(./src SRC_FILES)
 aux_source_directory(./src/base SRC_BASE_FILES)
 aux_source_directory(./src/net SRC_NET_FILES)
 aux_source_directory(./src/men SRC_MEN_FILES)
+aux_source_directory(./src/men-client SRC_MENCLIENT_FILES)
 
-#创建工程文件
-add_executable(httptest.app ${SRC_FILES} ${SRC_BASE_FILES} ${SRC_NET_FILES} ${SRC_MEN_FILES})
 
-target_link_libraries(httptest.app ${muduo_net} ${muduo_base} pthread curl boost_locale re2)
-
+add_executable(men-client.app  ${SRC_BASE_FILES} ${SRC_NET_FILES} ${SRC_MENCLIENT_FILES})
+target_link_libraries(men-client.app ${muduo_net} ${muduo_base} pthread curl boost_locale re2 hiredis)
+	
+add_executable(men-server.app ${SRC_FILES} ${SRC_BASE_FILES} ${SRC_NET_FILES} ${SRC_MEN_FILES})
+target_link_libraries(men-server.app ${muduo_net} ${muduo_base} pthread curl boost_locale re2 hiredis)
  

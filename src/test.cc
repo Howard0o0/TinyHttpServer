@@ -1,7 +1,13 @@
 #include "test.h"
+#include "hiredis/hiredis.h"
 #include "httprequest.h"
 #include "lockfreeque.h"
 #include "lockfreethreadpool.h"
+#include "log.h"
+#include "redistool.h"
+#include "spdlog/sinks/basic_file_sink.h"
+#include "spdlog/sinks/daily_file_sink.h"
+#include "spdlog/spdlog.h"
 #include "threadpool.h"
 #include <boost/locale/encoding.hpp>
 #include <codecvt>
@@ -182,4 +188,52 @@ void LinuxCommandTest() {
 		std::cout << content << std::endl;
 		// ofs.close();
 	}
+}
+
+void HiredisTest() {
+
+	RedisTool redistool;
+	redistool.ConnectDatabase("127.0.0.1", 6379);
+	std::string value = redistool.GetString("foo");
+	std::cout << value << std::endl;
+	std::cout << "curr tid:" << nethelper::Thread::GetThreadid()
+		  << std::endl;
+
+	// redisContext* conn = redisConnect("127.0.0.1", 6379);
+	// if (conn->err)
+	// 	printf("connection error:%s\n", conn->errstr);
+
+	// redisReply* reply = ( redisReply* )redisCommand(conn, "set foo
+	// 1234"); freeReplyObject(reply);
+
+	// reply = ( redisReply* )redisCommand(conn, "get foo");
+
+	// printf("%s\n", reply->str);
+	// freeReplyObject(reply);
+
+	// redisFree(conn);
+
+	// RedisTool redis_tool;
+	// if (!redis_tool.ConnectDatabase("127.0.0.1", 6379))
+	// 	return;
+
+	// std::cout << redis_tool.GetString("k1") << std::endl;
+}
+
+void HiredisTest2() {
+	nethelper::LockFreeThreadPool threadpool;
+	threadpool.Start(4);
+	for (int i = 0; i < 100; ++i)
+		threadpool.RunTask(HiredisTest);
+}
+
+void LogTest() {
+	spdlog::set_pattern("[%H:%M:%S %z] [%n] [%^---%L---%$] [thread %t] %v");
+	auto file_logger = spdlog::daily_logger_mt("daily_logger",
+						   "logs/dailylog.txt", 2, 30);
+	spdlog::set_level(
+		spdlog::level::debug);	// Set global log level to debug
+	spdlog::set_default_logger(file_logger);
+	std::string str = "hello";
+	spdlog::debug("ahahha{} {} {}", str, "xchvusdffd", 155);
 }

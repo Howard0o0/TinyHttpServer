@@ -34,9 +34,13 @@ void HttpServer::ResponseClient(int connfd, int statuscode,
 				const std::string& body) {
 	HttpContext httpcontext;
 	httpcontext.SetStatuscode(statuscode);
+	httpcontext.SetHeader("connection", "close");
 	httpcontext.SetBody(body);
+	// if (!body.empty())
 	httpcontext.SetHeader("content-type", "text/plain");
 	std::string context = httpcontext.GetHttpContextStr();
+
+	LOG_DEBUG("response to cli :\n%s\n", context.c_str());
 
 	send(connfd, context.c_str(), context.size(), 0);
 }
