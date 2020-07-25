@@ -6,6 +6,11 @@ project(tinythreadpool)
 
 #option(build_men_client "build men client" ON)
  
+
+#pack in deb info
+
+
+ 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}) 
 add_definitions(-std=c++11)
 set(CXX_FLAGS

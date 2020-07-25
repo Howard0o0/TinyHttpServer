@@ -1,7 +1,0 @@
-[16:35:55 +08:00] [daily_logger] [---D---] [thread 6098] ahahha%s
-
-[16:37:58 +08:00] [daily_logger] [---D---] [thread 6231] ahahhahello
-
-[16:39:00 +08:00] [daily_logger] [---D---] [thread 6320] ahahhahello xchvusdffd
-
-[16:40:24 +08:00] [daily_logger] [---D---] [thread 6415] ahahhahello xchvusdffd 155
