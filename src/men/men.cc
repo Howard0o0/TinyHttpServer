@@ -85,6 +85,9 @@ std::string Men::ScrawResult(const std::string& params) {
 	long	    status_code = request.get(url.c_str());
 	if (status_code == 200) {
 		std::string content = request.getResponse();
+		if (content.size() < 600)
+			return "";
+
 		RE2::GlobalReplace(&content, "<.*>", "");
 		RE2::GlobalReplace(&content, "^\\s+|\\s+$", "");
 		// std::ofstream ofs("ab.md", std::ios::out);
@@ -93,6 +96,7 @@ std::string Men::ScrawResult(const std::string& params) {
 		return content;
 		// ofs.close();
 	}
+	return "";
 }
 
 std::string Men::FetchTopic(const std::string& params) {
