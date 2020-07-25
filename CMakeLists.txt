@@ -27,6 +27,7 @@ set(CXX_FLAGS
 set (MUDUO_PATH "${CMAKE_SOURCE_DIR}/third-party-libs/muduo")
 set (CURL_PATH "${CMAKE_SOURCE_DIR}/third-party-libs/curl")
 set (HIREDIS_PATH "${CMAKE_SOURCE_DIR}/third-party-libs/hiredis")
+set (SPDLOG_PATH "${CMAKE_SOURCE_DIR}/third-party-libs/spdlog")
 
 find_path(Muduo_INCLUDE_DIR muduo "${MUDUO_PATH}/include")
 find_path(Muduo_LIBRARY_DIR libmuduo_net.a "${MUDUO_PATH}/lib")
@@ -49,6 +50,7 @@ include_directories( ./src/men)
 include_directories( ./src/men-client) 
 include_directories (${CURL_PATH}/include)
 include_directories (${HIREDIS_PATH}/include)
+include_directories (${SPDLOG_PATH}/include)
 find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
@@ -61,16 +63,6 @@ aux_source_directory(./src/base SRC_BASE_FILES)
 aux_source_directory(./src/net SRC_NET_FILES)
 aux_source_directory(./src/men SRC_MEN_FILES)
 aux_source_directory(./src/men-client SRC_MENCLIENT_FILES)
-
-#创建工程文件
-
-##if(build_men_client)
-#	add_executable(men-client.app  ${SRC_BASE_FILES} ${SRC_NET_FILES} ${SRC_MENCLIENT_FILES})
-#	target_link_libraries(men-client.app ${muduo_net} ${muduo_base} pthread curl boost_locale re2 hiredis)
-#else()
-#	add_executable(men-server.app ${SRC_FILES} ${SRC_BASE_FILES} ${SRC_NET_FILES} ${SRC_MEN_FILES})
-#	target_link_libraries(men-server.app ${muduo_net} ${muduo_base} pthread curl boost_locale re2 hiredis)
-#endif()
 
 
 add_executable(men-client.app  ${SRC_BASE_FILES} ${SRC_NET_FILES} ${SRC_MENCLIENT_FILES})

@@ -5,6 +5,9 @@
 #include "lockfreethreadpool.h"
 #include "log.h"
 #include "redistool.h"
+#include "spdlog/sinks/basic_file_sink.h"
+#include "spdlog/sinks/daily_file_sink.h"
+#include "spdlog/spdlog.h"
 #include "threadpool.h"
 #include <boost/locale/encoding.hpp>
 #include <codecvt>
@@ -222,4 +225,15 @@ void HiredisTest2() {
 	threadpool.Start(4);
 	for (int i = 0; i < 100; ++i)
 		threadpool.RunTask(HiredisTest);
+}
+
+void LogTest() {
+	spdlog::set_pattern("[%H:%M:%S %z] [%n] [%^---%L---%$] [thread %t] %v");
+	auto file_logger = spdlog::daily_logger_mt("daily_logger",
+						   "logs/dailylog.txt", 2, 30);
+	spdlog::set_level(
+		spdlog::level::debug);	// Set global log level to debug
+	spdlog::set_default_logger(file_logger);
+	std::string str = "hello";
+	spdlog::debug("ahahha{} {} {}", str, "xchvusdffd", 155);
 }
