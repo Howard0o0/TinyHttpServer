@@ -13,7 +13,7 @@ namespace nethelper {
 
 class TcpServer {
     public:
-	TcpServer(int port, int backlog = 128, int threadnum = 4)
+	TcpServer(int port, int backlog = 1024, int threadnum = 4)
 		: port_(port), backlog_(backlog),
 		  worker_(std::bind(&TcpServer::OnMsgArrived, this,
 				    std::placeholders::_1,
@@ -25,10 +25,10 @@ class TcpServer {
 	void SetOnMsgCallback(const OnMsgCallback& cb);
 
     private:
-	int	   port_;
-	int	   backlog_;
-	int	   server_sockfd_;
-	Worker	worker_;
+	int	      port_;
+	int	      backlog_;
+	int	      server_sockfd_;
+	Worker	      worker_;
 	OnMsgCallback on_msg_cb_;
 
 	int  CreateSocket(bool block = true);

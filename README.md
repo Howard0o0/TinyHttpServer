@@ -6,9 +6,11 @@ a tiny http server based on lockfree threadpool
 * lockfree threadpool(CAS)
 * reactor model
 
-[testing page](http://www.howard97.top)
+## 增加文件描述符上限、半连接队列大小(tcp_max_syn_backlog)、全连接队列大小(somaxconn)后压测结果不变
 
-# bench 
+<!-- [testing page](http://www.howard97.top) -->
+
+# bench(without modify kernel params)
 
 | cpu       |   ram    |
 |----------|------------|
