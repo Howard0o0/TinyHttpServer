@@ -1,5 +1,7 @@
 # men
 
+[format-in-google](https://zh-google-styleguide.readthedocs.io/en/latest/google-cpp-styleguide/contents/)
+
 linux-command online search tool
 
 men-server
