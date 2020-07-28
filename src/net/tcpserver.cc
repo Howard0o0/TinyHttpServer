@@ -28,17 +28,26 @@ void TcpServer::Start() {
 		exit(-1);
 	}
 
+	EpollInfo epollinfo;
+	EpollTool::InitialEpollinfo(epollinfo);
+	EpollTool::RegisterEpoll(server_sockfd_, epollinfo, EPOLLIN | EPOLLET);
+
 	while (1) {
 		int connfd = -1;
 
-		EpollInfo epollinfo;
-		EpollTool::InitialEpollinfo(epollinfo);
-		EpollTool::RegisterEpoll(server_sockfd_, epollinfo,
-					 EPOLLIN | EPOLLET);
-
-		int active_events_cnt =
-			epoll_wait(epollinfo.epollfd, epollinfo.active_events,
-				   EpollInfo::MAX_EVENTS_CNT, -1);
+		// int active_events_cnt =
+		// 	epoll_wait(epollinfo.epollfd, epollinfo.active_events,
+		// 		   EpollInfo::MAX_EVENTS_CNT, -1);
+		// while (1) {
+		// 	connfd = accept(server_sockfd_, NULL, NULL);
+		// 	if (connfd > 0) {
+		// 		LOG_INFO("accept a new client_fd:%d \n",
+		// 			 connfd);
+		// 		worker_.HandleResponse(connfd);
+		// 	}
+		// 	else if (errno == EAGAIN)
+		// 		break;
+		// }
 		while ((connfd = accept(server_sockfd_, NULL, NULL)) > 0) {
 			LOG_INFO("accept a new client_fd:%d \n", connfd);
 			worker_.HandleResponse(connfd);
@@ -57,7 +66,7 @@ int TcpServer::CreateSocket(bool block) {
 	struct sockaddr_in serv_addr;
 	int		   serv_addr_len = sizeof(serv_addr);
 	serv_addr.sin_family		 = AF_INET;
-	serv_addr.sin_addr.s_addr	= htonl(INADDR_ANY);
+	serv_addr.sin_addr.s_addr	 = htonl(INADDR_ANY);
 	serv_addr.sin_port		 = htons(port_);
 
 	char serv_ip[ INET_ADDRSTRLEN ];
