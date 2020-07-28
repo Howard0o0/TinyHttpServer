@@ -40,9 +40,10 @@ void TcpServer::Start() {
 			epoll_wait(epollinfo.epollfd, epollinfo.active_events,
 				   EpollInfo::MAX_EVENTS_CNT, -1);
 		while (1) {
-			LOG_INFO("conn cnt : %d\n", ++conncnt);
+			LOG_INFO("conn cnt : %d\n", conncnt);
 			connfd = accept(server_sockfd_, NULL, NULL);
 			if (connfd > 0) {
+				++conncnt;
 				LOG_INFO("accept a new client_fd:%d \n",
 					 connfd);
 				worker_.HandleResponse(connfd);

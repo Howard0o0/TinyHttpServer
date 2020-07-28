@@ -40,34 +40,36 @@ Document Path:          /
 Document Length:        108 bytes
 
 Concurrency Level:      10000
-Time taken for tests:   9.143 seconds
+Time taken for tests:   8.724 seconds
 Complete requests:      1000000
 Failed requests:        0
 Keep-Alive requests:    1000000
 Total transferred:      197000000 bytes
 HTML transferred:       108000000 bytes
-Requests per second:    109375.97 [#/sec] (mean)
-Time per request:       91.428 [ms] (mean)
+Requests per second:    114623.44 [#/sec] (mean)
+Time per request:       87.242 [ms] (mean)
 Time per request:       0.009 [ms] (mean, across all concurrent requests)
-Transfer rate:          21042.06 [Kbytes/sec] received
+Transfer rate:          22051.58 [Kbytes/sec] received
 
 Connection Times (ms)
               min  mean[+/-sd] median   max
-Connect:        0    2  15.8      0     194
-Processing:    21   89  21.7     87     441
-Waiting:       21   89  21.7     87     441
-Total:         21   90  31.6     87     562
+Connect:        0    2  15.3      0     192
+Processing:     7   85  28.3     82     637
+Waiting:        7   85  28.3     82     637
+Total:          7   86  39.2     82     745
 
 Percentage of the requests served within a certain time (ms)
-  50%     87
-  66%     89
-  75%     90
-  80%     91
-  90%     92
-  95%    106
-  98%    168
-  99%    254
- 100%    562 (longest request)
+  50%     82
+  66%     84
+  75%     85
+  80%     86
+  90%     88
+  95%     92
+  98%    148
+  99%    267
+ 100%    745 (longest request)
+ ```
+
  **Muduo(长连接、４线程)**
 
 ``` 
