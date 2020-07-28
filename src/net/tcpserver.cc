@@ -44,6 +44,7 @@ void TcpServer::Start() {
 			connfd = accept(server_sockfd_, NULL, NULL);
 			if (connfd > 0) {
 				++conncnt;
+				conncnt = (conncnt + 1) % INT32_MAX;
 				LOG_INFO("accept a new client_fd:%d \n",
 					 connfd);
 				worker_.HandleResponse(connfd);
