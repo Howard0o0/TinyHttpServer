@@ -11,10 +11,14 @@ void Men::OnMsgArrived(int client_fd, const std::string& message) {
 
 	std::string params_str = FetchParamsStr(message);
 	if (params_str.empty()) {
-		ResponseClient(client_fd, 404);
+		ResponseClient(client_fd, 200, "params error");
 		return;
 	}
 	std::string topic = FetchTopic(params_str);
+	if (topic.empty()) {
+		ResponseClient(client_fd, 200, "params error");
+		return;
+	}
 	// LOG_DEBUG("topic: %s\n", topic.c_str());
 	std::string result;
 

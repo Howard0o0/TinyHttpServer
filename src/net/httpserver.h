@@ -1,3 +1,4 @@
+
 #ifndef TINYHTTPSERVER_HTTPSERVER_H
 #define TINYHTTPSERVER_HTTPSERVER_H
 
@@ -6,7 +7,8 @@
 namespace nethelper {
 class HttpServer {
     public:
-	HttpServer(int port, int threadnum = 1) : tcpserver_(port, threadnum) {
+	HttpServer(int port, int threadnum = 1)
+		: tcpserver_(port, 10240, threadnum) {
 	}
 	virtual ~HttpServer() {
 	}

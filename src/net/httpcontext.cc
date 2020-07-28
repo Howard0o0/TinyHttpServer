@@ -19,7 +19,8 @@ std::string HttpContext::GetHttpContextStr() {
 		context += header_line;
 	}
 	if (body_.empty())
-		body_ = "not found\r\n";
+		body_ = "not found";
+	body_ += "\r\n";
 	context += "content-length:" + std::to_string(body_.size()) + "\r\n";
 	context += "\r\n";
 	return context + body_;

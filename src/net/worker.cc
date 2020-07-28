@@ -43,7 +43,7 @@ void Worker::HandleResponse(int client_fd) {
 
 	static EpollInfo epollinfo;
 	epollinfo.epollfd = epollfds_[ weak_thread_id ];
-	EpollTool::RegisterEpoll(client_fd, epollinfo);
+	EpollTool::RegisterEpoll(client_fd, epollinfo, EPOLLIN);
 	LOG_DEBUG("register clientfd(%d) into epollfd(%d) \n", client_fd,
 		  epollinfo.epollfd);
 }
@@ -77,8 +77,8 @@ void Worker::OnMsgArrived(int sockfd, std::string msg) {
 
 std::string Worker::ReadMsg(int client_fd) {
 	const int   READBUF_LEN = 1024;
-	char	readbuf[ READBUF_LEN ];
-	int	 read_len;
+	char	    readbuf[ READBUF_LEN ];
+	int	    read_len;
 	std::string msg = "";
 	while ((read_len = recv(client_fd, readbuf, READBUF_LEN, MSG_DONTWAIT))
 	       > 0) {

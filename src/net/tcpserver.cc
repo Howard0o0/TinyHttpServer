@@ -28,21 +28,34 @@ void TcpServer::Start() {
 		exit(-1);
 	}
 
-	while (1) {
-		int connfd = -1;
+	EpollInfo epollinfo;
+	EpollTool::InitialEpollinfo(epollinfo);
+	EpollTool::RegisterEpoll(server_sockfd_, epollinfo, EPOLLIN);
 
-		EpollInfo epollinfo;
-		EpollTool::InitialEpollinfo(epollinfo);
-		EpollTool::RegisterEpoll(server_sockfd_, epollinfo,
-					 EPOLLIN | EPOLLET);
+	while (1) {
+		int	   connfd  = -1;
+		static int conncnt = 0;
 
 		int active_events_cnt =
 			epoll_wait(epollinfo.epollfd, epollinfo.active_events,
 				   EpollInfo::MAX_EVENTS_CNT, -1);
-		while ((connfd = accept(server_sockfd_, NULL, NULL)) > 0) {
-			LOG_INFO("accept a new client_fd:%d \n", connfd);
-			worker_.HandleResponse(connfd);
+		while (1) {
+			LOG_INFO("conn cnt : %d\n", conncnt);
+			connfd = accept(server_sockfd_, NULL, NULL);
+			if (connfd > 0) {
+				++conncnt;
+				conncnt = (conncnt + 1) % INT32_MAX;
+				LOG_INFO("accept a new client_fd:%d \n",
+					 connfd);
+				worker_.HandleResponse(connfd);
+			}
+			else if (errno == EAGAIN)
+				break;
 		}
+		// while ((connfd = accept(server_sockfd_, NULL, NULL)) > 0) {
+		// 	LOG_INFO("accept a new client_fd:%d \n", connfd);
+		// 	worker_.HandleResponse(connfd);
+		// }
 	}
 }
 
@@ -57,7 +70,7 @@ int TcpServer::CreateSocket(bool block) {
 	struct sockaddr_in serv_addr;
 	int		   serv_addr_len = sizeof(serv_addr);
 	serv_addr.sin_family		 = AF_INET;
-	serv_addr.sin_addr.s_addr	= htonl(INADDR_ANY);
+	serv_addr.sin_addr.s_addr	 = htonl(INADDR_ANY);
 	serv_addr.sin_port		 = htons(port_);
 
 	char serv_ip[ INET_ADDRSTRLEN ];
@@ -69,7 +82,7 @@ int TcpServer::CreateSocket(bool block) {
 	}
 
 	SetSocketReuse(server_sock);
-	if (block)
+	if (!block)
 		SocketTool::SetSocketNonblocking(server_sock);
 
 	printf("bind in %s : %d\n", serv_ip, ntohs(serv_addr.sin_port));
