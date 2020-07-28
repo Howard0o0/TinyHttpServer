@@ -1,3 +1,0 @@
-/home/howard/work/TinyThreadPool/CMakeFiles/rebuild_cache.dir
-/home/howard/work/TinyThreadPool/CMakeFiles/httptest.app.dir
-/home/howard/work/TinyThreadPool/CMakeFiles/edit_cache.dir

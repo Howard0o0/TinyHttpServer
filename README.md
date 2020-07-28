@@ -20,8 +20,92 @@ a tiny http server based on lockfree threadpool
 using apache ab :
 
 ``` shell
-ab -n 100000 -c 1000 -k -r http://localhost:10000/
+ab -n 1000000 -c 5000 -k  http://localhost:10000/
 ```
+
+ **TinyHttpServer(长连接、４线程)**
+ 
+
+``` 
+Server Software:        
+Server Hostname:        localhost
+Server Port:            10000
+
+Document Path:          /
+Document Length:        108 bytes
+
+Concurrency Level:      5000
+Time taken for tests:   9.618 seconds
+Complete requests:      1000000
+Failed requests:        0
+Keep-Alive requests:    1000000
+Total transferred:      197000000 bytes
+HTML transferred:       108000000 bytes
+Requests per second:    103971.42 [#/sec] (mean)
+Time per request:       48.090 [ms] (mean)
+Time per request:       0.010 [ms] (mean, across all concurrent requests)
+Transfer rate:          20002.31 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    1  28.1      0    1084
+Processing:    10   47  13.4     44     513
+Waiting:       10   47  13.4     44     513
+Total:         10   48  33.1     44    1590
+
+Percentage of the requests served within a certain time (ms)
+  50%     44
+  66%     47
+  75%     49
+  80%     49
+  90%     56
+  95%     79
+  98%     96
+  99%    106
+ 100%   1590 (longest request)
+ ```
+
+ **Muduo(长连接、４线程)**
+
+``` 
+Server Software:        Muduo
+Server Hostname:        localhost
+Server Port:            10000
+
+Document Path:          /
+Document Length:        112 bytes
+
+Concurrency Level:      1000
+Time taken for tests:   16.665 seconds
+Complete requests:      1000000
+Failed requests:        0
+Keep-Alive requests:    1000000
+Total transferred:      216000000 bytes
+HTML transferred:       112000000 bytes
+Requests per second:    60004.75 [#/sec] (mean)
+Time per request:       16.665 [ms] (mean)
+Time per request:       0.017 [ms] (mean, across all concurrent requests)
+Transfer rate:          12657.25 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    1  27.1      0    1038
+Processing:     0   16  12.4     14     470
+Waiting:        0   16  12.4     14     470
+Total:          0   17  33.9     14    1500
+
+Percentage of the requests served within a certain time (ms)
+  50%     14
+  66%     19
+  75%     22
+  80%     24
+  90%     30
+  95%     35
+  98%     42
+  99%     47
+ 100%   1500 (longest request))
+
+ ```
 
 **TinyHttpServer(单线程、长连接)**
 
@@ -104,89 +188,5 @@ Percentage of the requests served within a certain time (ms)
   98%     29
   99%     32
  100%   1486 (longest request)
-
- ```
-
- **TinyHttpServer(长连接、４线程)**
- 
-
-``` 
-Server Software:        
-Server Hostname:        localhost
-Server Port:            10000
-
-Document Path:          /
-Document Length:        108 bytes
-
-Concurrency Level:      1000
-Time taken for tests:   7.831 seconds
-Complete requests:      1000000
-Failed requests:        0
-Keep-Alive requests:    1000000
-Total transferred:      197000000 bytes
-HTML transferred:       108000000 bytes
-Requests per second:    127699.85 [#/sec] (mean)
-Time per request:       7.831 [ms] (mean)
-Time per request:       0.008 [ms] (mean, across all concurrent requests)
-Transfer rate:          24567.26 [Kbytes/sec] received
-
-Connection Times (ms)
-              min  mean[+/-sd] median   max
-Connect:        0    1  27.1      0    1042
-Processing:     0    7   5.0      8     259
-Waiting:        0    7   5.0      8     259
-Total:          0    8  31.0      8    1298
-
-Percentage of the requests served within a certain time (ms)
-  50%      8
-  66%      8
-  75%      8
-  80%      8
-  90%      8
-  95%      9
-  98%      9
-  99%      9
- 100%   1298 (longest request)
- ```
-
- **Muduo(长连接、４线程)**
-
-``` 
-Server Software:        Muduo
-Server Hostname:        localhost
-Server Port:            10000
-
-Document Path:          /
-Document Length:        112 bytes
-
-Concurrency Level:      1000
-Time taken for tests:   16.665 seconds
-Complete requests:      1000000
-Failed requests:        0
-Keep-Alive requests:    1000000
-Total transferred:      216000000 bytes
-HTML transferred:       112000000 bytes
-Requests per second:    60004.75 [#/sec] (mean)
-Time per request:       16.665 [ms] (mean)
-Time per request:       0.017 [ms] (mean, across all concurrent requests)
-Transfer rate:          12657.25 [Kbytes/sec] received
-
-Connection Times (ms)
-              min  mean[+/-sd] median   max
-Connect:        0    1  27.1      0    1038
-Processing:     0   16  12.4     14     470
-Waiting:        0   16  12.4     14     470
-Total:          0   17  33.9     14    1500
-
-Percentage of the requests served within a certain time (ms)
-  50%     14
-  66%     19
-  75%     22
-  80%     24
-  90%     30
-  95%     35
-  98%     42
-  99%     47
- 100%   1500 (longest request))
 
  ```

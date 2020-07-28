@@ -78,7 +78,7 @@ int TcpServer::CreateSocket(bool block) {
 	}
 
 	SetSocketReuse(server_sock);
-	if (block)
+	if (!block)
 		SocketTool::SetSocketNonblocking(server_sock);
 
 	printf("bind in %s : %d\n", serv_ip, ntohs(serv_addr.sin_port));

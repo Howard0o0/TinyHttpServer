@@ -16,7 +16,7 @@ int main() {
 	// Test6();
 	// TestLockFreeThreadPool();
 
-	HttpServer httpserver(10000, 4);
+	HttpServer httpserver(10000, 3);
 	httpserver.StartLoop();
 
 	return 0;
