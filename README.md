@@ -7,6 +7,8 @@ a tiny http server based on lockfree threadpool
 * lockfree threadpool(CAS)
 * reactor model
 
+tcp服务器测压时cpu(4核)使用情况: ab(100%) tcpsever(150%)
+
 ## 内核调优
 
 * ulimit -n 20000 (增大最大文件描述符数量，因为ab测压和httpserver都在同一台机子上，ab -c 10000，文件描述符的上限应该至少20000)
