@@ -15,18 +15,17 @@ class Worker {
 	void SetOnMessageCallback(const OnMsgCallback& cb);
 
     private:
-	// ThreadPool	 threadpool_;
+	// ThreadPool threadpool_;
 	LockFreeThreadPool threadpool_;
-	LockFreeQue< int > fd_translator_;
 	int		   wakeup_fd_;
-	OnMsgCallback      on_msg_cb_;
+	OnMsgCallback	   on_msg_cb_;
 	int		   thread_cnt_;
 	std::vector< int > epollfds_;
-	std::mutex	 epollfds_lock_;
+	std::mutex	   epollfds_lock_;
 	std::vector< int > expired_fds;
 
 	std::string ReadMsg(int client_fd);
-	void	OnMsgArrived(int sockfd, std::string msg);
+	void	    OnMsgArrived(int sockfd, std::string msg);
 };
 
 }  // namespace nethelper

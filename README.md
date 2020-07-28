@@ -1,4 +1,4 @@
-# tiny http server
+# tiny http server (C100k)
 [format-in-goole](https://zh-google-styleguide.readthedocs.io/en/latest/google-cpp-styleguide/contents/)
 
 a tiny http server based on lockfree threadpool
@@ -6,6 +6,12 @@ a tiny http server based on lockfree threadpool
 * using pthread instead of std::thread
 * lockfree threadpool(CAS)
 * reactor model
+
+## 内核调优
+
+* ulimit -n 20000 (增大最大文件描述符数量，因为ab测压和httpserver都在同一台机子上，ab -c 10000，文件描述符的上限应该至少20000)
+* echo 10000 >/proc/sys/net/ipv4/tcp_max_syn_backlog (半连接队列调大, 如果不调大，在ab -c较大的时候accpect线程会阻塞住)
+* echo 10000 >/proc/sys/net/core/somaxconn (全连接队列大小，取决于listen(backlog)与somaxconn的最小值)
 
 ## 增加文件描述符上限、半连接队列大小(tcp_max_syn_backlog)、全连接队列大小(somaxconn)后压测结果不变
 
@@ -20,11 +26,10 @@ a tiny http server based on lockfree threadpool
 using apache ab :
 
 ``` shell
-ab -n 1000000 -c 5000 -k  http://localhost:10000/
+ab -n 1000000 -c 10000 -k  http://localhost:10000/
 ```
 
  **TinyHttpServer(长连接、４线程)**
- 
 
 ``` 
 Server Software:        
@@ -34,37 +39,35 @@ Server Port:            10000
 Document Path:          /
 Document Length:        108 bytes
 
-Concurrency Level:      5000
-Time taken for tests:   9.618 seconds
+Concurrency Level:      10000
+Time taken for tests:   9.143 seconds
 Complete requests:      1000000
 Failed requests:        0
 Keep-Alive requests:    1000000
 Total transferred:      197000000 bytes
 HTML transferred:       108000000 bytes
-Requests per second:    103971.42 [#/sec] (mean)
-Time per request:       48.090 [ms] (mean)
-Time per request:       0.010 [ms] (mean, across all concurrent requests)
-Transfer rate:          20002.31 [Kbytes/sec] received
+Requests per second:    109375.97 [#/sec] (mean)
+Time per request:       91.428 [ms] (mean)
+Time per request:       0.009 [ms] (mean, across all concurrent requests)
+Transfer rate:          21042.06 [Kbytes/sec] received
 
 Connection Times (ms)
               min  mean[+/-sd] median   max
-Connect:        0    1  28.1      0    1084
-Processing:    10   47  13.4     44     513
-Waiting:       10   47  13.4     44     513
-Total:         10   48  33.1     44    1590
+Connect:        0    2  15.8      0     194
+Processing:    21   89  21.7     87     441
+Waiting:       21   89  21.7     87     441
+Total:         21   90  31.6     87     562
 
 Percentage of the requests served within a certain time (ms)
-  50%     44
-  66%     47
-  75%     49
-  80%     49
-  90%     56
-  95%     79
-  98%     96
-  99%    106
- 100%   1590 (longest request)
- ```
-
+  50%     87
+  66%     89
+  75%     90
+  80%     91
+  90%     92
+  95%    106
+  98%    168
+  99%    254
+ 100%    562 (longest request)
  **Muduo(长连接、４线程)**
 
 ``` 

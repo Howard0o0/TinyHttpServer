@@ -30,28 +30,30 @@ void TcpServer::Start() {
 
 	EpollInfo epollinfo;
 	EpollTool::InitialEpollinfo(epollinfo);
-	EpollTool::RegisterEpoll(server_sockfd_, epollinfo, EPOLLIN | EPOLLET);
+	EpollTool::RegisterEpoll(server_sockfd_, epollinfo, EPOLLIN);
 
 	while (1) {
-		int connfd = -1;
+		int	   connfd  = -1;
+		static int conncnt = 0;
 
-		// int active_events_cnt =
-		// 	epoll_wait(epollinfo.epollfd, epollinfo.active_events,
-		// 		   EpollInfo::MAX_EVENTS_CNT, -1);
-		// while (1) {
-		// 	connfd = accept(server_sockfd_, NULL, NULL);
-		// 	if (connfd > 0) {
-		// 		LOG_INFO("accept a new client_fd:%d \n",
-		// 			 connfd);
-		// 		worker_.HandleResponse(connfd);
-		// 	}
-		// 	else if (errno == EAGAIN)
-		// 		break;
-		// }
-		while ((connfd = accept(server_sockfd_, NULL, NULL)) > 0) {
-			LOG_INFO("accept a new client_fd:%d \n", connfd);
-			worker_.HandleResponse(connfd);
+		int active_events_cnt =
+			epoll_wait(epollinfo.epollfd, epollinfo.active_events,
+				   EpollInfo::MAX_EVENTS_CNT, -1);
+		while (1) {
+			LOG_INFO("conn cnt : %d\n", ++conncnt);
+			connfd = accept(server_sockfd_, NULL, NULL);
+			if (connfd > 0) {
+				LOG_INFO("accept a new client_fd:%d \n",
+					 connfd);
+				worker_.HandleResponse(connfd);
+			}
+			else if (errno == EAGAIN)
+				break;
 		}
+		// while ((connfd = accept(server_sockfd_, NULL, NULL)) > 0) {
+		// 	LOG_INFO("accept a new client_fd:%d \n", connfd);
+		// 	worker_.HandleResponse(connfd);
+		// }
 	}
 }
 

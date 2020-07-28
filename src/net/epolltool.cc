@@ -17,7 +17,7 @@ void EpollTool::InitialEpollinfo(EpollInfo& epoll_info) {
 }
 void EpollTool::RegisterEpoll(int fd, EpollInfo& epoll_info, uint32_t events) {
 	epoll_info.event.data.fd = fd;
-	epoll_info.event.events  = events;
+	epoll_info.event.events	 = events;
 	// epoll_info.event.events = EPOLLIN;
 
 	if (epoll_ctl(epoll_info.epollfd, EPOLL_CTL_ADD, fd, &epoll_info.event)
@@ -36,7 +36,7 @@ void EpollTool::DelEpoll(int fd, EpollInfo& epoll_info) {
 	}
 }
 std::vector< int > EpollTool::GotEpollActiveFd(EpollInfo& epoll_info,
-					       int	timeout) {
+					       int	  timeout) {
 	int active_events_cnt =
 		epoll_wait(epoll_info.epollfd, epoll_info.active_events,
 			   EpollInfo::MAX_EVENTS_CNT, timeout);
@@ -49,6 +49,7 @@ std::vector< int > EpollTool::GotEpollActiveFd(EpollInfo& epoll_info,
 			DelEpoll(epoll_info.active_events[ i ].data.fd,
 				 epoll_info);
 			close(epoll_info.active_events[ i ].data.fd);
+			LOG_INFO("expection epoll\n");
 		}
 	}
 	return active_fds;

@@ -1,4 +1,5 @@
 #include "threadpool.h"
+#include "thread.h"
 #include <functional>
 #include <iostream>
 #include <thread>
@@ -12,7 +13,7 @@ void ThreadPool::Start(unsigned int size) {
 
 	for (decltype(size) i = 0; i < size; i++) {
 		threads_.emplace_back(
-			new std::thread(&ThreadPool::ConsumeTask, this));
+			new Thread(std::bind(&ThreadPool::ConsumeTask, this)));
 	}
 }
 ThreadPool::~ThreadPool() {
@@ -37,10 +38,10 @@ void ThreadPool::Stop() {
 	NotifyStop();
 
 	for (auto& thrd : threads_)
-		thrd->join();
+		thrd->Join();
 }
 void ThreadPool::RunTaskInGlobalThreadPool(Task task) {
-	static bool       global_thread_pool_existed = false;
+	static bool	  global_thread_pool_existed = false;
 	static ThreadPool global_thread_pool;
 	if (!global_thread_pool_existed) {
 		global_thread_pool.Start(std::thread::hardware_concurrency());

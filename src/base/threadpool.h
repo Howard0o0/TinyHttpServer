@@ -1,12 +1,12 @@
 #ifndef TINYTHREADPOOL_THREADPOOL_H
 #define TINYTHREADPOOL_THREADPOOL_H
 
+#include "thread.h"
 #include <condition_variable>
 #include <functional>
 #include <memory>
 #include <mutex>
 #include <queue>
-#include <thread>
 #include <vector>
 
 namespace nethelper {
@@ -24,14 +24,14 @@ class ThreadPool {
 	static void RunTaskInGlobalThreadPool(Task task);
 
     private:
-	std::vector< std::unique_ptr< std::thread > > threads_;
-	std::queue< Task >			      tasks_;
-	bool					      running_;
-	std::mutex				      tasks_lock_;
-	std::condition_variable			      tasks_cond_;
-	std::mutex				      running_lock_;
-	std::mutex				      tasks_empty_;
-	std::condition_variable			      tasks_empty_cond_;
+	std::vector< std::unique_ptr< Thread > > threads_;
+	std::queue< Task >			 tasks_;
+	bool					 running_;
+	std::mutex				 tasks_lock_;
+	std::condition_variable			 tasks_cond_;
+	std::mutex				 running_lock_;
+	std::mutex				 tasks_empty_;
+	std::condition_variable			 tasks_empty_cond_;
 
 	void		 ConsumeTask();
 	bool		 IsRunning();

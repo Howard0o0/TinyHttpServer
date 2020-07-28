@@ -23,16 +23,19 @@ void HttpServer::StartLoop() {
 void HttpServer::OnMsgArrived(int client_fd, const std::string& message) {
 
 	std::istringstream iss(message);
-	std::string	strline;
-	std::string	response = ResponseGet();
+	std::string	   strline;
+	std::string	   response = ResponseGet();
+	static long	   cnt	    = 0;
 
+	// LOG_INFO("handle cnt:%ld\n", cnt);
 	while (getline(iss, strline)) {
 		if (strline.find("GET") != std::string::npos) {
+			++cnt;
 			if (send(client_fd, response.data(), response.size(), 0)
 			    == response.size())
 				LOG_DEBUG("handled client(%d) \n", client_fd);
 			else
-				LOG_DEBUG("send was block\n");
+				LOG_ERR("send was block\n");
 			// LOG_INFO("sent response:\n%s\n", response.data());
 		}
 	}
