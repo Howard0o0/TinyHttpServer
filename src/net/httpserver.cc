@@ -3,8 +3,12 @@
 #include "log.h"
 #include "threadpool.h"
 #include <sstream>
+#include <string.h>
 #include <string>
+#include <sys/fcntl.h>
+#include <sys/sendfile.h>
 #include <sys/socket.h>
+#include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
 
@@ -27,7 +31,7 @@ std::string HttpServer::FetchParamsStr(const std::string& message) {
 
 	int startpos = firstline.find_first_of("/");
 	int endpos   = firstline.find_first_of(" ", startpos);
-	return firstline.substr(startpos + 1, endpos - startpos - 1);
+	return firstline.substr(startpos, endpos - startpos);
 }
 
 void HttpServer::ResponseClient(int connfd, int statuscode,
@@ -35,8 +39,11 @@ void HttpServer::ResponseClient(int connfd, int statuscode,
 	HttpContext httpcontext;
 	httpcontext.SetStatuscode(statuscode);
 	httpcontext.SetHeader("connection", "Keep-Alive");
-	httpcontext.SetBody(body);
-	// if (!body.empty())
+	if (!body.empty()) {
+		httpcontext.SetHeader("content-length",
+				      std::to_string(body.size()));
+		httpcontext.SetBody(body);
+	}
 	httpcontext.SetHeader("content-type", "text/plain");
 	std::string context = httpcontext.GetHttpContextStr();
 
@@ -44,6 +51,30 @@ void HttpServer::ResponseClient(int connfd, int statuscode,
 
 	if (send(connfd, context.c_str(), context.size(), 0) != context.size())
 		LOG_ERR("send not success!\n");
+}
+
+void HttpServer::SendFile(int connfd, const std::string& filename) {
+	int filefd = open(filename.c_str(), O_RDONLY);
+	if (filefd <= 0) {
+		LOG_ERR("open error:%s", strerror(errno));
+		exit(-1);
+	}
+	struct stat stat_buf;
+	fstat(filefd, &stat_buf);
+
+	HttpContext httpcontext;
+	httpcontext.SetStatuscode(200);
+	httpcontext.SetHeader("connection", "Keep-Alive");
+	httpcontext.SetHeader("content-type", "text/html");
+	httpcontext.SetHeader("content-length",
+			      std::to_string(stat_buf.st_size));
+	std::string context = httpcontext.GetHttpContextStr();
+
+	LOG_DEBUG("response to cli :\n%s\n", context.c_str());
+
+	send(connfd, context.c_str(), context.size(), 0);
+	sendfile(connfd, filefd, NULL, stat_buf.st_size);
+	close(filefd);
 }
 /* private */
 

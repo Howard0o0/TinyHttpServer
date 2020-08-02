@@ -17,6 +17,7 @@ class HttpContext {
 	std::string				       header_;
 	std::unordered_map< std::string, std::string > headers_;
 	std::string				       body_;
+	int					       bodylen_;
 
 	std::string GetStatusmessage(int statuscode);
 };

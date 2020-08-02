@@ -17,6 +17,7 @@ class HttpServer {
 	std::string FetchParamsStr(const std::string& message);
 	void	    ResponseClient(int connfd, int statuscode,
 				   const std::string& body = "");
+	void	    SendFile(int connfd, const std::string& filename);
 
     private:
 	TcpServer tcpserver_;

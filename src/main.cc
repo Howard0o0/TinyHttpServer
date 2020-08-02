@@ -23,6 +23,13 @@ int main() {
 	// HttpServer httpserver(10000, 4);
 	// httpserver.StartLoop();
 
+	// char link[ 100 ];
+	// char path[ 100 ];
+	// sprintf(link, "/proc/%d/exe", getpid());
+	// int i	  = readlink(link, path, sizeof(path));
+	// path[ i ] = '\0';
+	// printf("path:%s\n", path);
+
 	Men men(10000, 4);
 	men.StartLoop();
 
