@@ -15,7 +15,6 @@ tcp服务器测压时通过top查看cpu(4核)使用情况: ab(100%) tcpsever(150
 * echo 10000 >/proc/sys/net/ipv4/tcp_max_syn_backlog (半连接队列调大, 如果不调大，在ab -c较大的时候accpect线程会阻塞住)
 * echo 10000 >/proc/sys/net/core/somaxconn (全连接队列大小，取决于listen(backlog)与somaxconn的最小值)
 
-## 增加文件描述符上限、半连接队列大小(tcp_max_syn_backlog)、全连接队列大小(somaxconn)后压测结果不变
 
 <!-- [testing page](http://www.howard97.top) -->
 
