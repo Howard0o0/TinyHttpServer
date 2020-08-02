@@ -1,4 +1,4 @@
-# tiny http server (C100k)
+# tiny http server (C10k)
 [format-in-goole](https://zh-google-styleguide.readthedocs.io/en/latest/google-cpp-styleguide/contents/)
 
 a tiny http server based on lockfree threadpool
@@ -7,7 +7,7 @@ a tiny http server based on lockfree threadpool
 * lockfree threadpool(CAS)
 * reactor model
 
-tcp服务器测压时cpu(4核)使用情况: ab(100%) tcpsever(150%)
+tcp服务器测压时通过top查看cpu(4核)使用情况: ab(100%) tcpsever(150%)
 
 ## 内核调优
 

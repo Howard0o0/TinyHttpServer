@@ -1,0 +1,4 @@
+/home/howard/work/TinyHttpServer/CMakeFiles/rebuild_cache.dir
+/home/howard/work/TinyHttpServer/CMakeFiles/men-server.app.dir
+/home/howard/work/TinyHttpServer/CMakeFiles/edit_cache.dir
+/home/howard/work/TinyHttpServer/CMakeFiles/men-client.app.dir
