@@ -26,11 +26,13 @@ void HttpServer::StartLoop() {
 std::string HttpServer::FetchParamsStr(const std::string& message) {
 	std::istringstream iss(message);
 	std::string	   firstline;
-	if (!getline(iss, firstline))
+	if (!getline(iss, firstline) || firstline.empty())
 		return "";
 
 	int startpos = firstline.find_first_of("/");
-	int endpos   = firstline.find_first_of(" ", startpos);
+	if (startpos == std::string::npos)
+		return "";
+	int endpos = firstline.find_first_of(" ", startpos);
 	return firstline.substr(startpos, endpos - startpos);
 }
 

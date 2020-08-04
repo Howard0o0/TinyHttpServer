@@ -1,0 +1,4 @@
+/home/howard/work/TinyThreadPool/CMakeFiles/rebuild_cache.dir
+/home/howard/work/TinyThreadPool/CMakeFiles/edit_cache.dir
+/home/howard/work/TinyThreadPool/CMakeFiles/men-client.app.dir
+/home/howard/work/TinyThreadPool/CMakeFiles/men-server.app.dir

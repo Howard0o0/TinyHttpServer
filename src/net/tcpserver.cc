@@ -32,9 +32,9 @@ void TcpServer::Start() {
 	EpollTool::InitialEpollinfo(epollinfo);
 	EpollTool::RegisterEpoll(server_sockfd_, epollinfo, EPOLLIN);
 
+	int conncnt = 0;
 	while (1) {
-		int	   connfd  = -1;
-		static int conncnt = 0;
+		int connfd = -1;
 
 		int active_events_cnt =
 			epoll_wait(epollinfo.epollfd, epollinfo.active_events,
@@ -43,7 +43,6 @@ void TcpServer::Start() {
 			LOG_INFO("conn cnt : %d\n", conncnt);
 			connfd = accept(server_sockfd_, NULL, NULL);
 			if (connfd > 0) {
-				++conncnt;
 				conncnt = (conncnt + 1) % INT32_MAX;
 				LOG_INFO("accept a new client_fd:%d \n",
 					 connfd);
