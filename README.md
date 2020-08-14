@@ -18,7 +18,7 @@ tcp服务器测压时通过top查看cpu(4核)使用情况: ab(100%) tcpsever(150
 
 <!-- [testing page](http://www.howard97.top) -->
 
-# bench(without modify kernel params)
+# bench
 
 | cpu       |   ram    |
 |----------|------------|
