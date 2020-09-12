@@ -1,5 +1,3 @@
-#ifndef TINYHTTPSERVER_SOCKETTOOL_H
-#define TINYHTTPSERVER_SOCKETTOOL_H
 
 #include <fcntl.h>
 #include <log.h>
@@ -14,7 +12,12 @@ namespace nethelper {
 class SocketTool {
 
     public:
+	static int CreateListenSocket(int port, int backlog,
+				      bool block = false);
+
+    private:
 	static void SetSocketNonblocking(int sockfd);
+	static void SetSocketReuse(int socket_fd);
 };
 
 }  // namespace nethelper

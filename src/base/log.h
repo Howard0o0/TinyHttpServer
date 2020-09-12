@@ -2,6 +2,9 @@
 #define TINYHTTPSERVER_LOG_H
 
 #include <iostream>
+#include <boost/log/trivial.hpp>
+
+#define LOG(level) BOOST_LOG_TRIVIAL(level)
 
 // #define __LOG_LEVEL_DEBUG__
 #define __LOG_LEVEL_INFO__

@@ -71,10 +71,6 @@ aux_source_directory(./src/net SRC_NET_FILES)
 aux_source_directory(./src/men SRC_MEN_FILES)
 aux_source_directory(./src/men-client SRC_MENCLIENT_FILES)
 
-
-add_executable(men-client.app  ${SRC_BASE_FILES} ${SRC_NET_FILES} ${SRC_MENCLIENT_FILES})
-target_link_libraries(men-client.app ${muduo_net} ${muduo_base} pthread curl boost_locale re2 hiredis)
-	
-add_executable(men-server.app ${SRC_FILES} ${SRC_BASE_FILES} ${SRC_NET_FILES} ${SRC_MEN_FILES})
-target_link_libraries(men-server.app ${muduo_net} ${muduo_base} pthread curl boost_locale re2 hiredis)
+add_executable(tcpserver ${SRC_BASE_FILES} ${SRC_NET_FILES} ${SRC_MENCLIENT_FILES})
+target_link_libraries(tcpserver ${muduo_net} ${muduo_base} pthread curl boost_locale boost_log boost_log_setup  re2 hiredis ev)
  
