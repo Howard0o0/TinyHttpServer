@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/howard/work/TinyThreadPool/src/main.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tcpserver.dir/src/main.cc.o"
   "/home/howard/work/TinyThreadPool/src/net/epolltool.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tcpserver.dir/src/net/epolltool.cc.o"
   "/home/howard/work/TinyThreadPool/src/net/httpcontext.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tcpserver.dir/src/net/httpcontext.cc.o"
+  "/home/howard/work/TinyThreadPool/src/net/httpserver.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o"
   "/home/howard/work/TinyThreadPool/src/net/sockettool.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tcpserver.dir/src/net/sockettool.cc.o"
   "/home/howard/work/TinyThreadPool/src/net/tcpconnection.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tcpserver.dir/src/net/tcpconnection.cc.o"
   "/home/howard/work/TinyThreadPool/src/net/tcpserver.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o"

@@ -24,6 +24,7 @@ CMakeFiles/tcpserver.dir/src/main.cc.o
  ./src/base/noncopyable.h
  ./src/base/thread.h
  ./src/base/threadpool.h
+ ./src/net/httpserver.h
  ./src/net/tcpconnection.h
  ./src/net/tcpserver.h
  /home/howard/work/TinyThreadPool/src/main.cc
@@ -35,6 +36,17 @@ CMakeFiles/tcpserver.dir/src/net/epolltool.cc.o
 CMakeFiles/tcpserver.dir/src/net/httpcontext.cc.o
  /home/howard/work/TinyThreadPool/src/net/httpcontext.cc
  /home/howard/work/TinyThreadPool/src/net/httpcontext.h
+CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o
+ ./src/base/callback.h
+ ./src/base/log.h
+ ./src/base/noncopyable.h
+ ./src/base/thread.h
+ ./src/base/threadpool.h
+ /home/howard/work/TinyThreadPool/src/net/httpcontext.h
+ /home/howard/work/TinyThreadPool/src/net/httpserver.cc
+ /home/howard/work/TinyThreadPool/src/net/httpserver.h
+ /home/howard/work/TinyThreadPool/src/net/tcpconnection.h
+ /home/howard/work/TinyThreadPool/src/net/tcpserver.h
 CMakeFiles/tcpserver.dir/src/net/sockettool.cc.o
  ./src/base/log.h
  /home/howard/work/TinyThreadPool/src/net/sockettool.cc

@@ -177,9 +177,33 @@ CMakeFiles/tcpserver.dir/src/net/httpcontext.cc.o.provides: CMakeFiles/tcpserver
 CMakeFiles/tcpserver.dir/src/net/httpcontext.cc.o.provides.build: CMakeFiles/tcpserver.dir/src/net/httpcontext.cc.o
 
 
+CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o: CMakeFiles/tcpserver.dir/flags.make
+CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o: src/net/httpserver.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o -c /home/howard/work/TinyThreadPool/src/net/httpserver.cc
+
+CMakeFiles/tcpserver.dir/src/net/httpserver.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tcpserver.dir/src/net/httpserver.cc.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/howard/work/TinyThreadPool/src/net/httpserver.cc > CMakeFiles/tcpserver.dir/src/net/httpserver.cc.i
+
+CMakeFiles/tcpserver.dir/src/net/httpserver.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tcpserver.dir/src/net/httpserver.cc.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/howard/work/TinyThreadPool/src/net/httpserver.cc -o CMakeFiles/tcpserver.dir/src/net/httpserver.cc.s
+
+CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o.requires:
+
+.PHONY : CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o.requires
+
+CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o.provides: CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o.requires
+	$(MAKE) -f CMakeFiles/tcpserver.dir/build.make CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o.provides.build
+.PHONY : CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o.provides
+
+CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o.provides.build: CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o
+
+
 CMakeFiles/tcpserver.dir/src/net/sockettool.cc.o: CMakeFiles/tcpserver.dir/flags.make
 CMakeFiles/tcpserver.dir/src/net/sockettool.cc.o: src/net/sockettool.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/tcpserver.dir/src/net/sockettool.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/tcpserver.dir/src/net/sockettool.cc.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tcpserver.dir/src/net/sockettool.cc.o -c /home/howard/work/TinyThreadPool/src/net/sockettool.cc
 
 CMakeFiles/tcpserver.dir/src/net/sockettool.cc.i: cmake_force
@@ -203,7 +227,7 @@ CMakeFiles/tcpserver.dir/src/net/sockettool.cc.o.provides.build: CMakeFiles/tcps
 
 CMakeFiles/tcpserver.dir/src/net/tcpconnection.cc.o: CMakeFiles/tcpserver.dir/flags.make
 CMakeFiles/tcpserver.dir/src/net/tcpconnection.cc.o: src/net/tcpconnection.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/tcpserver.dir/src/net/tcpconnection.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/tcpserver.dir/src/net/tcpconnection.cc.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tcpserver.dir/src/net/tcpconnection.cc.o -c /home/howard/work/TinyThreadPool/src/net/tcpconnection.cc
 
 CMakeFiles/tcpserver.dir/src/net/tcpconnection.cc.i: cmake_force
@@ -227,7 +251,7 @@ CMakeFiles/tcpserver.dir/src/net/tcpconnection.cc.o.provides.build: CMakeFiles/t
 
 CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o: CMakeFiles/tcpserver.dir/flags.make
 CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o: src/net/tcpserver.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o -c /home/howard/work/TinyThreadPool/src/net/tcpserver.cc
 
 CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.i: cmake_force
@@ -251,7 +275,7 @@ CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o.provides.build: CMakeFiles/tcpse
 
 CMakeFiles/tcpserver.dir/src/main.cc.o: CMakeFiles/tcpserver.dir/flags.make
 CMakeFiles/tcpserver.dir/src/main.cc.o: src/main.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/tcpserver.dir/src/main.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/tcpserver.dir/src/main.cc.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tcpserver.dir/src/main.cc.o -c /home/howard/work/TinyThreadPool/src/main.cc
 
 CMakeFiles/tcpserver.dir/src/main.cc.i: cmake_force
@@ -275,7 +299,7 @@ CMakeFiles/tcpserver.dir/src/main.cc.o.provides.build: CMakeFiles/tcpserver.dir/
 
 CMakeFiles/tcpserver.dir/src/test.cc.o: CMakeFiles/tcpserver.dir/flags.make
 CMakeFiles/tcpserver.dir/src/test.cc.o: src/test.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/tcpserver.dir/src/test.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/tcpserver.dir/src/test.cc.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tcpserver.dir/src/test.cc.o -c /home/howard/work/TinyThreadPool/src/test.cc
 
 CMakeFiles/tcpserver.dir/src/test.cc.i: cmake_force
@@ -304,6 +328,7 @@ tcpserver_OBJECTS = \
 "CMakeFiles/tcpserver.dir/src/base/threadpool.cc.o" \
 "CMakeFiles/tcpserver.dir/src/net/epolltool.cc.o" \
 "CMakeFiles/tcpserver.dir/src/net/httpcontext.cc.o" \
+"CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o" \
 "CMakeFiles/tcpserver.dir/src/net/sockettool.cc.o" \
 "CMakeFiles/tcpserver.dir/src/net/tcpconnection.cc.o" \
 "CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o" \
@@ -318,6 +343,7 @@ bin/tcpserver: CMakeFiles/tcpserver.dir/src/base/thread.cc.o
 bin/tcpserver: CMakeFiles/tcpserver.dir/src/base/threadpool.cc.o
 bin/tcpserver: CMakeFiles/tcpserver.dir/src/net/epolltool.cc.o
 bin/tcpserver: CMakeFiles/tcpserver.dir/src/net/httpcontext.cc.o
+bin/tcpserver: CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o
 bin/tcpserver: CMakeFiles/tcpserver.dir/src/net/sockettool.cc.o
 bin/tcpserver: CMakeFiles/tcpserver.dir/src/net/tcpconnection.cc.o
 bin/tcpserver: CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o
@@ -325,7 +351,7 @@ bin/tcpserver: CMakeFiles/tcpserver.dir/src/main.cc.o
 bin/tcpserver: CMakeFiles/tcpserver.dir/src/test.cc.o
 bin/tcpserver: CMakeFiles/tcpserver.dir/build.make
 bin/tcpserver: CMakeFiles/tcpserver.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable bin/tcpserver"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/howard/work/TinyThreadPool/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable bin/tcpserver"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/tcpserver.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -338,6 +364,7 @@ CMakeFiles/tcpserver.dir/requires: CMakeFiles/tcpserver.dir/src/base/thread.cc.o
 CMakeFiles/tcpserver.dir/requires: CMakeFiles/tcpserver.dir/src/base/threadpool.cc.o.requires
 CMakeFiles/tcpserver.dir/requires: CMakeFiles/tcpserver.dir/src/net/epolltool.cc.o.requires
 CMakeFiles/tcpserver.dir/requires: CMakeFiles/tcpserver.dir/src/net/httpcontext.cc.o.requires
+CMakeFiles/tcpserver.dir/requires: CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o.requires
 CMakeFiles/tcpserver.dir/requires: CMakeFiles/tcpserver.dir/src/net/sockettool.cc.o.requires
 CMakeFiles/tcpserver.dir/requires: CMakeFiles/tcpserver.dir/src/net/tcpconnection.cc.o.requires
 CMakeFiles/tcpserver.dir/requires: CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o.requires

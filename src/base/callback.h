@@ -13,7 +13,7 @@ typedef std::function< void() > Task;
 // 			    const std::string&	 msg) >
 // 		    MessageArrivedCallback;
 using MessageArrivedCallback =
-	std::function< void(TcpConnection, std::string) >;
+	std::function< void(TcpConnection&, std::string) >;
 // typedef std::function< void(TcpConnection, std::string) >
 // MessageArrivedCallback;
 

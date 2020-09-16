@@ -4,6 +4,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/tcpserver.dir/src/base/threadpool.cc.o"
   "CMakeFiles/tcpserver.dir/src/net/epolltool.cc.o"
   "CMakeFiles/tcpserver.dir/src/net/httpcontext.cc.o"
+  "CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o"
   "CMakeFiles/tcpserver.dir/src/net/sockettool.cc.o"
   "CMakeFiles/tcpserver.dir/src/net/tcpconnection.cc.o"
   "CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o"

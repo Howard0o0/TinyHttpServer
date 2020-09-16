@@ -285,6 +285,33 @@ src/net/httpcontext.cc.s:
 	$(MAKE) -f CMakeFiles/tcpserver.dir/build.make CMakeFiles/tcpserver.dir/src/net/httpcontext.cc.s
 .PHONY : src/net/httpcontext.cc.s
 
+src/net/httpserver.o: src/net/httpserver.cc.o
+
+.PHONY : src/net/httpserver.o
+
+# target to build an object file
+src/net/httpserver.cc.o:
+	$(MAKE) -f CMakeFiles/tcpserver.dir/build.make CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o
+.PHONY : src/net/httpserver.cc.o
+
+src/net/httpserver.i: src/net/httpserver.cc.i
+
+.PHONY : src/net/httpserver.i
+
+# target to preprocess a source file
+src/net/httpserver.cc.i:
+	$(MAKE) -f CMakeFiles/tcpserver.dir/build.make CMakeFiles/tcpserver.dir/src/net/httpserver.cc.i
+.PHONY : src/net/httpserver.cc.i
+
+src/net/httpserver.s: src/net/httpserver.cc.s
+
+.PHONY : src/net/httpserver.s
+
+# target to generate assembly for a file
+src/net/httpserver.cc.s:
+	$(MAKE) -f CMakeFiles/tcpserver.dir/build.make CMakeFiles/tcpserver.dir/src/net/httpserver.cc.s
+.PHONY : src/net/httpserver.cc.s
+
 src/net/sockettool.o: src/net/sockettool.cc.o
 
 .PHONY : src/net/sockettool.o
@@ -420,6 +447,9 @@ help:
 	@echo "... src/net/httpcontext.o"
 	@echo "... src/net/httpcontext.i"
 	@echo "... src/net/httpcontext.s"
+	@echo "... src/net/httpserver.o"
+	@echo "... src/net/httpserver.i"
+	@echo "... src/net/httpserver.s"
 	@echo "... src/net/sockettool.o"
 	@echo "... src/net/sockettool.i"
 	@echo "... src/net/sockettool.s"

@@ -23,6 +23,7 @@ CMakeFiles/tcpserver.dir/src/main.cc.o: ./src/base/log.h
 CMakeFiles/tcpserver.dir/src/main.cc.o: ./src/base/noncopyable.h
 CMakeFiles/tcpserver.dir/src/main.cc.o: ./src/base/thread.h
 CMakeFiles/tcpserver.dir/src/main.cc.o: ./src/base/threadpool.h
+CMakeFiles/tcpserver.dir/src/main.cc.o: ./src/net/httpserver.h
 CMakeFiles/tcpserver.dir/src/main.cc.o: ./src/net/tcpconnection.h
 CMakeFiles/tcpserver.dir/src/main.cc.o: ./src/net/tcpserver.h
 CMakeFiles/tcpserver.dir/src/main.cc.o: src/main.cc
@@ -34,6 +35,17 @@ CMakeFiles/tcpserver.dir/src/net/epolltool.cc.o: src/net/epolltool.h
 
 CMakeFiles/tcpserver.dir/src/net/httpcontext.cc.o: src/net/httpcontext.cc
 CMakeFiles/tcpserver.dir/src/net/httpcontext.cc.o: src/net/httpcontext.h
+
+CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o: ./src/base/callback.h
+CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o: ./src/base/log.h
+CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o: ./src/base/noncopyable.h
+CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o: ./src/base/thread.h
+CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o: ./src/base/threadpool.h
+CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o: src/net/httpcontext.h
+CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o: src/net/httpserver.cc
+CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o: src/net/httpserver.h
+CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o: src/net/tcpconnection.h
+CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o: src/net/tcpserver.h
 
 CMakeFiles/tcpserver.dir/src/net/sockettool.cc.o: ./src/base/log.h
 CMakeFiles/tcpserver.dir/src/net/sockettool.cc.o: src/net/sockettool.cc

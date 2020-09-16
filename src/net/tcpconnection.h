@@ -8,6 +8,7 @@ class TcpConnection {
     public:
 	TcpConnection(ev::io& io_watcher) : io_watcher_(&io_watcher){};
 	void Disconnect();
+	int  GetConnectionFd() const;
 
     private:
 	ev::io* io_watcher_;
