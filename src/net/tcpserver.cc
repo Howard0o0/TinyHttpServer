@@ -1,11 +1,15 @@
 #include "tcpserver.h"
+#include "callback.h"
 #include "lockfreethreadpool.h"
 #include "log.h"
 #include "sockettool.h"
 #include <arpa/inet.h>
+#include <ev++.h>
+#include <ev.h>
 #include <fcntl.h>
 #include <netinet/in.h>
 #include <string.h>
+#include <string>
 #include <sys/epoll.h>
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -13,91 +17,51 @@
 
 using namespace nethelper;
 
-void TcpServer::SetSocketReuse(int socket_fd) {
-	int opt = 1;
-	setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, ( const void* )&opt,
-		   sizeof(opt));
-}
-
 /* public */
 void TcpServer::Start() {
-	struct sockaddr_in client_addr;
-	int		   client_addr_len = sizeof(client_addr);
-	if ((server_sockfd_ = CreateSocket(false)) == -1) {
-		LOG_ERR("create socket error: %s\n", strerror(errno));
-		exit(-1);
-	}
-
-	EpollInfo epollinfo;
-	EpollTool::InitialEpollinfo(epollinfo);
-	EpollTool::RegisterEpoll(server_sockfd_, epollinfo, EPOLLIN);
-
-	int conncnt = 0;
-	while (1) {
-		int connfd = -1;
-
-		int active_events_cnt =
-			epoll_wait(epollinfo.epollfd, epollinfo.active_events,
-				   EpollInfo::MAX_EVENTS_CNT, -1);
-		while (1) {
-			LOG_INFO("conn cnt : %d\n", conncnt);
-			connfd = accept(server_sockfd_, NULL, NULL);
-			if (connfd > 0) {
-				conncnt = (conncnt + 1) % INT32_MAX;
-				LOG_INFO("accept a new client_fd:%d \n",
-					 connfd);
-				worker_.HandleResponse(connfd);
-			}
-			else if (errno == EAGAIN)
-				break;
-		}
-		// while ((connfd = accept(server_sockfd_, NULL, NULL)) > 0) {
-		// 	LOG_INFO("accept a new client_fd:%d \n", connfd);
-		// 	worker_.HandleResponse(connfd);
-		// }
-	}
+	io_threads_.Start(io_thread_cnt_);
+	for (int i = 0; i < io_thread_cnt_; ++i)
+		io_threads_.RunTask(std::bind(&TcpServer::EventLoopThreadFunc,
+					      this, port_));
 }
 
-void TcpServer::SetOnMsgCallback(const OnMsgCallback& cb) {
-	worker_.SetOnMessageCallback(cb);
+void TcpServer::SetMessageArrivedCb(const MessageArrivedCallback& cb) {
+	message_arrived_cb = cb;
 }
+
 /* private */
 
-int TcpServer::CreateSocket(bool block) {
-	int server_sock = socket(AF_INET, SOCK_STREAM, 0);
+void TcpServer::MessageArrivedCb(ev::io& watcher, int revents) {
+	LOG(trace) << "new message from fd:" << watcher.fd;
 
-	struct sockaddr_in serv_addr;
-	int		   serv_addr_len = sizeof(serv_addr);
-	serv_addr.sin_family		 = AF_INET;
-	serv_addr.sin_addr.s_addr	 = htonl(INADDR_ANY);
-	serv_addr.sin_port		 = htons(port_);
+	std::string message = SocketTool::ReadMessage(watcher.fd);
+	LOG(debug) << message;
+	TcpConnection tcpconnection(watcher);
+	if (message.empty())
+		tcpconnection.Disconnect();
+	this->message_arrived_cb(tcpconnection, message);
+}
 
-	char serv_ip[ INET_ADDRSTRLEN ];
-	if (inet_ntop(AF_INET, &serv_addr.sin_addr, serv_ip, sizeof(serv_ip))
-	    == NULL) {
-		LOG_ERR("inet_ntop error\n");
-		close(server_sock);
-		return -1;
+void TcpServer::ConnectionArrivedCb(ev::io& watcher, int revents) {
+	LOG(trace) << "create a new connection";
+	int connfd = -1;
+	while ((connfd = accept4(watcher.fd, NULL, NULL, SOCK_NONBLOCK)) > 0) {
+		ev::io connfd_watch;
+		ev_break(watcher.loop);
+		connfd_watch.set< TcpServer, &TcpServer::MessageArrivedCb >(
+			this);
+		connfd_watch.set(watcher.loop);
+		connfd_watch.start(connfd, ev::READ);
+		ev_run(watcher.loop, 0);
 	}
+}
 
-	SetSocketReuse(server_sock);
-	if (!block)
-		SocketTool::SetSocketNonblocking(server_sock);
-
-	printf("bind in %s : %d\n", serv_ip, ntohs(serv_addr.sin_port));
-	if (bind(server_sock, ( struct sockaddr* )&serv_addr, serv_addr_len)
-	    < 0) {
-		LOG_ERR("bind error\n");
-		return -1;
-	}
-
-	LOG_DEBUG("bind done\n");
-
-	if (listen(server_sock, backlog_)) {
-		printf("listen error\n");
-		return -1;
-	}
-	LOG_DEBUG("listen done\n");
-
-	return server_sock;
+void TcpServer::EventLoopThreadFunc(int port) {
+	int listenfd = SocketTool::CreateListenSocket(port, backlog_, false);
+	struct ev_loop* evloop = ev_loop_new(EVFLAG_AUTO);
+	ev::io		listenfd_watch;
+	listenfd_watch.set< TcpServer, &TcpServer::ConnectionArrivedCb >(this);
+	listenfd_watch.set(evloop);
+	listenfd_watch.start(listenfd, ev::READ);
+	ev_run(evloop, 0);
 }

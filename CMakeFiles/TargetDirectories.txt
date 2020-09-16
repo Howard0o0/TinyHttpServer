@@ -1,0 +1,3 @@
+/home/howard/work/TinyThreadPool/CMakeFiles/rebuild_cache.dir
+/home/howard/work/TinyThreadPool/CMakeFiles/tcpserver.dir
+/home/howard/work/TinyThreadPool/CMakeFiles/edit_cache.dir

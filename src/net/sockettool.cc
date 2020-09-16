@@ -30,7 +30,11 @@ int SocketTool::CreateListenSocket(int port, int backlog, bool block) {
 		return -1;
 	}
 
-	SetSocketReuse(server_sock);
+	if (SetSocketReuse(server_sock) == false) {
+		LOG(error) << "set addr reuse failed";
+		LOG(error) << strerror(errno);
+		return -1;
+	}
 	if (!block)
 		SocketTool::SetSocketNonblocking(server_sock);
 
@@ -39,18 +43,34 @@ int SocketTool::CreateListenSocket(int port, int backlog, bool block) {
 	if (bind(server_sock, ( struct sockaddr* )&serv_addr, serv_addr_len)
 	    < 0) {
 		LOG(error) << "bind error";
+		LOG(error) << strerror(errno);
 		return -1;
 	}
 
 	LOG(debug) << "bind done";
 
-	if (listen(server_sock, backlog)) {
+	if (listen(server_sock, backlog) < 0) {
 		LOG(error) << "listen error";
+		LOG(error) << strerror(errno);
 		return -1;
 	}
 	LOG(debug) << "listen done";
 
 	return server_sock;
+}
+
+std::string SocketTool::ReadMessage(int socketfd) {
+	const int   READBUF_LEN = 1024;
+	char	    readbuf[ READBUF_LEN ];
+	int	    read_len;
+	std::string msg = "";
+	while ((read_len = recv(socketfd, readbuf, READBUF_LEN, MSG_DONTWAIT))
+	       > 0) {
+		readbuf[ read_len ] = '\0';
+		msg += readbuf;
+		// printf("readbuf:%s\n", readbuf);
+	}
+	return msg;
 }
 /* end of public methods */
 
@@ -70,9 +90,12 @@ void SocketTool::SetSocketNonblocking(int sockfd) {
 	}
 }
 
-void SocketTool::SetSocketReuse(int socket_fd) {
+bool SocketTool::SetSocketReuse(int socket_fd) {
 	int opt = 1;
-	setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, ( const void* )&opt,
-		   sizeof(opt));
+	if (setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
+		       ( const void* )&opt, sizeof(opt))
+	    < 0)
+		return false;
+	return true;
 }
 /* end of private methods */

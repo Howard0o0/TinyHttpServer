@@ -1,10 +1,10 @@
 #include "test.h"
+#include "ev.h"
 #include "hiredis/hiredis.h"
-#include "httprequest.h"
 #include "lockfreeque.h"
 #include "lockfreethreadpool.h"
 #include "log.h"
-#include "redistool.h"
+#include "sockettool.h"
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/sinks/daily_file_sink.h"
 #include "spdlog/spdlog.h"
@@ -22,8 +22,13 @@
 #include <thread>
 #include <unistd.h>
 
+using namespace nethelper;
+
 void PrintWithoutArg() {
-	std::cout << "print without args" << std::endl;
+	for (int i = 0; i < 10; ++i) {
+		std::cout << "print without args" << std::endl;
+		sleep(1);
+	}
 }
 
 void PrintWithArg(const std::string& str) {
@@ -167,64 +172,27 @@ std::wstring s2ws(const std::string& s) {
 	return ret;
 }
 void LinuxCommandTest() {
-	HttpRequest request;
-	request.clearHeader();
-	request.appendHeader("Host:man.he.net");
-	request.appendHeader("Cache-Control: no-cache");
-	request.appendHeader("Accept: "
-			     "text/html,application/xhtml+xml,application/"
-			     "xml;q=0.9,image/webp,image/apng,*/"
-			     "*;q=0.8,application/signed-exchange;v=b3;q=0.9");
-	request.appendHeader("Accept-Encoding: gzip, deflate, br");
+	// HttpRequest request;
+	// request.clearHeader();
+	// request.appendHeader("Host:man.he.net");
+	// request.appendHeader("Cache-Control: no-cache");
+	// request.appendHeader("Accept: "
+	// 		     "text/html,application/xhtml+xml,application/"
+	// 		     "xml;q=0.9,image/webp,image/apng,*/"
+	// 		     "*;q=0.8,application/signed-exchange;v=b3;q=0.9");
+	// request.appendHeader("Accept-Encoding: gzip, deflate, br");
 
-	long status_code =
-		request.get("http://man.he.net/?topic=ab&section=all");
-	printf("%ld\n", status_code);
-	if (status_code == 200) {
-		std::string content = request.getResponse();
-		RE2::GlobalReplace(&content, "<.*?>", "");
-		// std::ofstream ofs("ab.md", std::ios::out);
-		// ofs << content;
-		std::cout << content << std::endl;
-		// ofs.close();
-	}
-}
-
-void HiredisTest() {
-
-	RedisTool redistool;
-	redistool.ConnectDatabase("127.0.0.1", 6379);
-	std::string value = redistool.GetString("foo");
-	std::cout << value << std::endl;
-	std::cout << "curr tid:" << nethelper::Thread::GetThreadid()
-		  << std::endl;
-
-	// redisContext* conn = redisConnect("127.0.0.1", 6379);
-	// if (conn->err)
-	// 	printf("connection error:%s\n", conn->errstr);
-
-	// redisReply* reply = ( redisReply* )redisCommand(conn, "set foo
-	// 1234"); freeReplyObject(reply);
-
-	// reply = ( redisReply* )redisCommand(conn, "get foo");
-
-	// printf("%s\n", reply->str);
-	// freeReplyObject(reply);
-
-	// redisFree(conn);
-
-	// RedisTool redis_tool;
-	// if (!redis_tool.ConnectDatabase("127.0.0.1", 6379))
-	// 	return;
-
-	// std::cout << redis_tool.GetString("k1") << std::endl;
-}
-
-void HiredisTest2() {
-	nethelper::LockFreeThreadPool threadpool;
-	threadpool.Start(4);
-	for (int i = 0; i < 100; ++i)
-		threadpool.RunTask(HiredisTest);
+	// long status_code =
+	// 	request.get("http://man.he.net/?topic=ab&section=all");
+	// printf("%ld\n", status_code);
+	// if (status_code == 200) {
+	// 	std::string content = request.getResponse();
+	// 	RE2::GlobalReplace(&content, "<.*?>", "");
+	// 	// std::ofstream ofs("ab.md", std::ios::out);
+	// 	// ofs << content;
+	// 	std::cout << content << std::endl;
+	// 	// ofs.close();
+	// }
 }
 
 void LogTest() {
@@ -236,4 +204,48 @@ void LogTest() {
 	spdlog::set_default_logger(file_logger);
 	std::string str = "hello";
 	spdlog::debug("ahahha{} {} {}", str, "xchvusdffd", 155);
+}
+
+struct ev_loop* loop = EV_DEFAULT;
+
+static void conn_cb(EV_P_ ev_io* watcher, int revents) {
+	LOG(trace) << "new message from fd:" << watcher->fd << std::endl;
+
+	const int   READBUF_LEN = 1024;
+	char	    readbuf[ READBUF_LEN ];
+	int	    read_len;
+	std::string msg = "";
+	while ((read_len =
+			recv(watcher->fd, readbuf, READBUF_LEN, MSG_DONTWAIT))
+	       > 0) {
+		readbuf[ read_len ] = '\0';
+		msg += readbuf;
+		// printf("readbuf:%s\n", readbuf);
+	}
+	LOG(debug) << msg << std::endl;
+	close(watcher->fd);
+	ev_io_stop(EV_A_ watcher);
+}
+
+static void listen_cb(EV_P_ ev_io* watcher, int revents) {
+	LOG(trace) << "create a new connection";
+
+	int   connfd = accept4(watcher->fd, NULL, NULL, SOCK_NONBLOCK);
+	ev_io connfd_watcher;
+	ev_break(loop);
+	ev_io_init(&connfd_watcher, conn_cb, connfd, EV_READ);
+	ev_io_start(loop, &connfd_watcher);
+	ev_run(loop, 0);
+}
+
+void LibevTest() {
+	int listenfd = SocketTool::CreateListenSocket(9999, 10000, false);
+
+	ev_io listenfd_watcher;
+
+	ev_io_init(&listenfd_watcher, listen_cb, /*STDIN_FILENO*/ listenfd,
+		   EV_READ);
+	ev_io_start(loop, &listenfd_watcher);
+
+	ev_run(loop, 0);
 }

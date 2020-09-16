@@ -1,6 +1,3 @@
-#include "httprequest.h"
-#include "httpserver.h"
-#include "men.h"
 #include "re2/re2.h"
 #include "tcpserver.h"
 #include "test.h"
@@ -30,10 +27,14 @@ int main() {
 	// path[ i ] = '\0';
 	// printf("path:%s\n", path);
 
-	Men men(10000, 4);
-	men.StartLoop();
+	// Men men(10000, 4);
+	// men.StartLoop();
 
 	// LogTest();
+	// LibevTest();
+
+	TcpServer tcpserver(9999, 4);
+	tcpserver.Start();
 
 	return 0;
 }
