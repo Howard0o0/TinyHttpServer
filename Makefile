@@ -150,6 +150,33 @@ src/base/lockfreethreadpool.cc.s:
 	$(MAKE) -f CMakeFiles/tcpserver.dir/build.make CMakeFiles/tcpserver.dir/src/base/lockfreethreadpool.cc.s
 .PHONY : src/base/lockfreethreadpool.cc.s
 
+src/base/log.o: src/base/log.cc.o
+
+.PHONY : src/base/log.o
+
+# target to build an object file
+src/base/log.cc.o:
+	$(MAKE) -f CMakeFiles/tcpserver.dir/build.make CMakeFiles/tcpserver.dir/src/base/log.cc.o
+.PHONY : src/base/log.cc.o
+
+src/base/log.i: src/base/log.cc.i
+
+.PHONY : src/base/log.i
+
+# target to preprocess a source file
+src/base/log.cc.i:
+	$(MAKE) -f CMakeFiles/tcpserver.dir/build.make CMakeFiles/tcpserver.dir/src/base/log.cc.i
+.PHONY : src/base/log.cc.i
+
+src/base/log.s: src/base/log.cc.s
+
+.PHONY : src/base/log.s
+
+# target to generate assembly for a file
+src/base/log.cc.s:
+	$(MAKE) -f CMakeFiles/tcpserver.dir/build.make CMakeFiles/tcpserver.dir/src/base/log.cc.s
+.PHONY : src/base/log.cc.s
+
 src/base/thread.o: src/base/thread.cc.o
 
 .PHONY : src/base/thread.o
@@ -432,6 +459,9 @@ help:
 	@echo "... src/base/lockfreethreadpool.o"
 	@echo "... src/base/lockfreethreadpool.i"
 	@echo "... src/base/lockfreethreadpool.s"
+	@echo "... src/base/log.o"
+	@echo "... src/base/log.i"
+	@echo "... src/base/log.s"
 	@echo "... src/base/thread.o"
 	@echo "... src/base/thread.i"
 	@echo "... src/base/thread.s"

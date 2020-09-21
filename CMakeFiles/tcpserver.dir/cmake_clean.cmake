@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/tcpserver.dir/src/base/lockfreethreadpool.cc.o"
+  "CMakeFiles/tcpserver.dir/src/base/log.cc.o"
   "CMakeFiles/tcpserver.dir/src/base/thread.cc.o"
   "CMakeFiles/tcpserver.dir/src/base/threadpool.cc.o"
   "CMakeFiles/tcpserver.dir/src/net/epolltool.cc.o"

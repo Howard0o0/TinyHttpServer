@@ -17,9 +17,8 @@ using namespace nethelper;
 /* public */
 
 void HttpServer::StartLoop() {
-	tcpserver_.SetMessageArrivedCb(std::bind(&HttpServer::OnMsgArrived,
-						 this, std::placeholders::_1,
-						 std::placeholders::_2));
+	tcpserver_.SetMessageArrivedCb(std::bind(&HttpServer::OnMsgArrived, this,
+						 std::placeholders::_1, std::placeholders::_2));
 	tcpserver_.Start();
 }
 
@@ -29,21 +28,19 @@ std::string HttpServer::FetchParamsStr(const std::string& message) {
 	if (!getline(iss, firstline) || firstline.empty())
 		return "";
 
-	int startpos = firstline.find_first_of("/");
+	size_t startpos = firstline.find_first_of("/");
 	if (startpos == std::string::npos)
 		return "";
 	int endpos = firstline.find_first_of(" ", startpos);
 	return firstline.substr(startpos, endpos - startpos);
 }
 
-void HttpServer::ResponseClient(int connfd, int statuscode,
-				const std::string& body) {
+void HttpServer::ResponseClient(int connfd, int statuscode, const std::string& body) {
 	HttpContext httpcontext;
 	httpcontext.SetStatuscode(statuscode);
 	httpcontext.SetHeader("connection", "Keep-Alive");
 	if (!body.empty()) {
-		httpcontext.SetHeader("content-length",
-				      std::to_string(body.size()));
+		httpcontext.SetHeader("content-length", std::to_string(body.size()));
 		httpcontext.SetBody(body);
 	}
 	httpcontext.SetHeader("content-type", "text/plain");
@@ -51,7 +48,7 @@ void HttpServer::ResponseClient(int connfd, int statuscode,
 
 	LOG_DEBUG("response to cli :\n%s\n", context.c_str());
 
-	if (send(connfd, context.c_str(), context.size(), 0) != context.size())
+	if (send(connfd, context.c_str(), context.size(), 0) != static_cast< int >(context.size()))
 		LOG_ERR("send not success!\n");
 }
 
@@ -68,8 +65,7 @@ void HttpServer::SendFile(int connfd, const std::string& filename) {
 	httpcontext.SetStatuscode(200);
 	httpcontext.SetHeader("connection", "Keep-Alive");
 	httpcontext.SetHeader("content-type", "text/html");
-	httpcontext.SetHeader("content-length",
-			      std::to_string(stat_buf.st_size));
+	httpcontext.SetHeader("content-length", std::to_string(stat_buf.st_size));
 	std::string context = httpcontext.GetHttpContextStr();
 
 	LOG_DEBUG("response to cli :\n%s\n", context.c_str());
@@ -80,8 +76,7 @@ void HttpServer::SendFile(int connfd, const std::string& filename) {
 }
 /* private */
 
-void HttpServer::OnMsgArrived(TcpConnection&	 tcpconnection,
-			      const std::string& message) {
+void HttpServer::OnMsgArrived(TcpConnection& tcpconnection, const std::string& message) {
 
 	std::istringstream iss(message);
 	std::string	   strline;
@@ -89,7 +84,7 @@ void HttpServer::OnMsgArrived(TcpConnection&	 tcpconnection,
 
 	while (getline(iss, strline)) {
 		if (strline.find("GET") != std::string::npos) {
-			SendFile(tcpconnection.GetConnectionFd(), "index.html");
+			SendFile(tcpconnection.connection_fd(), "index.html");
 		}
 	}
 	tcpconnection.Disconnect();
@@ -101,8 +96,7 @@ std::string HttpServer::ResponseGet() {
 	return ResponseHeader + ResponseBody;
 }
 std::string HttpServer::MakeResponseHeader(int statuscode, int body_len) {
-	std::string header = std::string("HTTP/1.1")
-			     + std::to_string(statuscode) + " OK\r\n"
+	std::string header = std::string("HTTP/1.1") + std::to_string(statuscode) + " OK\r\n"
 			     + "Content-Type : text/html\r\n";
 	if (body_len > 0)
 		header += "Content-Length:" + std::to_string(body_len) + "\r\n";
@@ -112,9 +106,7 @@ std::string HttpServer::MakeResponseHeader(int statuscode, int body_len) {
 }
 std::string HttpServer::MakeResponseBody(const std::string& body) {
 	std::string response_body =
-		std::string("<HTML>\r\n")
-		+ "<HEAD><TITLE>tiny http server</TITLE></HEAD>\r\n"
-		+ "<BODY>\r\n" + "<h1>" + body + "</h1>\r\n" + "</BODY>\r\n"
-		+ "</HTML>\r\n";
+		std::string("<HTML>\r\n") + "<HEAD><TITLE>tiny http server</TITLE></HEAD>\r\n"
+		+ "<BODY>\r\n" + "<h1>" + body + "</h1>\r\n" + "</BODY>\r\n" + "</HTML>\r\n";
 	return response_body;
 }

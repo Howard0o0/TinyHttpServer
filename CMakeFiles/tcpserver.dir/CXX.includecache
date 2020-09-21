@@ -51,9 +51,13 @@ vector
 -
 
 ./src/base/log.h
-iostream
+boost/log/core.hpp
+-
+boost/log/expressions.hpp
 -
 boost/log/trivial.hpp
+-
+iostream
 -
 
 ./src/base/noncopyable.h
@@ -184,6 +188,20 @@ semaphore.h
 thread
 -
 vector
+-
+
+/home/howard/work/TinyThreadPool/src/base/log.cc
+log.h
+/home/howard/work/TinyThreadPool/src/base/log.h
+
+/home/howard/work/TinyThreadPool/src/base/log.h
+boost/log/core.hpp
+-
+boost/log/expressions.hpp
+-
+boost/log/trivial.hpp
+-
+iostream
 -
 
 /home/howard/work/TinyThreadPool/src/base/noncopyable.h
@@ -365,6 +383,8 @@ unistd.h
 -
 
 /home/howard/work/TinyThreadPool/src/net/tcpconnection.cc
+ev++.h
+-
 tcpconnection.h
 -
 unistd.h
@@ -394,6 +414,8 @@ ev++.h
 ev.h
 -
 fcntl.h
+-
+memory
 -
 netinet/in.h
 -

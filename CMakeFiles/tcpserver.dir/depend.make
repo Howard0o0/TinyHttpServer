@@ -9,6 +9,9 @@ CMakeFiles/tcpserver.dir/src/base/lockfreethreadpool.cc.o: src/base/lockfreethre
 CMakeFiles/tcpserver.dir/src/base/lockfreethreadpool.cc.o: src/base/noncopyable.h
 CMakeFiles/tcpserver.dir/src/base/lockfreethreadpool.cc.o: src/base/thread.h
 
+CMakeFiles/tcpserver.dir/src/base/log.cc.o: src/base/log.cc
+CMakeFiles/tcpserver.dir/src/base/log.cc.o: src/base/log.h
+
 CMakeFiles/tcpserver.dir/src/base/thread.cc.o: src/base/thread.cc
 
 CMakeFiles/tcpserver.dir/src/base/threadpool.cc.o: ./src/net/tcpconnection.h

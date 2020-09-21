@@ -17,7 +17,7 @@ int main() {
 	// Test6();
 	// TestLockFreeThreadPool();
 	// HiredisTest2();
-
+	LOG_SET_LEVEL(info);
 	HttpServer httpserver(9999, 4);
 	httpserver.StartLoop();
 

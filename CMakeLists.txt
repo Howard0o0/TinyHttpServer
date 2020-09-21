@@ -61,5 +61,5 @@ aux_source_directory(./src/men SRC_MEN_FILES)
 aux_source_directory(./src/men-client SRC_MENCLIENT_FILES)
 
 add_executable(tcpserver ${SRC_BASE_FILES} ${SRC_NET_FILES} ${SRC_FILES} ${SRC_MEN_FILES})
-target_link_libraries(tcpserver pthread curl boost_locale boost_log boost_log_setup re2 hiredis ev ${muduo_net} )
+target_link_libraries(tcpserver pthread curl boost_locale boost_log boost_log_setup boost_system re2 hiredis ev ${muduo_net} )
  

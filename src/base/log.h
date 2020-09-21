@@ -1,10 +1,20 @@
 #ifndef TINYHTTPSERVER_LOG_H
 #define TINYHTTPSERVER_LOG_H
 
-#include <iostream>
+#include <boost/log/core.hpp>
+#include <boost/log/expressions.hpp>
 #include <boost/log/trivial.hpp>
+#include <iostream>
 
 #define LOG(level) BOOST_LOG_TRIVIAL(level)
+#define LOG_SET_LEVEL(level)                            \
+	do {                                            \
+		boost::log::core::get()->set_filter(    \
+			boost::log::trivial::severity   \
+			>= boost::log::trivial::level); \
+	} while (0);
+
+void SetLogLevel();
 
 // #define __LOG_LEVEL_DEBUG__
 #define __LOG_LEVEL_INFO__

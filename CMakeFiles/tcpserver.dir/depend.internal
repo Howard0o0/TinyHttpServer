@@ -9,6 +9,9 @@ CMakeFiles/tcpserver.dir/src/base/lockfreethreadpool.cc.o
  /home/howard/work/TinyThreadPool/src/base/lockfreethreadpool.h
  /home/howard/work/TinyThreadPool/src/base/noncopyable.h
  /home/howard/work/TinyThreadPool/src/base/thread.h
+CMakeFiles/tcpserver.dir/src/base/log.cc.o
+ /home/howard/work/TinyThreadPool/src/base/log.cc
+ /home/howard/work/TinyThreadPool/src/base/log.h
 CMakeFiles/tcpserver.dir/src/base/thread.cc.o
  /home/howard/work/TinyThreadPool/src/base/thread.cc
 CMakeFiles/tcpserver.dir/src/base/threadpool.cc.o

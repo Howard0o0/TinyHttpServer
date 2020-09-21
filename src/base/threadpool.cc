@@ -11,7 +11,7 @@ using namespace nethelper;
 void ThreadPool::Start(unsigned int size) {
 	running_ = true;
 
-	for (decltype(size) i = 0; i < size; i++) {
+	for (size_t i = 0; i < size; i++) {
 		threads_.emplace_back(
 			new Thread(std::bind(&ThreadPool::ConsumeTask, this)));
 	}
