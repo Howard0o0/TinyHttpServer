@@ -28,7 +28,7 @@ struct TcpConnectionContext {
 class TcpConnection {
     public:
 	TcpConnection(int connection_fd)
-		: connection_fd_(connection_fd), receive_context_(this), send_context_(this) {
+		: receive_context_(this), send_context_(this), connection_fd_(connection_fd) {
 	}
 	~TcpConnection();
 	void	    Disconnect();

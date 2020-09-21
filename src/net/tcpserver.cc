@@ -31,8 +31,14 @@ void TcpServer::SetMessageArrivedCb(const MessageArrivedCallback& cb) {
 
 bool TcpServer::SendMessage(TcpConnection* tcpconnection, const std::string& message,
 			    bool close_on_sent) {
+	if (message.empty()) {
+		if (close_on_sent)
+			delete tcpconnection;
+		return true;
+	}
+
 	int sent_len = send(tcpconnection->connection_fd(), message.c_str(), message.size(), 0);
-	if (sent_len == message.size()) {
+	if (sent_len == static_cast< int >(message.size())) {
 		if (close_on_sent)
 			delete tcpconnection;
 		return true;
@@ -47,8 +53,8 @@ bool TcpServer::SendMessage(TcpConnection* tcpconnection, const std::string& mes
 		if (tcpconnection->send_message_watcher().active)
 			tcpconnection->send_message_watcher().set(
 				tcpconnection->receive_message_watcher().loop);
+		return true;
 	}
-	return true;
 }
 
 /* private */

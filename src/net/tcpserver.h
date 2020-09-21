@@ -40,7 +40,9 @@ class TcpServer {
 		LOG_DEBUG("%s\n", msg.data());
 		LOG_DEBUG("================================\n");
 
-		this->SendMessage(const_cast< TcpConnection* >(&tcpconnection), "hello!", true);
+		this->SendMessage(const_cast< TcpConnection* >(&tcpconnection), "hello!", false);
+		this->SendMessage(const_cast< TcpConnection* >(&tcpconnection), "connection close!", true);
+
 	}
 };
 
