@@ -29,13 +29,64 @@ void TcpServer::SetMessageArrivedCb(const MessageArrivedCallback& cb) {
 	message_arrived_cb = cb;
 }
 
+bool TcpServer::SendMessage(TcpConnection* tcpconnection, const std::string& message,
+			    bool close_on_sent) {
+	int sent_len = send(tcpconnection->connection_fd(), message.c_str(), message.size(), 0);
+	if (sent_len == message.size()) {
+		if (close_on_sent)
+			delete tcpconnection;
+		return true;
+	}
+	else if (sent_len == -1 && errno != EAGAIN && errno != EWOULDBLOCK) {
+		delete tcpconnection;
+		return false;
+	}
+	else {
+		std::string rest_of_message = sent_len > 0 ? message.substr(sent_len) : message;
+		tcpconnection->PushMessageIntoSendBuffer(rest_of_message, close_on_sent);
+		if (tcpconnection->send_message_watcher().active)
+			tcpconnection->send_message_watcher().set(
+				tcpconnection->receive_message_watcher().loop);
+	}
+	return true;
+}
+
 /* private */
+
+void TcpServer::SendIoWatcherCb(ev::io& watcher, int revents) {
+	TcpConnection* tcpconnection =
+		reinterpret_cast< TcpConnectionContext* >(&watcher)->tcpconnection;
+	SendBuffer& send_buffer	  = tcpconnection->send_buffer();
+	int	    connection_fd = tcpconnection->connection_fd();
+	size_t	    rest_len	  = send_buffer.buffer.size() - send_buffer.sent_offset;
+
+	int sent_len = send(connection_fd, send_buffer.buffer.c_str() + send_buffer.sent_offset,
+			    rest_len, 0);
+	if (sent_len < 0) {
+		if (sent_len != EAGAIN && sent_len != EWOULDBLOCK)
+			delete tcpconnection;
+		return;
+	}
+
+	TcpConnectionContext* send_context = reinterpret_cast< TcpConnectionContext* >(&watcher);
+	send_buffer.sent_offset += sent_len;
+	if (send_buffer.IsEmpty()) {
+		if (send_context->close_on_sent == true) {
+			delete tcpconnection;
+			return;
+		}
+		send_buffer.buffer.clear();
+		send_buffer.sent_offset = 0;
+		watcher.stop();
+	}
+}
 
 void TcpServer::MessageArrivedCb(ev::io& watcher, int revents) {
 	LOG(trace) << "new message from fd:" << watcher.fd;
 
-	TcpConnection* tcpconnection = reinterpret_cast< TcpConnection* >(&watcher);
-	std::string    message	     = SocketTool::ReadMessage(watcher.fd);
+	TcpConnection* tcpconnection =
+		reinterpret_cast< TcpConnectionContext* >(&watcher)->tcpconnection;
+	std::string message = SocketTool::ReadMessage(watcher.fd);
 	LOG(debug) << message;
 	if (message.empty()) {
 		tcpconnection->Disconnect();

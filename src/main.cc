@@ -18,8 +18,8 @@ int main() {
 	// TestLockFreeThreadPool();
 	// HiredisTest2();
 	LOG_SET_LEVEL(info);
-	HttpServer httpserver(9999, 4);
-	httpserver.StartLoop();
+	// HttpServer httpserver(9999, 4);
+	// httpserver.StartLoop();
 
 	// char link[ 100 ];
 	// char path[ 100 ];
@@ -34,8 +34,8 @@ int main() {
 	// LogTest();
 	// LibevTest();
 
-	// TcpServer tcpserver(9999, 4);
-	// tcpserver.Start();
+	TcpServer tcpserver(9999, 4);
+	tcpserver.Start();
 
 	return 0;
 }

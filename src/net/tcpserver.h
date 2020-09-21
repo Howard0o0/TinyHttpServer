@@ -13,39 +13,34 @@ namespace nethelper {
 
 class TcpServer {
     public:
-	TcpServer(int port, int threadnum = 4)
-		: port_(port), io_thread_cnt_(threadnum) {
-		this->SetMessageArrivedCb(std::bind(
-			&TcpServer::DefaultMessageArrivedCb, this,
-			std::placeholders::_1, std::placeholders::_2));
+	TcpServer(int port, int threadnum = 4) : port_(port), io_thread_cnt_(threadnum) {
+		this->SetMessageArrivedCb(std::bind(&TcpServer::DefaultMessageArrivedCb, this,
+						    std::placeholders::_1, std::placeholders::_2));
 	}
 	void Start();
 	void SetMessageArrivedCb(const MessageArrivedCallback& cb);
+	bool SendMessage(TcpConnection* tcpconnection, const std::string& message,
+			 bool close_on_sent);
 
     private:
-	int	      port_;
-	const int     backlog_ = 10000;
-	int	      server_sockfd_;
+	int		       port_;
+	const int	       backlog_ = 10000;
 	MessageArrivedCallback message_arrived_cb;
 
 	ThreadPool io_threads_;
 	int	   io_thread_cnt_;
 
-	struct ev_loop* GetEvloop(int listenfd);
-	void		ConnectionArrivedCb(ev::io& watcher, int revents);
-	void		MessageArrivedCb(ev::io& watcher, int revents);
-	void		AddEventIntoEvloop(int fd, int event,
-					   const EviowatchCb& ev_io_watch_cb,
-					   struct ev_loop*    evloop);
-	void		AddEventIntoEvloop2(int fd, int event, int watcher_type,
-					    struct ev_loop* evloop);
-	void		EventLoopThreadFunc(int port);
-	void DefaultMessageArrivedCb(const TcpConnection& tcpconnection,
-				     const std::string&	  msg) {
+	void SendIoWatcherCb(ev::io& watcher, int revents);
+	void ConnectionArrivedCb(ev::io& watcher, int revents);
+	void MessageArrivedCb(ev::io& watcher, int revents);
+	void EventLoopThreadFunc(int port);
 
+	void DefaultMessageArrivedCb(const TcpConnection& tcpconnection, const std::string& msg) {
 		LOG_DEBUG("===========new message==========\n");
 		LOG_DEBUG("%s\n", msg.data());
 		LOG_DEBUG("================================\n");
+
+		this->SendMessage(const_cast< TcpConnection* >(&tcpconnection), "hello!", true);
 	}
 };
 

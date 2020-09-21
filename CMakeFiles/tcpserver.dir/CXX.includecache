@@ -121,6 +121,8 @@ unistd.h
 ./src/net/tcpconnection.h
 ev++.h
 -
+memory
+-
 string
 -
 
@@ -392,6 +394,8 @@ unistd.h
 
 /home/howard/work/TinyThreadPool/src/net/tcpconnection.h
 ev++.h
+-
+memory
 -
 string
 -
