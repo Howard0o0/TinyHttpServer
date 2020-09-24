@@ -19,6 +19,14 @@
 using namespace nethelper;
 
 /* public */
+
+TcpServer::TcpServer(int port, int threadnum) : port_(port), io_thread_cnt_(threadnum) {
+	this->SetMessageArrivedCb(std::bind(&TcpServer::DefaultMessageArrivedCb, this,
+					    std::placeholders::_1, std::placeholders::_2));
+}
+TcpServer::~TcpServer() {
+}
+
 void TcpServer::Start() {
 	io_threads_.Start(io_thread_cnt_);
 	for (int i = 0; i < io_thread_cnt_; ++i)
@@ -50,9 +58,11 @@ bool TcpServer::SendMessage(TcpConnection* tcpconnection, const std::string& mes
 	else {
 		std::string rest_of_message = sent_len > 0 ? message.substr(sent_len) : message;
 		tcpconnection->PushMessageIntoSendBuffer(rest_of_message, close_on_sent);
-		if (tcpconnection->send_message_watcher().active)
-			tcpconnection->send_message_watcher().set(
-				tcpconnection->receive_message_watcher().loop);
+		if (!tcpconnection->send_message_watcher().active) {
+			LOG(debug) << "start write event watch";
+			tcpconnection->send_message_watcher().start(tcpconnection->connection_fd(),
+								    ev::WRITE);
+		}
 		return true;
 	}
 }
@@ -65,6 +75,7 @@ void TcpServer::SendIoWatcherCb(ev::io& watcher, int revents) {
 	SendBuffer& send_buffer	  = tcpconnection->send_buffer();
 	int	    connection_fd = tcpconnection->connection_fd();
 	size_t	    rest_len	  = send_buffer.buffer.size() - send_buffer.sent_offset;
+	LOG(debug) << "send buffer : " << send_buffer.buffer;
 
 	int sent_len = send(connection_fd, send_buffer.buffer.c_str() + send_buffer.sent_offset,
 			    rest_len, 0);
@@ -78,6 +89,7 @@ void TcpServer::SendIoWatcherCb(ev::io& watcher, int revents) {
 	send_buffer.sent_offset += sent_len;
 	if (send_buffer.IsEmpty()) {
 		if (send_context->close_on_sent == true) {
+			LOG(debug) << "send buffer empty, disconnect";
 			delete tcpconnection;
 			return;
 		}
@@ -93,7 +105,6 @@ void TcpServer::MessageArrivedCb(ev::io& watcher, int revents) {
 	TcpConnection* tcpconnection =
 		reinterpret_cast< TcpConnectionContext* >(&watcher)->tcpconnection;
 	std::string message = SocketTool::ReadMessage(watcher.fd);
-	LOG(debug) << message;
 	if (message.empty()) {
 		tcpconnection->Disconnect();
 		delete tcpconnection;
@@ -103,14 +114,27 @@ void TcpServer::MessageArrivedCb(ev::io& watcher, int revents) {
 }
 
 void TcpServer::ConnectionArrivedCb(ev::io& watcher, int revents) {
-	LOG(trace) << "create a new connection";
-	int connfd = -1;
-	while ((connfd = accept4(watcher.fd, NULL, NULL, SOCK_NONBLOCK)) > 0) {
-		TcpConnection* tcpconnection = new TcpConnection(connfd);
+	int		   connfd = -1;
+	struct sockaddr_in client_addr;
+	socklen_t	   sockaddr_len = sizeof(client_addr);
+
+	while ((connfd = accept4(watcher.fd, reinterpret_cast< struct sockaddr* >(&client_addr),
+				 &sockaddr_len, SOCK_NONBLOCK))
+	       > 0) {
+		SockAddress sockaddr = SocketTool::ParseSockAddr(&client_addr);
+		LOG(info) << "a new connection : " << sockaddr.ip << ":" << sockaddr.port;
+
+		TcpConnection* tcpconnection =
+			new TcpConnection(connfd, sockaddr.ip, sockaddr.port);
 		tcpconnection->receive_message_watcher()
 			.set< TcpServer, &TcpServer::MessageArrivedCb >(this);
 		tcpconnection->receive_message_watcher().set(watcher.loop);
 		tcpconnection->receive_message_watcher().start(connfd, ev::READ);
+
+		tcpconnection->send_message_watcher().set< TcpServer, &TcpServer::SendIoWatcherCb >(
+			this);
+		tcpconnection->send_message_watcher().set(
+			tcpconnection->receive_message_watcher().loop);
 	}
 }
 
@@ -122,4 +146,12 @@ void TcpServer::EventLoopThreadFunc(int port) {
 	listenfd_watch.set(evloop);
 	listenfd_watch.start(listenfd, ev::READ);
 	ev_run(evloop, 0);
+}
+
+void TcpServer::DefaultMessageArrivedCb(const TcpConnection& tcpconnection,
+					const std::string&   msg) {
+	LOG(debug) << "new message from : " << tcpconnection.remote_ip() << ":"
+		   << tcpconnection.remote_port() << " : " << msg;
+
+	this->SendMessage(const_cast< TcpConnection* >(&tcpconnection), "hi i am a server!", false);
 }

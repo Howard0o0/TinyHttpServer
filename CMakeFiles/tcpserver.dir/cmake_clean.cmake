@@ -7,6 +7,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/tcpserver.dir/src/net/httpcontext.cc.o"
   "CMakeFiles/tcpserver.dir/src/net/httpserver.cc.o"
   "CMakeFiles/tcpserver.dir/src/net/sockettool.cc.o"
+  "CMakeFiles/tcpserver.dir/src/net/tcpclient.cc.o"
   "CMakeFiles/tcpserver.dir/src/net/tcpconnection.cc.o"
   "CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o"
   "CMakeFiles/tcpserver.dir/src/main.cc.o"

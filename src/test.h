@@ -13,5 +13,6 @@ void LinuxCommandTest();
 void LogTest();
 
 void LibevTest();
+void TcpClientTest();
 
 #endif

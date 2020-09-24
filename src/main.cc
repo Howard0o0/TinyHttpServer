@@ -1,5 +1,6 @@
 #include "httpserver.h"
 #include "re2/re2.h"
+#include "tcpclient.h"
 #include "tcpserver.h"
 #include "test.h"
 #include "threadpool.h"
@@ -17,7 +18,7 @@ int main() {
 	// Test6();
 	// TestLockFreeThreadPool();
 	// HiredisTest2();
-	LOG_SET_LEVEL(info);
+	// LOG_SET_LEVEL(debug);
 	// HttpServer httpserver(9999, 4);
 	// httpserver.StartLoop();
 
@@ -33,9 +34,12 @@ int main() {
 
 	// LogTest();
 	// LibevTest();
-
 	TcpServer tcpserver(9999, 4);
 	tcpserver.Start();
+
+        sleep(2);
+
+	TcpClientTest();
 
 	return 0;
 }

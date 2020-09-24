@@ -32,4 +32,11 @@ void TcpConnection::PushMessageIntoSendBuffer(const std::string& message, bool c
 SendBuffer& TcpConnection::send_buffer() {
 	return this->send_buffer_;
 }
+
+std::string TcpConnection::remote_ip() const {
+	return this->remote_ip_;
+}
+uint16_t TcpConnection::remote_port() const {
+	return this->remote_port_;
+}
 /* end of public methods */

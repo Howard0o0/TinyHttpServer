@@ -8,6 +8,8 @@
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/sinks/daily_file_sink.h"
 #include "spdlog/spdlog.h"
+#include "tcpclient.h"
+#include "tcpserver.h"
 #include "threadpool.h"
 #include <boost/locale/encoding.hpp>
 #include <codecvt>
@@ -51,22 +53,19 @@ void Test1() {
 }
 
 void Test2() {
-	std::cout << "==========run function with arg============="
-		  << std::endl;
+	std::cout << "==========run function with arg=============" << std::endl;
 
 	nethelper::ThreadPool threadpool;
 	threadpool.Start(2);
 	threadpool.RunTask(std::bind(PrintWithArg, "hello world!"));
 }
 void Test3() {
-	std::cout << "==========run object's function with arg============="
-		  << std::endl;
+	std::cout << "==========run object's function with arg=============" << std::endl;
 	nethelper::ThreadPool threadpool;
 	threadpool.Start(2);
 
 	Printer printer;
-	threadpool.RunTask(
-		std::bind(&Printer::PrintWithArg, &printer, "hello world!"));
+	threadpool.RunTask(std::bind(&Printer::PrintWithArg, &printer, "hello world!"));
 }
 void Test4() {
 
@@ -136,16 +135,14 @@ void Test6() {
 void Test7() {
 }
 void TestLockFreeThreadPool() {
-	std::cout << "==========run object's function with arg============="
-		  << std::endl;
+	std::cout << "==========run object's function with arg=============" << std::endl;
 	nethelper::LockFreeThreadPool threadpool;
 	threadpool.Start(2);
 
 	Printer printer;
 	for (int i = 0; i < 10; i++)
-		threadpool.RunTask(
-			std::bind(&Printer::PrintWithArg, &printer,
-				  "print" + std::to_string(i) + "!"));
+		threadpool.RunTask(std::bind(&Printer::PrintWithArg, &printer,
+					     "print" + std::to_string(i) + "!"));
 }
 
 std::wstring to_wstring(const std::string& src) {
@@ -197,10 +194,8 @@ void LinuxCommandTest() {
 
 void LogTest() {
 	spdlog::set_pattern("[%H:%M:%S %z] [%n] [%^---%L---%$] [thread %t] %v");
-	auto file_logger = spdlog::daily_logger_mt("daily_logger",
-						   "logs/dailylog.txt", 2, 30);
-	spdlog::set_level(
-		spdlog::level::debug);	// Set global log level to debug
+	auto file_logger = spdlog::daily_logger_mt("daily_logger", "logs/dailylog.txt", 2, 30);
+	spdlog::set_level(spdlog::level::debug);  // Set global log level to debug
 	spdlog::set_default_logger(file_logger);
 	std::string str = "hello";
 	spdlog::debug("ahahha{} {} {}", str, "xchvusdffd", 155);
@@ -215,9 +210,7 @@ static void conn_cb(EV_P_ ev_io* watcher, int revents) {
 	char	    readbuf[ READBUF_LEN ];
 	int	    read_len;
 	std::string msg = "";
-	while ((read_len =
-			recv(watcher->fd, readbuf, READBUF_LEN, MSG_DONTWAIT))
-	       > 0) {
+	while ((read_len = recv(watcher->fd, readbuf, READBUF_LEN, MSG_DONTWAIT)) > 0) {
 		readbuf[ read_len ] = '\0';
 		msg += readbuf;
 		// printf("readbuf:%s\n", readbuf);
@@ -243,9 +236,25 @@ void LibevTest() {
 
 	ev_io listenfd_watcher;
 
-	ev_io_init(&listenfd_watcher, listen_cb, /*STDIN_FILENO*/ listenfd,
-		   EV_READ);
+	ev_io_init(&listenfd_watcher, listen_cb, /*STDIN_FILENO*/ listenfd, EV_READ);
 	ev_io_start(loop, &listenfd_watcher);
 
 	ev_run(loop, 0);
+}
+
+static void TcpServerThreadFunc() {
+	TcpServer tcpserver(9999, 4);
+	tcpserver.Start();
+}
+
+static void TcpClientThreadFunc() {
+	TcpClient tcpclient;
+	tcpclient.Connect("172.16.178.135", 8888);
+	tcpclient.SendMessage("hahaha", false);
+}
+void TcpClientTest() {
+	// ThreadPool::RunTaskInGlobalThreadPool(TcpServerTreadFunc);
+	// ThreadPool::RunTaskInGlobalThreadPool(TcpClientThreadFunc);
+	TcpClientThreadFunc();
+	TcpServerThreadFunc();
 }

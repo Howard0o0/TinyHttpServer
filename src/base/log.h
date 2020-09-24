@@ -6,15 +6,14 @@
 #include <boost/log/trivial.hpp>
 #include <iostream>
 
-#define LOG(level) BOOST_LOG_TRIVIAL(level)
-#define LOG_SET_LEVEL(level)                            \
-	do {                                            \
-		boost::log::core::get()->set_filter(    \
-			boost::log::trivial::severity   \
-			>= boost::log::trivial::level); \
+#define LOG(level) BOOST_LOG_TRIVIAL(level) << "[" << __FILENAME__ << ":" << __LINE__ << "] "
+#define LOG_SET_LEVEL(level)                                                        \
+	do {                                                                        \
+		boost::log::core::get()->set_filter(boost::log::trivial::severity   \
+						    >= boost::log::trivial::level); \
 	} while (0);
 
-void SetLogLevel();
+void InitLog();
 
 // #define __LOG_LEVEL_DEBUG__
 #define __LOG_LEVEL_INFO__

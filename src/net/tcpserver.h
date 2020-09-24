@@ -2,6 +2,7 @@
 #define TINYHTTPSERVER_TCPSERVER_H
 
 #include "log.h"
+#include "tcpconnection.h"
 #include "threadpool.h"
 #include <ev++.h>
 #include <functional>
@@ -13,10 +14,8 @@ namespace nethelper {
 
 class TcpServer {
     public:
-	TcpServer(int port, int threadnum = 4) : port_(port), io_thread_cnt_(threadnum) {
-		this->SetMessageArrivedCb(std::bind(&TcpServer::DefaultMessageArrivedCb, this,
-						    std::placeholders::_1, std::placeholders::_2));
-	}
+	TcpServer(int port, int threadnum = 4);
+	~TcpServer();
 	void Start();
 	void SetMessageArrivedCb(const MessageArrivedCallback& cb);
 	bool SendMessage(TcpConnection* tcpconnection, const std::string& message,
@@ -35,15 +34,7 @@ class TcpServer {
 	void MessageArrivedCb(ev::io& watcher, int revents);
 	void EventLoopThreadFunc(int port);
 
-	void DefaultMessageArrivedCb(const TcpConnection& tcpconnection, const std::string& msg) {
-		LOG_DEBUG("===========new message==========\n");
-		LOG_DEBUG("%s\n", msg.data());
-		LOG_DEBUG("================================\n");
-
-		this->SendMessage(const_cast< TcpConnection* >(&tcpconnection), "hello!", false);
-		this->SendMessage(const_cast< TcpConnection* >(&tcpconnection), "connection close!", true);
-
-	}
+	void DefaultMessageArrivedCb(const TcpConnection& tcpconnection, const std::string& msg);
 };
 
 }  // namespace nethelper

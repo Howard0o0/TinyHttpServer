@@ -27,6 +27,7 @@ CMakeFiles/tcpserver.dir/src/main.cc.o: ./src/base/noncopyable.h
 CMakeFiles/tcpserver.dir/src/main.cc.o: ./src/base/thread.h
 CMakeFiles/tcpserver.dir/src/main.cc.o: ./src/base/threadpool.h
 CMakeFiles/tcpserver.dir/src/main.cc.o: ./src/net/httpserver.h
+CMakeFiles/tcpserver.dir/src/main.cc.o: ./src/net/tcpclient.h
 CMakeFiles/tcpserver.dir/src/main.cc.o: ./src/net/tcpconnection.h
 CMakeFiles/tcpserver.dir/src/main.cc.o: ./src/net/tcpserver.h
 CMakeFiles/tcpserver.dir/src/main.cc.o: src/main.cc
@@ -54,6 +55,13 @@ CMakeFiles/tcpserver.dir/src/net/sockettool.cc.o: ./src/base/log.h
 CMakeFiles/tcpserver.dir/src/net/sockettool.cc.o: src/net/sockettool.cc
 CMakeFiles/tcpserver.dir/src/net/sockettool.cc.o: src/net/sockettool.h
 
+CMakeFiles/tcpserver.dir/src/net/tcpclient.cc.o: ./src/base/callback.h
+CMakeFiles/tcpserver.dir/src/net/tcpclient.cc.o: ./src/base/log.h
+CMakeFiles/tcpserver.dir/src/net/tcpclient.cc.o: src/net/sockettool.h
+CMakeFiles/tcpserver.dir/src/net/tcpclient.cc.o: src/net/tcpclient.cc
+CMakeFiles/tcpserver.dir/src/net/tcpclient.cc.o: src/net/tcpclient.h
+CMakeFiles/tcpserver.dir/src/net/tcpclient.cc.o: src/net/tcpconnection.h
+
 CMakeFiles/tcpserver.dir/src/net/tcpconnection.cc.o: ./src/net/tcpconnection.h
 CMakeFiles/tcpserver.dir/src/net/tcpconnection.cc.o: src/net/tcpconnection.cc
 
@@ -64,8 +72,8 @@ CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o: ./src/base/log.h
 CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o: ./src/base/noncopyable.h
 CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o: ./src/base/thread.h
 CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o: ./src/base/threadpool.h
-CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o: ./src/net/tcpconnection.h
 CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o: src/net/sockettool.h
+CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o: src/net/tcpconnection.h
 CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o: src/net/tcpserver.cc
 CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o: src/net/tcpserver.h
 
@@ -77,7 +85,9 @@ CMakeFiles/tcpserver.dir/src/test.cc.o: ./src/base/noncopyable.h
 CMakeFiles/tcpserver.dir/src/test.cc.o: ./src/base/thread.h
 CMakeFiles/tcpserver.dir/src/test.cc.o: ./src/base/threadpool.h
 CMakeFiles/tcpserver.dir/src/test.cc.o: ./src/net/sockettool.h
+CMakeFiles/tcpserver.dir/src/test.cc.o: ./src/net/tcpclient.h
 CMakeFiles/tcpserver.dir/src/test.cc.o: ./src/net/tcpconnection.h
+CMakeFiles/tcpserver.dir/src/test.cc.o: ./src/net/tcpserver.h
 CMakeFiles/tcpserver.dir/src/test.cc.o: src/test.cc
 CMakeFiles/tcpserver.dir/src/test.cc.o: src/test.h
 CMakeFiles/tcpserver.dir/src/test.cc.o: third-party-libs/hiredis/include/hiredis/hiredis.h

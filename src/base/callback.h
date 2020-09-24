@@ -8,11 +8,9 @@
 
 using Task = std::function< void() >;
 
-using MessageArrivedCallback =
-	std::function< void(TcpConnection&, std::string) >;
+using MessageArrivedCallback = std::function< void(TcpConnection&, const std::string&) >;
 
 // using EviowatchCb = std::function< void(struct ev_loop*, ev_io*, int) >;
 typedef void (*EviowatchCb)(struct ev_loop* loop, ev_io* watcher, int revents);
-
 
 #endif

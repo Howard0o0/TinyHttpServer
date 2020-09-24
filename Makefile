@@ -366,6 +366,33 @@ src/net/sockettool.cc.s:
 	$(MAKE) -f CMakeFiles/tcpserver.dir/build.make CMakeFiles/tcpserver.dir/src/net/sockettool.cc.s
 .PHONY : src/net/sockettool.cc.s
 
+src/net/tcpclient.o: src/net/tcpclient.cc.o
+
+.PHONY : src/net/tcpclient.o
+
+# target to build an object file
+src/net/tcpclient.cc.o:
+	$(MAKE) -f CMakeFiles/tcpserver.dir/build.make CMakeFiles/tcpserver.dir/src/net/tcpclient.cc.o
+.PHONY : src/net/tcpclient.cc.o
+
+src/net/tcpclient.i: src/net/tcpclient.cc.i
+
+.PHONY : src/net/tcpclient.i
+
+# target to preprocess a source file
+src/net/tcpclient.cc.i:
+	$(MAKE) -f CMakeFiles/tcpserver.dir/build.make CMakeFiles/tcpserver.dir/src/net/tcpclient.cc.i
+.PHONY : src/net/tcpclient.cc.i
+
+src/net/tcpclient.s: src/net/tcpclient.cc.s
+
+.PHONY : src/net/tcpclient.s
+
+# target to generate assembly for a file
+src/net/tcpclient.cc.s:
+	$(MAKE) -f CMakeFiles/tcpserver.dir/build.make CMakeFiles/tcpserver.dir/src/net/tcpclient.cc.s
+.PHONY : src/net/tcpclient.cc.s
+
 src/net/tcpconnection.o: src/net/tcpconnection.cc.o
 
 .PHONY : src/net/tcpconnection.o
@@ -483,6 +510,9 @@ help:
 	@echo "... src/net/sockettool.o"
 	@echo "... src/net/sockettool.i"
 	@echo "... src/net/sockettool.s"
+	@echo "... src/net/tcpclient.o"
+	@echo "... src/net/tcpclient.i"
+	@echo "... src/net/tcpclient.s"
 	@echo "... src/net/tcpconnection.o"
 	@echo "... src/net/tcpconnection.i"
 	@echo "... src/net/tcpconnection.s"
