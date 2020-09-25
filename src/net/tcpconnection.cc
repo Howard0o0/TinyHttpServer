@@ -8,9 +8,12 @@ TcpConnection::~TcpConnection() {
 	this->Disconnect();
 }
 void TcpConnection::Disconnect() {
+	if (this->connection_fd_ == -1)
+		return;
 	close(this->connection_fd_);
 	this->receive_context_.io_watcher.stop();
 	this->send_context_.io_watcher.stop();
+	this->connection_fd_ = -1;
 }
 int TcpConnection::connection_fd() const {
 	return this->connection_fd_;

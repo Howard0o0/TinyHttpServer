@@ -19,6 +19,7 @@ class TcpClient {
 	void SetMessageArrivedCb(const MessageArrivedCallback& cb);
 	bool SendMessage(const std::string& message, bool close_on_sent = false);
 	bool is_connected() const;
+        void DisConnect();
 
     private:
 	std::string			 remote_ip_;

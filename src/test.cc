@@ -9,6 +9,7 @@
 #include "spdlog/sinks/daily_file_sink.h"
 #include "spdlog/spdlog.h"
 #include "tcpclient.h"
+#include "tcprelay.h"
 #include "tcpserver.h"
 #include "threadpool.h"
 #include <boost/locale/encoding.hpp>
@@ -266,4 +267,25 @@ void TcpClientTest() {
 		sleep(1);
 		tcpclient->SendMessage(std::to_string(i));
 	}
+}
+
+class DirectRelay : public TcpRelay {
+    public:
+    private:
+	virtual void ServerMessageArrivedCb(TcpConnection&     connection,
+					    const std::string& message) override {
+		this->tcpclient_->Connect("172.16.178.135", 8888);
+		this->tcpclient_->SendMessage(message);
+		this->tcpclient_->DisConnect();
+	}
+	virtual void ClientMessageArrivedCb(TcpConnection&     connection,
+					    const std::string& message) override {
+		this->tcpserver_->SendMessage(&connection, message, false);
+	}
+};
+
+void TcprelayTest() {
+
+	DirectRelay* relay = new DirectRelay();
+	relay->Run(9999);
 }

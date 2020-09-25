@@ -46,25 +46,9 @@ void TcpClient::SetMessageArrivedCb(const MessageArrivedCallback& cb) {
 	this->message_arrived_cb_ = cb;
 }
 
-/* private methods */
-
-void TcpClient::MessageArrivedCb(ev::io& watcher, int revents) {
-	LOG(info) << "new message from " << this->connection_->remote_ip() << ":"
-		  << this->connection_->remote_port();
-
-	std::string message = SocketTool::ReadMessage(watcher.fd);
-	LOG(info) << message;
-	if (message.empty())
-		this->connection_->Disconnect();
-	else if (this->message_arrived_cb_)
-		this->message_arrived_cb_(*(this->connection_), message);
-
-	watcher.stop();
-}
-
-void TcpClient::Reconnect() {
+void TcpClient::DisConnect() {
 	this->connection_->Disconnect();
-	this->Connect(this->connection_->remote_ip(), this->connection_->remote_port());
+	this->is_connected_ = false;
 }
 
 bool TcpClient::SendMessage(const std::string& message, bool close_on_sent) {
@@ -101,6 +85,26 @@ bool TcpClient::SendMessage(const std::string& message, bool close_on_sent) {
 
 	ThreadPool::RunTaskInGlobalThreadPool(std::bind(&TcpClient::StartLoop, this));
 	return true;
+}
+/* private methods */
+
+void TcpClient::MessageArrivedCb(ev::io& watcher, int revents) {
+	LOG(info) << "new message from " << this->connection_->remote_ip() << ":"
+		  << this->connection_->remote_port();
+
+	std::string message = SocketTool::ReadMessage(watcher.fd);
+	LOG(info) << message;
+	if (message.empty())
+		this->connection_->Disconnect();
+	else if (this->message_arrived_cb_)
+		this->message_arrived_cb_(*(this->connection_), message);
+
+	watcher.stop();
+}
+
+void TcpClient::Reconnect() {
+	this->connection_->Disconnect();
+	this->Connect(this->connection_->remote_ip(), this->connection_->remote_port());
 }
 
 void TcpClient::SendIoWatcherCb(ev::io& watcher, int revents) {

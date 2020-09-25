@@ -35,7 +35,8 @@ int main() {
 	// LogTest();
 	// LibevTest();
 
-	TcpClientTest();
+	// TcpClientTest();
+	TcprelayTest();
 	while (1)
 		;
 	// TcpClient tcpclient;

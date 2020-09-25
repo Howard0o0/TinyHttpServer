@@ -15,4 +15,6 @@ void LogTest();
 void LibevTest();
 void TcpClientTest();
 
+void TcprelayTest() ;
+
 #endif

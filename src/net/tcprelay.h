@@ -12,9 +12,6 @@ class TcpRelay {
 	void Run(uint16_t listen_port);
 
     private:
-	std::unique_ptr< TcpServer > tcpserver_;
-	std::unique_ptr< TcpClient > tcpclient_;
-
 	virtual void ServerMessageArrivedCb(TcpConnection&     connection,
 					    const std::string& message) = 0;
 	virtual void ClientMessageArrivedCb(TcpConnection&     connection,
@@ -22,6 +19,10 @@ class TcpRelay {
 
 	void StartTcpserver(uint16_t listen_port);
 	void StartTcpclient();
+
+    protected:
+	std::unique_ptr< TcpServer > tcpserver_;
+	std::unique_ptr< TcpClient > tcpclient_;
 };
 
 #endif

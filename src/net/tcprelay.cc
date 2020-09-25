@@ -2,8 +2,6 @@
 
 void TcpRelay::Run(uint16_t listen_port) {
 	this->StartTcpclient();
-	while (!this->tcpclient_->is_connected())
-		;
 	this->StartTcpserver(listen_port);
 }
 /* pirvate methods */

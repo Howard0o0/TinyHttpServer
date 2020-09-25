@@ -100,7 +100,6 @@ void TcpServer::SendIoWatcherCb(ev::io& watcher, int revents) {
 }
 
 void TcpServer::MessageArrivedCb(ev::io& watcher, int revents) {
-	LOG(trace) << "new message from fd:" << watcher.fd;
 
 	TcpConnection* tcpconnection =
 		reinterpret_cast< TcpConnectionContext* >(&watcher)->tcpconnection;
@@ -114,6 +113,7 @@ void TcpServer::MessageArrivedCb(ev::io& watcher, int revents) {
 }
 
 void TcpServer::ConnectionArrivedCb(ev::io& watcher, int revents) {
+
 	int		   connfd = -1;
 	struct sockaddr_in client_addr;
 	socklen_t	   sockaddr_len = sizeof(client_addr);
