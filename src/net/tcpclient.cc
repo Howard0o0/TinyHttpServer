@@ -1,7 +1,9 @@
 #include "tcpclient.h"
 #include "sockettool.h"
+#include "threadpool.h"
 #include <assert.h>
 #include <ev++.h>
+#include <functional>
 
 using namespace nethelper;
 
@@ -12,10 +14,18 @@ TcpClient::TcpClient() {
 }
 TcpClient::~TcpClient() {
 	this->connection_->Disconnect();
-	ev_break(this->evloop_);
+	ev_break(this->evloop_, EVBREAK_ONE);
 	ev_loop_destroy(this->evloop_);
 }
 
+void TcpClient::StartLoop() {
+	ev_break(this->evloop_, EVBREAK_ALL);
+	ev_run(this->evloop_, 0);
+}
+
+bool TcpClient::is_connected() const {
+	return this->is_connected_;
+}
 void TcpClient::Connect(const std::string& remote_ip, uint16_t remote_port) {
 
 	int socketfd = SocketTool::ConnectToServer(remote_ip, remote_port, true);
@@ -24,11 +34,12 @@ void TcpClient::Connect(const std::string& remote_ip, uint16_t remote_port) {
 	connection_->receive_message_watcher().set(this->evloop_);
 	connection_->receive_message_watcher().start(connection_->connection_fd(), ev::READ);
 
-	connection_->send_message_watcher().set< TcpClient, &TcpClient::MessageArrivedCb >(this);
+	connection_->send_message_watcher().set< TcpClient, &TcpClient::SendIoWatcherCb >(this);
 	connection_->send_message_watcher().set(this->evloop_);
 
-	LOG(info) << "connected to remote " << remote_ip << ":" << remote_port;
-	ev_run(this->evloop_, 0);
+	this->remote_ip_   = remote_ip;
+	this->remote_port_ = remote_port;
+	LOG(info) << "connected to remote " << this->remote_ip_ << ":" << this->remote_port_;
 }
 
 void TcpClient::SetMessageArrivedCb(const MessageArrivedCallback& cb) {
@@ -36,6 +47,7 @@ void TcpClient::SetMessageArrivedCb(const MessageArrivedCallback& cb) {
 }
 
 /* private methods */
+
 void TcpClient::MessageArrivedCb(ev::io& watcher, int revents) {
 	LOG(info) << "new message from " << this->connection_->remote_ip() << ":"
 		  << this->connection_->remote_port();
@@ -43,9 +55,11 @@ void TcpClient::MessageArrivedCb(ev::io& watcher, int revents) {
 	std::string message = SocketTool::ReadMessage(watcher.fd);
 	LOG(info) << message;
 	if (message.empty())
-		this->Reconnect();
-	else
+		this->connection_->Disconnect();
+	else if (this->message_arrived_cb_)
 		this->message_arrived_cb_(*(this->connection_), message);
+
+	watcher.stop();
 }
 
 void TcpClient::Reconnect() {
@@ -61,16 +75,18 @@ bool TcpClient::SendMessage(const std::string& message, bool close_on_sent) {
 	}
 
 	int sent_len = send(this->connection_->connection_fd(), message.c_str(), message.size(), 0);
-	if (sent_len == static_cast< int >(message.size())) {
-		if (close_on_sent)
-			this->connection_->Disconnect();
-		return true;
-	}
-	else if (sent_len == -1 && errno != EAGAIN && errno != EWOULDBLOCK) {
+	if (sent_len == -1 && errno != EAGAIN && errno != EWOULDBLOCK) {
 		this->Reconnect();
 		LOG(error) << "send message failed : " << strerror(errno);
 		LOG(error) << "reconnecting";
 		return false;
+	}
+
+	this->connection_->receive_message_watcher().start();
+
+	if (sent_len == static_cast< int >(message.size())) {
+		if (close_on_sent)
+			this->connection_->Disconnect();
 	}
 	else {
 		std::string rest_of_message = sent_len > 0 ? message.substr(sent_len) : message;
@@ -81,8 +97,10 @@ bool TcpClient::SendMessage(const std::string& message, bool close_on_sent) {
 			this->connection_->send_message_watcher().start(
 				this->connection_->connection_fd(), ev::WRITE);
 		}
-		return true;
 	}
+
+	ThreadPool::RunTaskInGlobalThreadPool(std::bind(&TcpClient::StartLoop, this));
+	return true;
 }
 
 void TcpClient::SendIoWatcherCb(ev::io& watcher, int revents) {

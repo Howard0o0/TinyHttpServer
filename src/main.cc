@@ -34,12 +34,13 @@ int main() {
 
 	// LogTest();
 	// LibevTest();
-	TcpServer tcpserver(9999, 4);
-	tcpserver.Start();
-
-        sleep(2);
 
 	TcpClientTest();
+	while (1)
+		;
+	// TcpClient tcpclient;
+	// tcpclient.Connect("172.16.178.135", 8888);
+	// tcpclient.SendMessage("first message");
 
 	return 0;
 }

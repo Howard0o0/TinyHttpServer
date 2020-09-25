@@ -243,18 +243,27 @@ void LibevTest() {
 }
 
 static void TcpServerThreadFunc() {
-	TcpServer tcpserver(9999, 4);
-	tcpserver.Start();
+	TcpServer* tcpserver = new TcpServer(9999, 4);
+	tcpserver->Start();
 }
 
+TcpClient*  tcpclient;
 static void TcpClientThreadFunc() {
-	TcpClient tcpclient;
-	tcpclient.Connect("172.16.178.135", 8888);
-	tcpclient.SendMessage("hahaha", false);
+	tcpclient = new TcpClient();
+	// tcpclient->Connect("172.16.178.135", 8888);
+	// tcpclient->StartLoop();
+	// tcpclient.SendMessage("hahaha", false);
 }
 void TcpClientTest() {
-	// ThreadPool::RunTaskInGlobalThreadPool(TcpServerTreadFunc);
-	// ThreadPool::RunTaskInGlobalThreadPool(TcpClientThreadFunc);
-	TcpClientThreadFunc();
+	// ThreadPool::RunTaskInGlobalThreadPool(std::bind(TcpServerThreadFunc));
+	// ThreadPool::RunTaskInGlobalThreadPool(std::bind(TcpClientThreadFunc));
 	TcpServerThreadFunc();
+	TcpClientThreadFunc();
+	// while (!tcpclient || !tcpclient->is_connected())
+	// 	sleep(1);
+	for (int i = 0; i < 5; ++i) {
+		tcpclient->Connect("172.16.178.135", 8888);
+		sleep(1);
+		tcpclient->SendMessage(std::to_string(i));
+	}
 }
