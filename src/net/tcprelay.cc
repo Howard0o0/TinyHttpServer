@@ -1,14 +1,14 @@
 #include "tcprelay.h"
 
-TcpRelay::TcpRelay(uint16_t listen_port) {
-	this->threadpool_.Start(2);
-	this->threadpool_.RunTask(std::bind(&TcpRelay::StartTcpserver, this));
-	this->threadpool_.RunTask(std::bind(&TcpRelay::StartTcpclient, this));
+void TcpRelay::Run(uint16_t listen_port) {
+	this->StartTcpclient();
+	while (!this->tcpclient_->is_connected())
+		;
+	this->StartTcpserver(listen_port);
 }
-
 /* pirvate methods */
 
-void TcpRelay::StartTcpserver() {
+void TcpRelay::StartTcpserver(uint16_t listen_port) {
 	this->tcpserver_ = std::unique_ptr< TcpServer >(new TcpServer(8080, 1));
 	this->tcpserver_->SetMessageArrivedCb(std::bind(&TcpRelay::ServerMessageArrivedCb, this,
 							std::placeholders::_1,
@@ -17,5 +17,8 @@ void TcpRelay::StartTcpserver() {
 }
 void TcpRelay::StartTcpclient() {
 	this->tcpclient_ = std::unique_ptr< TcpClient >(new TcpClient);
+	this->tcpclient_->SetMessageArrivedCb(std::bind(&TcpRelay::ClientMessageArrivedCb, this,
+							std::placeholders::_1,
+							std::placeholders::_2));
 }
 /* end of pirvate methods */

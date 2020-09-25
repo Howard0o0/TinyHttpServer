@@ -15,7 +15,6 @@ class TcpClient {
     public:
 	TcpClient();
 	~TcpClient();
-	void StartLoop();
 	void Connect(const std::string& remote_ip, uint16_t remote_port);
 	void SetMessageArrivedCb(const MessageArrivedCallback& cb);
 	bool SendMessage(const std::string& message, bool close_on_sent = false);
@@ -32,6 +31,7 @@ class TcpClient {
 	void MessageArrivedCb(ev::io& watcher, int revents);
 	void Reconnect();
 	void SendIoWatcherCb(ev::io& watcher, int revents);
+	void StartLoop();
 
 	void DefaultMessageArrivedCb(const TcpConnection& tcpconnection, const std::string& msg);
 };
