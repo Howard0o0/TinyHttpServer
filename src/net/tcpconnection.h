@@ -42,7 +42,7 @@ class TcpConnection {
 	ev::io&	    send_message_watcher();
 	void	    PushMessageIntoSendBuffer(const std::string& message, bool close_on_sent);
 	SendBuffer& send_buffer();
-	std::string remote_ip() const ;
+	std::string remote_ip() const;
 	uint16_t    remote_port() const;
 
     private:

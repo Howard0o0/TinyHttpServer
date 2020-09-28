@@ -26,20 +26,24 @@ void TcpClient::StartLoop() {
 bool TcpClient::is_connected() const {
 	return this->is_connected_;
 }
-void TcpClient::Connect(const std::string& remote_ip, uint16_t remote_port) {
+bool TcpClient::Connect(const std::string& remote_ip, uint16_t remote_port) {
 
 	int socketfd = SocketTool::ConnectToServer(remote_ip, remote_port, true);
-	this->connection_.reset(new TcpConnection(socketfd, remote_ip, remote_port));
-	connection_->receive_message_watcher().set< TcpClient, &TcpClient::MessageArrivedCb >(this);
-	connection_->receive_message_watcher().set(this->evloop_);
-	connection_->receive_message_watcher().start(connection_->connection_fd(), ev::READ);
+	if (socketfd < 0)
+		return false;
 
-	connection_->send_message_watcher().set< TcpClient, &TcpClient::SendIoWatcherCb >(this);
-	connection_->send_message_watcher().set(this->evloop_);
+	TcpConnection* connection = new TcpConnection(socketfd, remote_ip, remote_port);
+	connection->receive_message_watcher().set< TcpClient, &TcpClient::MessageArrivedCb >(this);
+	connection->receive_message_watcher().set(this->evloop_);
+	connection->receive_message_watcher().start(connection_->connection_fd(), ev::READ);
 
-	this->remote_ip_   = remote_ip;
-	this->remote_port_ = remote_port;
-	LOG(info) << "connected to remote " << this->remote_ip_ << ":" << this->remote_port_;
+	connection->send_message_watcher().set< TcpClient, &TcpClient::SendIoWatcherCb >(this);
+	connection->send_message_watcher().set(this->evloop_);
+
+	// this->remote_ip_   = remote_ip;
+	// this->remote_port_ = remote_port;
+	LOG(info) << "connected to remote " << remote_ip << ":" << remote_port;
+	return true;
 }
 
 void TcpClient::SetMessageArrivedCb(const MessageArrivedCallback& cb) {
@@ -89,17 +93,16 @@ bool TcpClient::SendMessage(const std::string& message, bool close_on_sent) {
 /* private methods */
 
 void TcpClient::MessageArrivedCb(ev::io& watcher, int revents) {
-	LOG(info) << "new message from " << this->connection_->remote_ip() << ":"
-		  << this->connection_->remote_port();
 
 	std::string message = SocketTool::ReadMessage(watcher.fd);
-	LOG(info) << message;
+	LOG(info) << "new message from " << this->connection_->remote_ip() << ":"
+		  << this->connection_->remote_port() << ":" << message;
 	if (message.empty())
 		this->connection_->Disconnect();
 	else if (this->message_arrived_cb_)
 		this->message_arrived_cb_(*(this->connection_), message);
 
-	watcher.stop();
+	// watcher.stop();
 }
 
 void TcpClient::Reconnect() {

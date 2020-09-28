@@ -15,7 +15,7 @@ class TcpClient {
     public:
 	TcpClient();
 	~TcpClient();
-	void Connect(const std::string& remote_ip, uint16_t remote_port);
+	bool Connect(const std::string& remote_ip, uint16_t remote_port);
 	void SetMessageArrivedCb(const MessageArrivedCallback& cb);
 	bool SendMessage(const std::string& message, bool close_on_sent = false);
 	bool is_connected() const;

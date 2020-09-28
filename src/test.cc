@@ -4,6 +4,7 @@
 #include "lockfreeque.h"
 #include "lockfreethreadpool.h"
 #include "log.h"
+#include "shadowhttpserver.h"
 #include "sockettool.h"
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/sinks/daily_file_sink.h"
@@ -21,6 +22,7 @@
 #include <locale>
 #include <mutex>
 #include <re2/re2.h>
+#include <regex>
 #include <string>
 #include <thread>
 #include <unistd.h>
@@ -276,11 +278,13 @@ class DirectRelay : public TcpRelay {
 					    const std::string& message) override {
 		this->tcpclient_->Connect("172.16.178.135", 8888);
 		this->tcpclient_->SendMessage(message);
-		this->tcpclient_->DisConnect();
+		LOG(debug) << "forward to remote server : " << message;
+		// this->tcpclient_->DisConnect();
 	}
 	virtual void ClientMessageArrivedCb(TcpConnection&     connection,
 					    const std::string& message) override {
-		this->tcpserver_->SendMessage(&connection, message, false);
+		LOG(debug) << "forward to proxy client:" << message;
+		this->tcpserver_->SendMessage(this->connection_with_proxyclient_, message, false);
 	}
 };
 
@@ -288,4 +292,40 @@ void TcprelayTest() {
 
 	DirectRelay* relay = new DirectRelay();
 	relay->Run(9999);
+}
+
+void ShadowhttpServerTest() {
+	ShadowhttpServer* shadowhttp_server = new ShadowhttpServer();
+	shadowhttp_server->Run(8080);
+}
+
+void RegexTest() {
+	std::string				    text    = "Date:2017-10-10 ~ 2017-10-15";
+	std::string				    pattern = "(\\d{4})-(\\d{2})-(\\d{2})";
+	std::regex				    express(pattern);
+	std::match_results< std::string::iterator > results1;
+	if (std::regex_search(text.begin(), text.end(), results1, express)) {
+		//使用迭代器遍历, 这里的迭代器实际上是指向 std::sub_match 的指针
+		std::match_results< std::string::iterator >::const_iterator iter;
+		for (iter = results1.begin(); iter != results1.end(); iter++) {
+			std::cout << iter->length() << ": " << iter->str() << std::endl;
+		}
+	}
+}
+
+void RegexTest2() {
+	std::string text = "CONNECT mtalk.google.com:443 HTTP/1.1 "
+			   "Host : mtalk.google.com : 443 "
+			   "Proxy-Connection : keep-alive ";
+	std::string				    pattern = "CONNECT\\s(.*):(\\d+)\\b";
+	std::regex				    express(pattern);
+	std::match_results< std::string::iterator > results1;
+	if (std::regex_search(text.begin(), text.end(), results1, express)) {
+		//使用迭代器遍历, 这里的迭代器实际上是指向 std::sub_match 的指针
+		std::cout << results1[ 1 ].str() << std::endl;
+		std::cout << results1[ 2 ].str() << std::endl;
+		// std::match_results< std::string::iterator >::const_iterator iter;
+		// for (iter = results1.begin(); iter != results1.end(); iter++)
+		// 	std::cout << iter->str() << std::endl;
+	}
 }

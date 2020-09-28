@@ -3,7 +3,9 @@
 #include <arpa/inet.h>
 #include <boost/log/trivial.hpp>
 #include <fcntl.h>
+#include <netdb.h>
 #include <netinet/in.h>
+#include <regex>
 #include <string.h>
 #include <sys/epoll.h>
 #include <sys/socket.h>
@@ -16,7 +18,7 @@ using namespace nethelper;
 int SocketTool::CreateListenSocket(int port, int backlog, bool block) {
 	int server_sock = CreateSocket(block);
 	if (server_sock < 0)
-		return -1;
+		return CREATE_SOCKET_FAILED;
 
 	struct sockaddr_in serv_addr;
 	int		   serv_addr_len = sizeof(serv_addr);
@@ -28,14 +30,14 @@ int SocketTool::CreateListenSocket(int port, int backlog, bool block) {
 	if (inet_ntop(AF_INET, &serv_addr.sin_addr, serv_ip, sizeof(serv_ip)) == NULL) {
 		LOG(error) << "inet_ntop error";
 		close(server_sock);
-		return -1;
+		return CONVERT_IPADDR_TO_BINARY_FAILED;
 	}
 
 	LOG(info) << "bind in " << serv_ip << " : " << ntohs(serv_addr.sin_port);
 	if (bind(server_sock, ( struct sockaddr* )&serv_addr, serv_addr_len) < 0) {
 		LOG(error) << "bind error";
 		LOG(error) << strerror(errno);
-		return -1;
+		return BIND_FAILED;
 	}
 
 	LOG(debug) << "bind done";
@@ -43,7 +45,7 @@ int SocketTool::CreateListenSocket(int port, int backlog, bool block) {
 	if (listen(server_sock, backlog) < 0) {
 		LOG(error) << "listen error";
 		LOG(error) << strerror(errno);
-		return -1;
+		return LISTEN_FAILED;
 	}
 	LOG(debug) << "listen done";
 
@@ -63,12 +65,38 @@ std::string SocketTool::ReadMessage(int socketfd) {
 	return msg;
 }
 
-int SocketTool::ConnectToServer(const std::string& server_ip, uint16_t server_port, bool block) {
+bool SocketTool::IsIpv4address(const std::string& address) {
+
+	std::regex pattern("^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])"
+			   "\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-"
+			   "9]"
+			   "|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|["
+			   "1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{"
+			   "1}|[0-9])$");
+	return std::regex_match(address, pattern) ? true : false;
+}
+
+std::string SocketTool::GetIpv4addressByDomainName(const std::string& domain_name) {
+	struct hostent* host = gethostbyname(domain_name.c_str());
+	if (!host) {
+		LOG(error) << "domain_name illegal : " << domain_name;
+		return "";
+	}
+	return std::string(inet_ntoa(*( struct in_addr* )host->h_addr_list[ 0 ]));
+}
+
+int SocketTool::ConnectToServer(std::string server_ip, uint16_t server_port, bool block) {
 	int socketfd = CreateSocket(block);
 	if (socketfd < 0) {
-		LOG(error) << "connect to server " << server_ip << ":" << server_port
-			   << " failed,exit";
-		exit(-1);
+		LOG(error) << "create socket failed";
+		return CREATE_SOCKET_FAILED;
+	}
+
+	if (!IsIpv4address(server_ip))
+		server_ip = GetIpv4addressByDomainName(server_ip);
+	if (server_ip.empty()) {
+		LOG(error) << "server ip illegal";
+		return ILLEGAL_ADDRESS;
 	}
 
 	struct sockaddr_in remote_addr;		       //服务器端网络地址结构体
@@ -78,10 +106,9 @@ int SocketTool::ConnectToServer(const std::string& server_ip, uint16_t server_po
 	remote_addr.sin_port	    = htons(server_port);	     //服务器端口号
 
 	if (connect(socketfd, ( struct sockaddr* )&remote_addr, sizeof(struct sockaddr)) < 0) {
-		LOG(error) << "connect to server " << server_ip << ":" << server_port
-			   << " failed,exit";
+		LOG(error) << "connect to server " << server_ip << ":" << server_port << " failed";
 		LOG(error) << strerror(errno);
-		exit(-1);
+		return CONNECT_ERROR;
 	}
 
 	return socketfd;

@@ -15,6 +15,9 @@ void LogTest();
 void LibevTest();
 void TcpClientTest();
 
-void TcprelayTest() ;
+void TcprelayTest();
+void RegexTest();
+void RegexTest2();
+void ShadowhttpServerTest() ;
 
 #endif

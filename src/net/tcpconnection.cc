@@ -1,3 +1,4 @@
+#include "log.h"
 #include <ev++.h>
 #include <tcpconnection.h>
 #include <unistd.h>
@@ -14,6 +15,7 @@ void TcpConnection::Disconnect() {
 	this->receive_context_.io_watcher.stop();
 	this->send_context_.io_watcher.stop();
 	this->connection_fd_ = -1;
+	LOG(debug) << "disconnect with " << this->remote_ip_ << ":" << this->remote_port_;
 }
 int TcpConnection::connection_fd() const {
 	return this->connection_fd_;
