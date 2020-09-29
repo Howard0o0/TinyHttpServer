@@ -15,11 +15,13 @@ class TcpClient {
     public:
 	TcpClient();
 	~TcpClient();
-	bool Connect(const std::string& remote_ip, uint16_t remote_port);
-	void SetMessageArrivedCb(const MessageArrivedCallback& cb);
-	bool SendMessage(const std::string& message, bool close_on_sent = false);
+	TcpConnection* Connect(const std::string& remote_ip, uint16_t remote_port);
+	void	       SetMessageArrivedCb(const MessageArrivedCallback& cb);
+	// bool SendMessage(const std::string& message, bool close_on_sent = false);
+	bool SendMessage(TcpConnection* connection, const std::string& message,
+			 bool close_on_sent = false);
 	bool is_connected() const;
-        void DisConnect();
+	// void DisConnect();
 
     private:
 	std::string			 remote_ip_;
@@ -30,7 +32,7 @@ class TcpClient {
 	bool				 is_connected_;
 
 	void MessageArrivedCb(ev::io& watcher, int revents);
-	void Reconnect();
+	// void Reconnect();
 	void SendIoWatcherCb(ev::io& watcher, int revents);
 	void StartLoop();
 

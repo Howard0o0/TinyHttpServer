@@ -119,6 +119,10 @@ httpmessagecodec.h
 ./src/net/httpmessagecodec.h
 tcprelay.h
 ./src/net/tcprelay.h
+tunnel.h
+./src/net/tunnel.h
+unordered_map
+-
 
 ./src/net/sockettool.h
 arpa/inet.h
@@ -195,6 +199,10 @@ functional
 -
 unordered_map
 -
+
+./src/net/tunnel.h
+tcpconnection.h
+./src/net/tcpconnection.h
 
 /home/howard/work/TinyThreadPool/src/base/callback.h
 tcpconnection.h
@@ -439,6 +447,10 @@ httpmessagecodec.h
 /home/howard/work/TinyThreadPool/src/net/httpmessagecodec.h
 tcprelay.h
 /home/howard/work/TinyThreadPool/src/net/tcprelay.h
+tunnel.h
+/home/howard/work/TinyThreadPool/src/net/tunnel.h
+unordered_map
+-
 
 /home/howard/work/TinyThreadPool/src/net/sockettool.cc
 sockettool.h
@@ -607,6 +619,12 @@ functional
 -
 unordered_map
 -
+
+/home/howard/work/TinyThreadPool/src/net/tunnel.cc
+
+/home/howard/work/TinyThreadPool/src/net/tunnel.h
+tcpconnection.h
+/home/howard/work/TinyThreadPool/src/net/tcpconnection.h
 
 /home/howard/work/TinyThreadPool/src/test.cc
 test.h

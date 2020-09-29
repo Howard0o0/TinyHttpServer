@@ -13,7 +13,7 @@ TcpClient::TcpClient() {
 					    std::placeholders::_1, std::placeholders::_2));
 }
 TcpClient::~TcpClient() {
-	this->connection_->Disconnect();
+	// connection->Disconnect();
 	ev_break(this->evloop_, EVBREAK_ONE);
 	ev_loop_destroy(this->evloop_);
 }
@@ -26,16 +26,16 @@ void TcpClient::StartLoop() {
 bool TcpClient::is_connected() const {
 	return this->is_connected_;
 }
-bool TcpClient::Connect(const std::string& remote_ip, uint16_t remote_port) {
+TcpConnection* TcpClient::Connect(const std::string& remote_ip, uint16_t remote_port) {
 
 	int socketfd = SocketTool::ConnectToServer(remote_ip, remote_port, true);
 	if (socketfd < 0)
-		return false;
+		return nullptr;
 
 	TcpConnection* connection = new TcpConnection(socketfd, remote_ip, remote_port);
 	connection->receive_message_watcher().set< TcpClient, &TcpClient::MessageArrivedCb >(this);
 	connection->receive_message_watcher().set(this->evloop_);
-	connection->receive_message_watcher().start(connection_->connection_fd(), ev::READ);
+	connection->receive_message_watcher().start(socketfd, ev::READ);
 
 	connection->send_message_watcher().set< TcpClient, &TcpClient::SendIoWatcherCb >(this);
 	connection->send_message_watcher().set(this->evloop_);
@@ -43,47 +43,48 @@ bool TcpClient::Connect(const std::string& remote_ip, uint16_t remote_port) {
 	// this->remote_ip_   = remote_ip;
 	// this->remote_port_ = remote_port;
 	LOG(info) << "connected to remote " << remote_ip << ":" << remote_port;
-	return true;
+	return connection;
 }
 
 void TcpClient::SetMessageArrivedCb(const MessageArrivedCallback& cb) {
 	this->message_arrived_cb_ = cb;
 }
 
-void TcpClient::DisConnect() {
-	this->connection_->Disconnect();
-	this->is_connected_ = false;
-}
+// void TcpClient::DisConnect() {
+// 	connection->Disconnect();
+// 	this->is_connected_ = false;
+// }
 
-bool TcpClient::SendMessage(const std::string& message, bool close_on_sent) {
+bool TcpClient::SendMessage(TcpConnection* connection, const std::string& message,
+			    bool close_on_sent) {
 	if (message.empty()) {
 		if (close_on_sent)
-			this->connection_->Disconnect();
+			connection->Disconnect();
 		return true;
 	}
 
-	int sent_len = send(this->connection_->connection_fd(), message.c_str(), message.size(), 0);
+	int sent_len = send(connection->connection_fd(), message.c_str(), message.size(), 0);
 	if (sent_len == -1 && errno != EAGAIN && errno != EWOULDBLOCK) {
-		this->Reconnect();
+		// this->Reconnect();
 		LOG(error) << "send message failed : " << strerror(errno);
-		LOG(error) << "reconnecting";
+		// LOG(error) << "reconnecting";
 		return false;
 	}
 
-	this->connection_->receive_message_watcher().start();
+	connection->receive_message_watcher().start();
 
 	if (sent_len == static_cast< int >(message.size())) {
 		if (close_on_sent)
-			this->connection_->Disconnect();
+			connection->Disconnect();
 	}
 	else {
 		std::string rest_of_message = sent_len > 0 ? message.substr(sent_len) : message;
-		this->connection_->PushMessageIntoSendBuffer(rest_of_message, close_on_sent);
+		connection->PushMessageIntoSendBuffer(rest_of_message, close_on_sent);
 
-		if (!this->connection_->send_message_watcher().active) {
+		if (!connection->send_message_watcher().active) {
 			LOG(debug) << "start write event watch";
-			this->connection_->send_message_watcher().start(
-				this->connection_->connection_fd(), ev::WRITE);
+			connection->send_message_watcher().start(connection->connection_fd(),
+								 ev::WRITE);
 		}
 	}
 
@@ -94,21 +95,23 @@ bool TcpClient::SendMessage(const std::string& message, bool close_on_sent) {
 
 void TcpClient::MessageArrivedCb(ev::io& watcher, int revents) {
 
-	std::string message = SocketTool::ReadMessage(watcher.fd);
-	LOG(info) << "new message from " << this->connection_->remote_ip() << ":"
-		  << this->connection_->remote_port() << ":" << message;
-	if (message.empty())
-		this->connection_->Disconnect();
-	else if (this->message_arrived_cb_)
-		this->message_arrived_cb_(*(this->connection_), message);
+	std::string    message = SocketTool::ReadMessage(watcher.fd);
+	TcpConnection* connection =
+		reinterpret_cast< TcpConnectionContext* >(&watcher)->tcpconnection;
+	LOG(info) << "new message from [len:" << message.size() << "] " << connection->remote_ip()
+		  << ":" << connection->remote_port() << ":" << message;
+	// if (message.empty())
+	// 	connection->Disconnect();
+	// else if (this->message_arrived_cb_)
+	this->message_arrived_cb_(*(connection), message);
 
 	// watcher.stop();
 }
 
-void TcpClient::Reconnect() {
-	this->connection_->Disconnect();
-	this->Connect(this->connection_->remote_ip(), this->connection_->remote_port());
-}
+// void TcpClient::Reconnect() {
+// 	connection->Disconnect();
+// 	this->Connect(connection->remote_ip(), connection->remote_port());
+// }
 
 void TcpClient::SendIoWatcherCb(ev::io& watcher, int revents) {
 	TcpConnection* tcpconnection =
@@ -121,8 +124,8 @@ void TcpClient::SendIoWatcherCb(ev::io& watcher, int revents) {
 	int sent_len = send(connection_fd, send_buffer.buffer.c_str() + send_buffer.sent_offset,
 			    rest_len, 0);
 	if (sent_len < 0) {
-		if (sent_len != EAGAIN && sent_len != EWOULDBLOCK)
-			this->Reconnect();
+		// if (sent_len != EAGAIN && sent_len != EWOULDBLOCK)
+		// 	this->Reconnect();
 		return;
 	}
 
@@ -131,7 +134,7 @@ void TcpClient::SendIoWatcherCb(ev::io& watcher, int revents) {
 	if (send_buffer.IsEmpty()) {
 		if (send_context->close_on_sent == true) {
 			LOG(debug) << "send buffer empty, disconnect";
-			this->connection_->Disconnect();
+			tcpconnection->Disconnect();
 			return;
 		}
 		send_buffer.buffer.clear();
@@ -144,6 +147,7 @@ void TcpClient::DefaultMessageArrivedCb(const TcpConnection& tcpconnection,
 					const std::string&   msg) {
 	LOG(debug) << "new message: " << msg;
 	LOG(info) << "recerve message : " << msg;
-	this->SendMessage("i am client , i have got your message!", false);
+	this->SendMessage(const_cast< TcpConnection* >(&tcpconnection),
+			  "i am client , i have got your message!", false);
 }
 /* end of private methods */

@@ -59,7 +59,7 @@ std::string SocketTool::ReadMessage(int socketfd) {
 	std::string msg = "";
 	while ((read_len = recv(socketfd, readbuf, READBUF_LEN, MSG_DONTWAIT)) > 0) {
 		readbuf[ read_len ] = '\0';
-		msg += readbuf;
+		msg += std::string(readbuf, read_len);
 		// printf("readbuf:%s\n", readbuf);
 	}
 	return msg;

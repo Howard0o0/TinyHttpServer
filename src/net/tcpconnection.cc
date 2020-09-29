@@ -16,6 +16,9 @@ void TcpConnection::Disconnect() {
 	this->send_context_.io_watcher.stop();
 	this->connection_fd_ = -1;
 	LOG(debug) << "disconnect with " << this->remote_ip_ << ":" << this->remote_port_;
+
+	if (this->disconnect_cb_)
+		this->disconnect_cb_();
 }
 int TcpConnection::connection_fd() const {
 	return this->connection_fd_;
@@ -43,5 +46,9 @@ std::string TcpConnection::remote_ip() const {
 }
 uint16_t TcpConnection::remote_port() const {
 	return this->remote_port_;
+}
+
+void TcpConnection::SetDisconnectCb(Task disconnect_cb) {
+	this->disconnect_cb_ = disconnect_cb;
 }
 /* end of public methods */

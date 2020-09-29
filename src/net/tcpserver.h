@@ -18,8 +18,7 @@ class TcpServer {
 	~TcpServer();
 	void Start();
 	void SetMessageArrivedCb(const MessageArrivedCallback& cb);
-	bool SendMessage(TcpConnection* tcpconnection, const std::string& message,
-			 bool close_on_sent = false);
+	bool SendMessage(TcpConnection* tcpconnection, const std::string& message, bool close_on_sent = false);
 
     private:
 	int		       port_;

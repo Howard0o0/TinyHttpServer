@@ -14,6 +14,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/tcpserver.dir/src/net/tcpconnection.cc.o"
   "CMakeFiles/tcpserver.dir/src/net/tcprelay.cc.o"
   "CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o"
+  "CMakeFiles/tcpserver.dir/src/net/tunnel.cc.o"
   "CMakeFiles/tcpserver.dir/src/main.cc.o"
   "CMakeFiles/tcpserver.dir/src/test.cc.o"
   "bin/tcpserver.pdb"

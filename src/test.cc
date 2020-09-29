@@ -265,9 +265,9 @@ void TcpClientTest() {
 	// while (!tcpclient || !tcpclient->is_connected())
 	// 	sleep(1);
 	for (int i = 0; i < 5; ++i) {
-		tcpclient->Connect("172.16.178.135", 8888);
+		TcpConnection* conn = tcpclient->Connect("172.16.178.135", 8888);
 		sleep(1);
-		tcpclient->SendMessage(std::to_string(i));
+		tcpclient->SendMessage(conn, std::to_string(i));
 	}
 }
 
@@ -277,7 +277,7 @@ class DirectRelay : public TcpRelay {
 	virtual void ServerMessageArrivedCb(TcpConnection&     connection,
 					    const std::string& message) override {
 		this->tcpclient_->Connect("172.16.178.135", 8888);
-		this->tcpclient_->SendMessage(message);
+		this->tcpclient_->SendMessage(&connection, message);
 		LOG(debug) << "forward to remote server : " << message;
 		// this->tcpclient_->DisConnect();
 	}
@@ -297,6 +297,8 @@ void TcprelayTest() {
 void ShadowhttpServerTest() {
 	ShadowhttpServer* shadowhttp_server = new ShadowhttpServer();
 	shadowhttp_server->Run(8080);
+	while (1)
+		;
 }
 
 void RegexTest() {

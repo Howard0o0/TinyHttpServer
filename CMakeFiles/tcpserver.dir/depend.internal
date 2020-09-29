@@ -66,14 +66,15 @@ CMakeFiles/tcpserver.dir/src/net/shadowhttpserver.cc.o
  ./src/base/noncopyable.h
  ./src/base/thread.h
  ./src/base/threadpool.h
- ./src/net/tcpconnection.h
  /home/howard/work/TinyThreadPool/src/net/httpmessagecodec.h
  /home/howard/work/TinyThreadPool/src/net/shadowhttpserver.cc
  /home/howard/work/TinyThreadPool/src/net/shadowhttpserver.h
  /home/howard/work/TinyThreadPool/src/net/sockettool.h
  /home/howard/work/TinyThreadPool/src/net/tcpclient.h
+ /home/howard/work/TinyThreadPool/src/net/tcpconnection.h
  /home/howard/work/TinyThreadPool/src/net/tcprelay.h
  /home/howard/work/TinyThreadPool/src/net/tcpserver.h
+ /home/howard/work/TinyThreadPool/src/net/tunnel.h
 CMakeFiles/tcpserver.dir/src/net/sockettool.cc.o
  ./src/base/log.h
  /home/howard/work/TinyThreadPool/src/net/sockettool.cc
@@ -115,6 +116,8 @@ CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o
  /home/howard/work/TinyThreadPool/src/net/tcpconnection.h
  /home/howard/work/TinyThreadPool/src/net/tcpserver.cc
  /home/howard/work/TinyThreadPool/src/net/tcpserver.h
+CMakeFiles/tcpserver.dir/src/net/tunnel.cc.o
+ /home/howard/work/TinyThreadPool/src/net/tunnel.cc
 CMakeFiles/tcpserver.dir/src/test.cc.o
  ./src/base/callback.h
  ./src/base/lockfreeque.h
@@ -130,6 +133,7 @@ CMakeFiles/tcpserver.dir/src/test.cc.o
  ./src/net/tcpconnection.h
  ./src/net/tcprelay.h
  ./src/net/tcpserver.h
+ ./src/net/tunnel.h
  /home/howard/work/TinyThreadPool/src/test.cc
  /home/howard/work/TinyThreadPool/src/test.h
  third-party-libs/hiredis/include/hiredis/hiredis.h

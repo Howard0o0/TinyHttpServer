@@ -104,12 +104,12 @@ void TcpServer::MessageArrivedCb(ev::io& watcher, int revents) {
 	TcpConnection* tcpconnection =
 		reinterpret_cast< TcpConnectionContext* >(&watcher)->tcpconnection;
 	std::string message = SocketTool::ReadMessage(watcher.fd);
-	if (message.empty()) {
-		tcpconnection->Disconnect();
-		delete tcpconnection;
-	}
-	else
-		this->message_arrived_cb(*tcpconnection, message);
+	// if (message.empty()) {
+	// 	tcpconnection->Disconnect();
+	// 	delete tcpconnection;
+	// }
+	// else
+	this->message_arrived_cb(*tcpconnection, message);
 }
 
 void TcpServer::ConnectionArrivedCb(ev::io& watcher, int revents) {

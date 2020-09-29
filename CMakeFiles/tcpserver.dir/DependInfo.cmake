@@ -20,6 +20,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/howard/work/TinyThreadPool/src/net/tcpconnection.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tcpserver.dir/src/net/tcpconnection.cc.o"
   "/home/howard/work/TinyThreadPool/src/net/tcprelay.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tcpserver.dir/src/net/tcprelay.cc.o"
   "/home/howard/work/TinyThreadPool/src/net/tcpserver.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o"
+  "/home/howard/work/TinyThreadPool/src/net/tunnel.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tcpserver.dir/src/net/tunnel.cc.o"
   "/home/howard/work/TinyThreadPool/src/test.cc" "/home/howard/work/TinyThreadPool/CMakeFiles/tcpserver.dir/src/test.cc.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

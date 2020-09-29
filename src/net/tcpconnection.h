@@ -1,6 +1,7 @@
 #ifndef TINYHTTPSERVER_TCPCONNECTION_H
 #define TINYHTTPSERVER_TCPCONNECTION_H
 
+#include "callback.h"
 #include <ev++.h>
 #include <memory>
 #include <string>
@@ -44,6 +45,7 @@ class TcpConnection {
 	SendBuffer& send_buffer();
 	std::string remote_ip() const;
 	uint16_t    remote_port() const;
+	void	    SetDisconnectCb(Task disconnect_cb);
 
     private:
 	TcpConnectionContext receive_context_;
@@ -52,6 +54,7 @@ class TcpConnection {
 	int		     connection_fd_;
 	std::string	     remote_ip_;
 	uint16_t	     remote_port_;
+	Task		     disconnect_cb_;
 };
 
 #endif

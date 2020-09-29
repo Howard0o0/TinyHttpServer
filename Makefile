@@ -555,6 +555,33 @@ src/net/tcpserver.cc.s:
 	$(MAKE) -f CMakeFiles/tcpserver.dir/build.make CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.s
 .PHONY : src/net/tcpserver.cc.s
 
+src/net/tunnel.o: src/net/tunnel.cc.o
+
+.PHONY : src/net/tunnel.o
+
+# target to build an object file
+src/net/tunnel.cc.o:
+	$(MAKE) -f CMakeFiles/tcpserver.dir/build.make CMakeFiles/tcpserver.dir/src/net/tunnel.cc.o
+.PHONY : src/net/tunnel.cc.o
+
+src/net/tunnel.i: src/net/tunnel.cc.i
+
+.PHONY : src/net/tunnel.i
+
+# target to preprocess a source file
+src/net/tunnel.cc.i:
+	$(MAKE) -f CMakeFiles/tcpserver.dir/build.make CMakeFiles/tcpserver.dir/src/net/tunnel.cc.i
+.PHONY : src/net/tunnel.cc.i
+
+src/net/tunnel.s: src/net/tunnel.cc.s
+
+.PHONY : src/net/tunnel.s
+
+# target to generate assembly for a file
+src/net/tunnel.cc.s:
+	$(MAKE) -f CMakeFiles/tcpserver.dir/build.make CMakeFiles/tcpserver.dir/src/net/tunnel.cc.s
+.PHONY : src/net/tunnel.cc.s
+
 src/test.o: src/test.cc.o
 
 .PHONY : src/test.o
@@ -639,6 +666,9 @@ help:
 	@echo "... src/net/tcpserver.o"
 	@echo "... src/net/tcpserver.i"
 	@echo "... src/net/tcpserver.s"
+	@echo "... src/net/tunnel.o"
+	@echo "... src/net/tunnel.i"
+	@echo "... src/net/tunnel.s"
 	@echo "... src/test.o"
 	@echo "... src/test.i"
 	@echo "... src/test.s"

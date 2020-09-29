@@ -65,14 +65,15 @@ CMakeFiles/tcpserver.dir/src/net/shadowhttpserver.cc.o: ./src/base/log.h
 CMakeFiles/tcpserver.dir/src/net/shadowhttpserver.cc.o: ./src/base/noncopyable.h
 CMakeFiles/tcpserver.dir/src/net/shadowhttpserver.cc.o: ./src/base/thread.h
 CMakeFiles/tcpserver.dir/src/net/shadowhttpserver.cc.o: ./src/base/threadpool.h
-CMakeFiles/tcpserver.dir/src/net/shadowhttpserver.cc.o: ./src/net/tcpconnection.h
 CMakeFiles/tcpserver.dir/src/net/shadowhttpserver.cc.o: src/net/httpmessagecodec.h
 CMakeFiles/tcpserver.dir/src/net/shadowhttpserver.cc.o: src/net/shadowhttpserver.cc
 CMakeFiles/tcpserver.dir/src/net/shadowhttpserver.cc.o: src/net/shadowhttpserver.h
 CMakeFiles/tcpserver.dir/src/net/shadowhttpserver.cc.o: src/net/sockettool.h
 CMakeFiles/tcpserver.dir/src/net/shadowhttpserver.cc.o: src/net/tcpclient.h
+CMakeFiles/tcpserver.dir/src/net/shadowhttpserver.cc.o: src/net/tcpconnection.h
 CMakeFiles/tcpserver.dir/src/net/shadowhttpserver.cc.o: src/net/tcprelay.h
 CMakeFiles/tcpserver.dir/src/net/shadowhttpserver.cc.o: src/net/tcpserver.h
+CMakeFiles/tcpserver.dir/src/net/shadowhttpserver.cc.o: src/net/tunnel.h
 
 CMakeFiles/tcpserver.dir/src/net/sockettool.cc.o: ./src/base/log.h
 CMakeFiles/tcpserver.dir/src/net/sockettool.cc.o: src/net/sockettool.cc
@@ -115,6 +116,8 @@ CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o: src/net/tcpconnection.h
 CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o: src/net/tcpserver.cc
 CMakeFiles/tcpserver.dir/src/net/tcpserver.cc.o: src/net/tcpserver.h
 
+CMakeFiles/tcpserver.dir/src/net/tunnel.cc.o: src/net/tunnel.cc
+
 CMakeFiles/tcpserver.dir/src/test.cc.o: ./src/base/callback.h
 CMakeFiles/tcpserver.dir/src/test.cc.o: ./src/base/lockfreeque.h
 CMakeFiles/tcpserver.dir/src/test.cc.o: ./src/base/lockfreethreadpool.h
@@ -129,6 +132,7 @@ CMakeFiles/tcpserver.dir/src/test.cc.o: ./src/net/tcpclient.h
 CMakeFiles/tcpserver.dir/src/test.cc.o: ./src/net/tcpconnection.h
 CMakeFiles/tcpserver.dir/src/test.cc.o: ./src/net/tcprelay.h
 CMakeFiles/tcpserver.dir/src/test.cc.o: ./src/net/tcpserver.h
+CMakeFiles/tcpserver.dir/src/test.cc.o: ./src/net/tunnel.h
 CMakeFiles/tcpserver.dir/src/test.cc.o: src/test.cc
 CMakeFiles/tcpserver.dir/src/test.cc.o: src/test.h
 CMakeFiles/tcpserver.dir/src/test.cc.o: third-party-libs/hiredis/include/hiredis/hiredis.h
