@@ -6,7 +6,8 @@
 /* public methods */
 
 TcpConnection::~TcpConnection() {
-	this->Disconnect();
+	// this->Disconnect();
+	LOG(debug) << "tcpconnection destructor called";
 }
 void TcpConnection::Disconnect() {
 	if (this->connection_fd_ == -1)
@@ -15,10 +16,11 @@ void TcpConnection::Disconnect() {
 	this->receive_context_.io_watcher.stop();
 	this->send_context_.io_watcher.stop();
 	this->connection_fd_ = -1;
-	LOG(debug) << "disconnect with " << this->remote_ip_ << ":" << this->remote_port_;
+	LOG(debug) << "disconnect : (" << this->remote_ip_ << ":" << this->remote_port_ << "),("
+		   << this->local_ip_ << ":" << this->local_port_ << ")";
 
 	if (this->disconnect_cb_)
-		this->disconnect_cb_();
+		this->disconnect_cb_(*this);
 }
 int TcpConnection::connection_fd() const {
 	return this->connection_fd_;
@@ -48,7 +50,14 @@ uint16_t TcpConnection::remote_port() const {
 	return this->remote_port_;
 }
 
-void TcpConnection::SetDisconnectCb(Task disconnect_cb) {
+std::string TcpConnection::local_ip() const {
+	return this->local_ip_;
+}
+uint16_t TcpConnection::local_port() const {
+	return this->local_port_;
+}
+
+void TcpConnection::SetDisconnectCb(const TcpConnectionReleaseCallback& disconnect_cb) {
 	this->disconnect_cb_ = disconnect_cb;
 }
 /* end of public methods */

@@ -39,8 +39,9 @@ class SocketTool {
     public:
 	static int CreateListenSocket(int port, int backlog, bool block = false);
 	static int ConnectToServer(std::string server_ip, uint16_t server_port, bool block = true);
-	static std::string ReadMessage(int socketfd);
+	static std::string ReadMessage(int socketfd,bool& pipe_broken);
 	static SockAddress ParseSockAddr(const struct sockaddr_in* sockaddr);
+	static SockAddress GetSockAddress(int socketfd);
 
     private:
 	static bool	   SetSocketReuse(int socket_fd);

@@ -52,16 +52,27 @@ int SocketTool::CreateListenSocket(int port, int backlog, bool block) {
 	return server_sock;
 }
 
-std::string SocketTool::ReadMessage(int socketfd) {
-	const int   READBUF_LEN = 1024;
+std::string SocketTool::ReadMessage(int socketfd, bool& pipe_broken) {
+	const int   READBUF_LEN = 8192;
 	char	    readbuf[ READBUF_LEN ];
 	int	    read_len;
 	std::string msg = "";
-	while ((read_len = recv(socketfd, readbuf, READBUF_LEN, MSG_DONTWAIT)) > 0) {
+	// while ((read_len = recv(socketfd, readbuf, READBUF_LEN, MSG_DONTWAIT)) > 0) {
+	// 	readbuf[ read_len ] = '\0';
+	// 	msg += std::string(readbuf, read_len);
+	// 	// printf("readbuf:%s\n", readbuf);
+	// }
+	read_len = recv(socketfd, readbuf, READBUF_LEN, MSG_DONTWAIT);
+	if (read_len == 0 || (read_len < 0 && errno != EAGAIN)) {
+		pipe_broken = true;
+		return "";
+	}
+	else if (read_len > 0) {
 		readbuf[ read_len ] = '\0';
 		msg += std::string(readbuf, read_len);
-		// printf("readbuf:%s\n", readbuf);
 	}
+
+	pipe_broken = false;
 	return msg;
 }
 
@@ -121,6 +132,16 @@ SockAddress SocketTool::ParseSockAddr(const struct sockaddr_in* sockaddr) {
 	addr.port = ntohs(sockaddr->sin_port);
 	addr.ip	  = std::string(buff);
 	return addr;
+}
+
+SockAddress SocketTool::GetSockAddress(int socketfd) {
+	struct sockaddr_in loc_addr;
+	socklen_t	   len = 0;
+	SockAddress	   sock_address;
+
+	if (-1 == getsockname(socketfd, ( struct sockaddr* )&loc_addr, &len))
+		return SockAddress();
+	return ParseSockAddr(&loc_addr);
 }
 /* end of public methods */
 

@@ -34,82 +34,101 @@ void TcpServer::Start() {
 }
 
 void TcpServer::SetMessageArrivedCb(const MessageArrivedCallback& cb) {
-	message_arrived_cb = cb;
+	message_arrived_cb_ = cb;
 }
 
-bool TcpServer::SendMessage(TcpConnection* tcpconnection, const std::string& message,
+bool TcpServer::SendMessage(TcpConnection* connection, const std::string& message,
 			    bool close_on_sent) {
 	if (message.empty()) {
 		if (close_on_sent)
-			delete tcpconnection;
+			connection->Disconnect();
+		;
 		return true;
 	}
 
-	int sent_len = send(tcpconnection->connection_fd(), message.c_str(), message.size(), 0);
+	LOG(debug) << "sending message [len:" << message.size() << "] to ("
+		   << connection->remote_ip() << ":" << connection->remote_port()
+		   << ") : " << message;
+
+	int sent_len =
+		send(connection->connection_fd(), message.c_str(), message.size(), MSG_DONTWAIT);
 	if (sent_len == static_cast< int >(message.size())) {
 		if (close_on_sent)
-			delete tcpconnection;
+			connection->Disconnect();
+		;
+		LOG(debug) << "send done";
 		return true;
 	}
 	else if (sent_len == -1 && errno != EAGAIN && errno != EWOULDBLOCK) {
-		delete tcpconnection;
+		connection->Disconnect();
+		LOG(debug) << "send failed";
 		return false;
 	}
 	else {
 		std::string rest_of_message = sent_len > 0 ? message.substr(sent_len) : message;
-		tcpconnection->PushMessageIntoSendBuffer(rest_of_message, close_on_sent);
-		if (!tcpconnection->send_message_watcher().active) {
+		LOG(debug) << "message to send is too large, register io wathcer to send left : "
+			   << rest_of_message.size();
+		connection->PushMessageIntoSendBuffer(rest_of_message, close_on_sent);
+		if (!connection->send_message_watcher().active) {
 			LOG(debug) << "start write event watch";
-			tcpconnection->send_message_watcher().start(tcpconnection->connection_fd(),
-								    ev::WRITE);
+			connection->send_message_watcher().start(connection->connection_fd(),
+								 ev::WRITE);
 		}
 		return true;
 	}
 }
 
+void TcpServer::SetConnectionReleaseCb(const TcpConnectionReleaseCallback& cb) {
+	this->connection_release_cb_ = cb;
+}
 /* private */
 
 void TcpServer::SendIoWatcherCb(ev::io& watcher, int revents) {
-	TcpConnection* tcpconnection =
+	TcpConnection* connection =
 		reinterpret_cast< TcpConnectionContext* >(&watcher)->tcpconnection;
-	SendBuffer& send_buffer	  = tcpconnection->send_buffer();
-	int	    connection_fd = tcpconnection->connection_fd();
-	size_t	    rest_len	  = send_buffer.buffer.size() - send_buffer.sent_offset;
-	LOG(debug) << "send buffer : " << send_buffer.buffer;
+	SendBuffer* send_buffer	  = &connection->send_buffer();
+	int	    connection_fd = connection->connection_fd();
+	size_t	    rest_len	  = send_buffer->buffer.size() - send_buffer->sent_offset;
+	LOG(debug) << "send buffer [len:" << send_buffer->buffer.size() << "] : " << rest_len;
 
-	int sent_len = send(connection_fd, send_buffer.buffer.c_str() + send_buffer.sent_offset,
-			    rest_len, 0);
+	int sent_len = send(connection_fd, send_buffer->buffer.c_str() + send_buffer->sent_offset,
+			    rest_len, MSG_DONTWAIT);
 	if (sent_len < 0) {
 		if (sent_len != EAGAIN && sent_len != EWOULDBLOCK)
-			delete tcpconnection;
+			connection->Disconnect();
+		;
+		LOG(error) << "send failed : " << strerror(errno);
 		return;
 	}
+	LOG(debug) << "sent " << sent_len << " bytes";
 
 	TcpConnectionContext* send_context = reinterpret_cast< TcpConnectionContext* >(&watcher);
-	send_buffer.sent_offset += sent_len;
-	if (send_buffer.IsEmpty()) {
+	send_buffer->sent_offset += sent_len;
+	if (send_buffer->IsEmpty()) {
 		if (send_context->close_on_sent == true) {
 			LOG(debug) << "send buffer empty, disconnect";
-			delete tcpconnection;
+			connection->Disconnect();
+			;
 			return;
 		}
-		send_buffer.buffer.clear();
-		send_buffer.sent_offset = 0;
+		send_buffer->buffer.clear();
+		send_buffer->sent_offset = 0;
 		watcher.stop();
 	}
 }
 
 void TcpServer::MessageArrivedCb(ev::io& watcher, int revents) {
 
-	TcpConnection* tcpconnection =
+	TcpConnection* connection =
 		reinterpret_cast< TcpConnectionContext* >(&watcher)->tcpconnection;
-	std::string message = SocketTool::ReadMessage(watcher.fd);
-	// if (message.empty()) {
-	// 	tcpconnection->Disconnect();
-	// 	delete tcpconnection;
-	// }
-	// else
-	this->message_arrived_cb(*tcpconnection, message);
+	bool	    pipe_broken;
+	std::string message = SocketTool::ReadMessage(watcher.fd, pipe_broken);
+	if (message.empty() && pipe_broken) {
+		connection->Disconnect();
+		LOG(debug) << "disconnect";
+	}
+	else
+		this->message_arrived_cb_(*connection, message);
 }
 
 void TcpServer::ConnectionArrivedCb(ev::io& watcher, int revents) {
@@ -124,17 +143,19 @@ void TcpServer::ConnectionArrivedCb(ev::io& watcher, int revents) {
 		SockAddress sockaddr = SocketTool::ParseSockAddr(&client_addr);
 		LOG(info) << "a new connection : " << sockaddr.ip << ":" << sockaddr.port;
 
-		TcpConnection* tcpconnection =
-			new TcpConnection(connfd, sockaddr.ip, sockaddr.port);
-		tcpconnection->receive_message_watcher()
+		const std::string local_ip   = "127.0.0.1";
+		TcpConnection*	  connection = new TcpConnection(connfd, sockaddr.ip, sockaddr.port,
+								 local_ip, this->port_);
+		connection->receive_message_watcher()
 			.set< TcpServer, &TcpServer::MessageArrivedCb >(this);
-		tcpconnection->receive_message_watcher().set(watcher.loop);
-		tcpconnection->receive_message_watcher().start(connfd, ev::READ);
+		connection->receive_message_watcher().set(watcher.loop);
+		connection->receive_message_watcher().start(connfd, ev::READ);
 
-		tcpconnection->send_message_watcher().set< TcpServer, &TcpServer::SendIoWatcherCb >(
+		connection->send_message_watcher().set< TcpServer, &TcpServer::SendIoWatcherCb >(
 			this);
-		tcpconnection->send_message_watcher().set(
-			tcpconnection->receive_message_watcher().loop);
+		connection->send_message_watcher().set(watcher.loop);
+		if (this->connection_release_cb_)
+			connection->SetDisconnectCb(this->connection_release_cb_);
 	}
 }
 
@@ -148,10 +169,9 @@ void TcpServer::EventLoopThreadFunc(int port) {
 	ev_run(evloop, 0);
 }
 
-void TcpServer::DefaultMessageArrivedCb(const TcpConnection& tcpconnection,
-					const std::string&   msg) {
-	LOG(debug) << "new message from : " << tcpconnection.remote_ip() << ":"
-		   << tcpconnection.remote_port() << " : " << msg;
+void TcpServer::DefaultMessageArrivedCb(const TcpConnection& connection, const std::string& msg) {
+	LOG(debug) << "new message from : " << connection.remote_ip() << ":"
+		   << connection.remote_port() << " : " << msg;
 
-	this->SendMessage(const_cast< TcpConnection* >(&tcpconnection), "hi i am a server!", false);
+	this->SendMessage(const_cast< TcpConnection* >(&connection), "hi i am a server!", false);
 }

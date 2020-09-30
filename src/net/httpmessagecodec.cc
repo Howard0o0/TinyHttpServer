@@ -30,7 +30,7 @@ nethelper::SockAddress HttpMessageCodec::ScratchRemoteAddress(const std::string&
 	return nethelper::SockAddress(ip_address, port);
 }
 
-bool HttpMessageCodec::RefactorUrlpath(std::string message) {
+bool HttpMessageCodec::RefactorUrlpath(std::string& message) {
 	std::string		   url_pattern("((https?|ftp|file)://[-A-Za-z0-9+&@#/"
 				       "%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|])");
 	std::vector< std::string > match_results;
@@ -41,12 +41,12 @@ bool HttpMessageCodec::RefactorUrlpath(std::string message) {
 	std::string url_file_path_pattern = ".*//[\\w|\\.]*(/.*)";
 	std::string url_file_path =
 		RegexTool::RegexMatch(url, url_file_path_pattern, true, 1).front();
-	std::cout << url_file_path << std::endl;
+	// std::cout << url_file_path << std::endl;
 
 	auto start_pos = message.find(url);
 	message.replace(start_pos, url.length(), url_file_path);
 
-	std::cout << "url:" << url << ",file_path:" << url_file_path << std::endl;
+	// std::cout << "url:" << url << ",file_path:" << url_file_path << std::endl;
 
 	return true;
 }

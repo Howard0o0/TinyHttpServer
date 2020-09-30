@@ -12,7 +12,6 @@ class ShadowhttpServer : public TcpRelay {
     public:
     private:
 	HttpMessageCodec			  codec_;
-	std::unordered_map< std::string, Tunnel > tunnel_dict_;
 
 	virtual void ServerMessageArrivedCb(TcpConnection&     connection,
 					    const std::string& message) override;

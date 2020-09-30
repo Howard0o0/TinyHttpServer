@@ -260,7 +260,7 @@ static void TcpClientThreadFunc() {
 void TcpClientTest() {
 	// ThreadPool::RunTaskInGlobalThreadPool(std::bind(TcpServerThreadFunc));
 	// ThreadPool::RunTaskInGlobalThreadPool(std::bind(TcpClientThreadFunc));
-	TcpServerThreadFunc();
+	// TcpServerThreadFunc();
 	TcpClientThreadFunc();
 	// while (!tcpclient || !tcpclient->is_connected())
 	// 	sleep(1);
@@ -276,22 +276,49 @@ class DirectRelay : public TcpRelay {
     private:
 	virtual void ServerMessageArrivedCb(TcpConnection&     connection,
 					    const std::string& message) override {
-		this->tcpclient_->Connect("172.16.178.135", 8888);
-		this->tcpclient_->SendMessage(&connection, message);
-		LOG(debug) << "forward to remote server : " << message;
-		// this->tcpclient_->DisConnect();
+		{
+			std::string remote_socket = "172.16.178.1358888";
+			// this->tunnel_dict_[ remote_socket ] = tunnel;
+			if (this->tunnel_dict_.count(remote_socket))
+				return;
+			TcpConnection* connection_with_remote =
+				this->tcpclient_->Connect("172.16.178.135", 8888);
+			if (this->tcpclient_->SendMessage(connection_with_remote, message) == false)
+				LOG(error) << "tcpclient send to 172.16.178.135 failed";
+			LOG(debug) << "forward to remote server : " << message;
+			// this->tcpclient_->DisConnect();
+
+			Tunnel tunnel(&connection, connection_with_remote);
+			remote_socket = connection_with_remote->remote_ip()
+					+ std::to_string(connection_with_remote->remote_port());
+			// this->tunnel_dict_[ remote_socket ] = tunnel;
+			if (this->tunnel_dict_.count(remote_socket))
+				return;
+			this->tunnel_dict_.emplace(remote_socket, tunnel);
+		}
+		LOG(debug) << "end of server message cb";
 	}
 	virtual void ClientMessageArrivedCb(TcpConnection&     connection,
 					    const std::string& message) override {
 		LOG(debug) << "forward to proxy client:" << message;
-		this->tcpserver_->SendMessage(this->connection_with_proxyclient_, message, false);
+		/* need to find connection with proxyclient via this->tunnel_dict */
+		std::string socket =
+			connection.remote_ip() + std::to_string(connection.remote_port());
+		auto connection_with_proxy_client =
+			this->tunnel_dict_[ socket ].connection_with_client;
+		this->tcpserver_->SendMessage(connection_with_proxy_client.get(), message);
+
+		// this->tcpserver_->SendMessage(this->connection_with_proxyclient_, message,
+		// false);
 	}
 };
 
 void TcprelayTest() {
 
 	DirectRelay* relay = new DirectRelay();
-	relay->Run(9999);
+	relay->Run(8080);
+	while (1)
+		;
 }
 
 void ShadowhttpServerTest() {

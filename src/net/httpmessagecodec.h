@@ -10,7 +10,7 @@ class HttpMessageCodec {
     public:
 	enum HttpProxyMessageType GetHttpProxyMessageType(const std::string& message);
 	nethelper::SockAddress	  ScratchRemoteAddress(const std::string& message);
-	bool			  RefactorUrlpath(std::string message);
+	bool			  RefactorUrlpath(std::string& message);
 
     private:
 };

@@ -35,8 +35,14 @@ class TcpConnection {
 		: receive_context_(this), send_context_(this), connection_fd_(connection_fd),
 		  remote_ip_(remote_ip), remote_port_(remote_port) {
 	}
-
+	TcpConnection(int connection_fd, std::string remote_ip, uint16_t remote_port,
+		      std::string local_ip, uint16_t local_port)
+		: receive_context_(this), send_context_(this), connection_fd_(connection_fd),
+		  remote_ip_(remote_ip), remote_port_(remote_port), local_ip_(local_ip),
+		  local_port_(local_port) {
+	}
 	~TcpConnection();
+
 	void	    Disconnect();
 	int	    connection_fd() const;
 	ev::io&	    receive_message_watcher();
@@ -45,16 +51,20 @@ class TcpConnection {
 	SendBuffer& send_buffer();
 	std::string remote_ip() const;
 	uint16_t    remote_port() const;
-	void	    SetDisconnectCb(Task disconnect_cb);
+	std::string local_ip() const;
+	uint16_t    local_port() const;
+	void	    SetDisconnectCb(const TcpConnectionReleaseCallback& disconnect_cb);
 
     private:
-	TcpConnectionContext receive_context_;
-	TcpConnectionContext send_context_;
-	SendBuffer	     send_buffer_;
-	int		     connection_fd_;
-	std::string	     remote_ip_;
-	uint16_t	     remote_port_;
-	Task		     disconnect_cb_;
+	TcpConnectionContext	     receive_context_;
+	TcpConnectionContext	     send_context_;
+	SendBuffer		     send_buffer_;
+	int			     connection_fd_;
+	std::string		     remote_ip_;
+	uint16_t		     remote_port_;
+	std::string		     local_ip_;
+	uint16_t		     local_port_;
+	TcpConnectionReleaseCallback disconnect_cb_;
 };
 
 #endif

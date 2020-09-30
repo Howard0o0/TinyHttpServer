@@ -12,16 +12,18 @@ void ShadowhttpServer::ServerMessageArrivedCb(TcpConnection&	 connection,
 void ShadowhttpServer::ClientMessageArrivedCb(TcpConnection&	 connection,
 					      const std::string& message) {
 
-	std::string remote_socket =
-		connection.remote_ip() + std::to_string(connection.remote_port());
-	LOG(debug) << "remote socket : " << remote_socket;
-	if (!this->tunnel_dict_.count(remote_socket)) {
-		LOG(error) << "can't find tunnel";
+	std::string connection_with_remote_id =
+		connection.remote_ip() + std::to_string(connection.remote_port())
+		+ connection.local_ip() + std::to_string(connection.local_port());
+	LOG(debug) << "remote socket : " << connection_with_remote_id;
+	if (!this->tunnel_dict_.count(connection_with_remote_id)) {
+		LOG(error) << "can't find tunnel :" << connection_with_remote_id;
 		return;
 	}
 	TcpConnection* conn_with_client =
-		this->tunnel_dict_[ remote_socket ].connection_with_client;
-	this->tcpserver_->SendMessage(conn_with_client, message);
+		this->tunnel_dict_[ connection_with_remote_id ].connection_with_client.get();
+	if (this->tcpserver_->SendMessage(conn_with_client, message))
+		LOG(debug) << "foward to proxy client success : " << message;
 }
 void ShadowhttpServer::HandleHttpProxyMessage(TcpConnection& connection, std::string& message) {
 	enum HttpProxyMessageType http_proxymessage_type =
@@ -34,9 +36,10 @@ void ShadowhttpServer::HandleHttpProxyMessage(TcpConnection& connection, std::st
 	else
 		LOG(debug) << "FORWARD";
 
-	std::string client_socket =
-		connection.remote_ip() + std::to_string(connection.remote_port());
-	std::string remote_socket;
+	std::string connection_with_client_id =
+		connection.remote_ip() + std::to_string(connection.remote_port())
+		+ connection.local_ip() + std::to_string(connection.local_port());
+	std::string connection_with_remote_id;
 	if (http_proxymessage_type == CONNECT || http_proxymessage_type == HTTPFORWARD) {
 		/* build forward tunnel and store tunnel in dict */
 		struct SockAddress remote_addr = this->codec_.ScratchRemoteAddress(message);
@@ -45,39 +48,44 @@ void ShadowhttpServer::HandleHttpProxyMessage(TcpConnection& connection, std::st
 		TcpConnection* connection_with_remote =
 			this->tcpclient_->Connect(remote_addr.ip, remote_addr.port);
 		if (!connection_with_remote) {
-			LOG(error) << "connect to " << connection_with_remote->remote_ip() << ":"
-				   << connection_with_remote->remote_port() << "failed";
+			LOG(error) << "connect to " << remote_addr.ip << ":" << remote_addr.port
+				   << "failed";
 			return;
 		}
 
 		Tunnel tunnel(&connection, connection_with_remote);
-		remote_socket = connection_with_remote->remote_ip()
-				+ std::to_string(connection_with_remote->remote_port());
-		this->tunnel_dict_[ client_socket ] = tunnel;
-		this->tunnel_dict_[ remote_socket ] = tunnel;
+		connection_with_remote_id = connection_with_remote->remote_ip()
+					    + std::to_string(connection_with_remote->remote_port())
+					    + connection_with_remote->local_ip()
+					    + std::to_string(connection_with_remote->local_port());
+		this->tunnel_dict_.emplace(connection_with_client_id, tunnel);
+		this->tunnel_dict_.emplace(connection_with_remote_id, tunnel);
 
 		if (http_proxymessage_type == CONNECT) {
 			this->ResponseProxyclient(&connection, ESTABLISH);
 			return;
 		}
-		LOG(debug) << "client socket :" << client_socket;
+		LOG(debug) << "client socket :" << connection_with_client_id;
+		LOG(debug) << "remote socket :" << connection_with_remote_id;
 	}
 
 	if (http_proxymessage_type == HTTPFORWARD && this->codec_.RefactorUrlpath(message) == false)
 		return;
 
 	/* forward message to remote */
-	if (!this->tunnel_dict_.count(client_socket)) {
-		LOG(debug) << "client socket :" << client_socket;
+	if (!this->tunnel_dict_.count(connection_with_client_id)) {
+		LOG(debug) << "client socket :" << connection_with_client_id;
 		LOG(error) << "can't find tunnel";
 		return;
 	}
 	TcpConnection* connection_with_remote =
-		this->tunnel_dict_[ client_socket ].connection_with_remote;
-	if (this->tcpclient_->SendMessage(connection_with_remote, message) == false)
+		this->tunnel_dict_[ connection_with_client_id ].connection_with_remote.get();
+	if (this->tcpclient_->SendMessage(connection_with_remote, message) == false) {
 		LOG(error) << "send to " << connection_with_remote->remote_ip() << ":"
 			   << connection_with_remote->remote_port() << "failed : " << message;
-	LOG(debug) << "forward data success : " << message;
+		return;
+	}
+	LOG(debug) << "forward data to remote success : " << message;
 
 	// if (http_proxymessage_type == HttpProxyMessageType::CONNECT) {
 	// 	struct SockAddress remote_addr = this->codec_.ScratchRemoteAddress(message);
