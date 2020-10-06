@@ -21,7 +21,7 @@
 #include <iostream>
 #include <locale>
 #include <mutex>
-#include <re2/re2.h>
+// #include <re2/re2.h>
 #include <regex>
 #include <string>
 #include <thread>
@@ -343,18 +343,23 @@ void RegexTest() {
 }
 
 void RegexTest2() {
-	std::string text = "CONNECT mtalk.google.com:443 HTTP/1.1 "
-			   "Host : mtalk.google.com : 443 "
-			   "Proxy-Connection : keep-alive ";
-	std::string				    pattern = "CONNECT\\s(.*):(\\d+)\\b";
-	std::regex				    express(pattern);
-	std::match_results< std::string::iterator > results1;
-	if (std::regex_search(text.begin(), text.end(), results1, express)) {
-		//使用迭代器遍历, 这里的迭代器实际上是指向 std::sub_match 的指针
-		std::cout << results1[ 1 ].str() << std::endl;
-		std::cout << results1[ 2 ].str() << std::endl;
-		// std::match_results< std::string::iterator >::const_iterator iter;
-		// for (iter = results1.begin(); iter != results1.end(); iter++)
-		// 	std::cout << iter->str() << std::endl;
-	}
+	std::string text = "CONNECT mtalk.google.com:443 HTTP/1.1\r\n"
+			   "Host: c.go-mpulse.net:443\r\n"
+			   "Proxy-Connection : keep-live \r\n\r\n";
+
+	HttpMessageCodec codec;
+	SockAddress	 addr = codec.ScratchRemoteAddress(text);
+	std::cout << addr.ip << "," << addr.port << std::endl;
+
+	// std::string				    pattern = "CONNECT\\s(.*):(\\d+)\\b";
+	// std::regex				    express(pattern);
+	// std::match_results< std::string::iterator > results1;
+	// if (std::regex_search(text.begin(), text.end(), results1, express)) {
+	// 	//使用迭代器遍历, 这里的迭代器实际上是指向 std::sub_match 的指针
+	// 	std::cout << results1[ 1 ].str() << std::endl;
+	// 	std::cout << results1[ 2 ].str() << std::endl;
+	// 	// std::match_results< std::string::iterator >::const_iterator iter;
+	// 	// for (iter = results1.begin(); iter != results1.end(); iter++)
+	// 	// 	std::cout << iter->str() << std::endl;
+	// }
 }

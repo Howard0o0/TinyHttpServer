@@ -1,5 +1,4 @@
 #include "httpserver.h"
-#include "re2/re2.h"
 #include "tcpclient.h"
 #include "tcpserver.h"
 #include "test.h"
@@ -37,9 +36,11 @@ int main() {
 
 	// TcpClientTest();
 	// TcprelayTest();
+
 	ShadowhttpServerTest();
 	while (1)
 		;
+
 	// TcpClient tcpclient;
 	// tcpclient.Connect("172.16.178.135", 8888);
 	// tcpclient.SendMessage("first message");
