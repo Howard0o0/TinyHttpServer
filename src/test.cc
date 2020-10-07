@@ -235,6 +235,13 @@ static void listen_cb(EV_P_ ev_io* watcher, int revents) {
 }
 
 void LibevTest() {
+
+	// ev_run(loop, 0);
+	ThreadPool threadpool;
+	threadpool.Start(1);
+	threadpool.RunTask(std::bind(ev_run, loop, 0));
+	sleep(5);
+
 	int listenfd = SocketTool::CreateListenSocket(9999, 10000, false);
 
 	ev_io listenfd_watcher;
@@ -242,7 +249,8 @@ void LibevTest() {
 	ev_io_init(&listenfd_watcher, listen_cb, /*STDIN_FILENO*/ listenfd, EV_READ);
 	ev_io_start(loop, &listenfd_watcher);
 
-	ev_run(loop, 0);
+	while (1)
+		;
 }
 
 static void TcpServerThreadFunc() {

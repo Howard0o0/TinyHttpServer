@@ -13,13 +13,13 @@ TcpClient::TcpClient() : loop_run_(false) {
 	this->SetMessageArrivedCb(std::bind(&TcpClient::DefaultMessageArrivedCb, this,
 					    std::placeholders::_1, std::placeholders::_2));
 
-	// if (!this->loop_run_) {
-	// 	this->threadpool_.Start(1);
-	// 	this->threadpool_.RunTask(std::bind(&TcpClient::StartLoop, this));
-	// 	LOG(debug) << "run loop";
-	// 	while (!this->loop_run_)
-	// 		;
-	// }
+	if (!this->loop_run_) {
+		this->threadpool_.Start(1);
+		this->threadpool_.RunTask(std::bind(&TcpClient::StartLoop, this));
+		LOG(debug) << "run loop";
+		while (!this->loop_run_)
+			;
+	}
 }
 TcpClient::~TcpClient() {
 	ev_break(this->evloop_, EVBREAK_ONE);
@@ -32,7 +32,7 @@ void TcpClient::StartLoop() {
 		LOG(error) << "evloop is null";
 		return;
 	}
-	ev_break(this->evloop_, EVBREAK_ONE);
+	// ev_break(this->evloop_, EVBREAK_ONE);
 	this->loop_run_ = true;
 	ev_run(this->evloop_, 0);
 }
@@ -63,13 +63,13 @@ TcpConnection* TcpClient::Connect(const std::string& remote_ip, uint16_t remote_
 		connection->SetDisconnectCb(this->connection_release_cb_);
 
 	LOG(info) << "connected to remote " << remote_ip << ":" << remote_port;
-	if (!this->loop_run_) {
-		this->threadpool_.Start(1);
-		this->threadpool_.RunTask(std::bind(&TcpClient::StartLoop, this));
-		LOG(debug) << "run loop";
-		while (!this->loop_run_)
-			;
-	}
+	// if (!this->loop_run_) {
+	// 	this->threadpool_.Start(1);
+	// 	this->threadpool_.RunTask(std::bind(&TcpClient::StartLoop, this));
+	// 	LOG(debug) << "run loop";
+	// 	while (!this->loop_run_)
+	// 		;
+	// }
 	return connection;
 }
 

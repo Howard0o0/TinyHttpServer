@@ -20,7 +20,6 @@ class TcpClient {
 	void	       SetConnectionReleaseCb(const TcpConnectionReleaseCallback& cb);
 	bool	       SendMessage(TcpConnection* connection, const std::string& message,
 				   bool close_on_sent = false);
-	// bool	       is_connected() const;
 
     private:
 	std::unique_ptr< TcpConnection > connection_;
