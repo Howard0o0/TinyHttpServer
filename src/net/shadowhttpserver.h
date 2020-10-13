@@ -10,8 +10,11 @@ enum ResponseProxyclientMessageType { ESTABLISH, CONNECT_TIMEOUT };
 
 class ShadowhttpServer : public TcpRelay {
     public:
+	ShadowhttpServer();
+
     private:
-	HttpMessageCodec			  codec_;
+	HttpMessageCodec codec_;
+	ThreadPool	 threadpool_;
 
 	virtual void ServerMessageArrivedCb(TcpConnection&     connection,
 					    const std::string& message) override;

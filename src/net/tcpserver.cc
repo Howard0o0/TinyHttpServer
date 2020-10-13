@@ -39,12 +39,12 @@ void TcpServer::SetMessageArrivedCb(const MessageArrivedCallback& cb) {
 
 bool TcpServer::SendMessage(TcpConnection* connection, const std::string& message,
 			    bool close_on_sent) {
-	if (message.empty()) {
+	if (message.empty() || connection->connection_fd() <= 0) {
 		if (close_on_sent) {
 			LOG(debug) << "message to send empty, connection released";
 			connection->Disconnect();
 		};
-		return true;
+		return false;
 	}
 
 	LOG(debug) << "sending message [len:" << message.size() << "] to ("
@@ -119,7 +119,7 @@ void TcpServer::SendIoWatcherCb(ev::io& watcher, int revents) {
 }
 
 void TcpServer::MessageArrivedCb(ev::io& watcher, int revents) {
-	watcher.stop();
+	// watcher.stop();
 
 	TcpConnection* connection =
 		reinterpret_cast< TcpConnectionContext* >(&watcher)->tcpconnection;
@@ -131,12 +131,12 @@ void TcpServer::MessageArrivedCb(ev::io& watcher, int revents) {
 	}
 	else {
 		this->message_arrived_cb_(*connection, message);
-		watcher.start(watcher.fd, EV_READ);
+		// watcher.start(watcher.fd, EV_READ);
 	}
 }
 
 void TcpServer::ConnectionArrivedCb(ev::io& watcher, int revents) {
-	watcher.stop();
+	// watcher.stop();
 
 	int		   connfd = -1;
 	struct sockaddr_in client_addr;
@@ -163,7 +163,7 @@ void TcpServer::ConnectionArrivedCb(ev::io& watcher, int revents) {
 			connection->SetDisconnectCb(this->connection_release_cb_);
 	}
 
-	watcher.start(watcher.fd, EV_READ);
+	// watcher.start(watcher.fd, EV_READ);
 }
 
 void TcpServer::EventLoopThreadFunc(int port) {

@@ -18,8 +18,9 @@ nethelper::SockAddress HttpMessageCodec::ScratchRemoteAddress(const std::string&
 
 	// std::regex		    pattern("Host\\s*:\\s*([\\w|\\.]*)\\s*:?\\s*(\\d*)\\b",
 	// 		    std::regex_constants::icase);
-	std::regex  pattern("Host\\s*:\\s*([^:]*)\\s?:?\\s*(\\d*)\\b", std::regex_constants::icase);
-	std::smatch results;
+	std::regex		    pattern("Host\\s*:\\s*([^:\\s]*)\\s?:?\\s*(\\d*)\\b",
+			    std::regex_constants::icase);
+	std::smatch		    results;
 	std::string::const_iterator iter_begin = message.begin();
 	std::string::const_iterator iter_end   = message.end();
 

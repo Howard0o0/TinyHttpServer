@@ -34,18 +34,18 @@ void TcpRelay::TcpConnectionReleaseCb(TcpConnection& connection) {
 	std::string connection_id =
 		connection.remote_ip() + std::to_string(connection.remote_port())
 		+ connection.local_ip() + std::to_string(connection.local_port());
-	auto other_connection =
-		this->tunnel_dict_[ connection_id ].connection_with_remote.get() == &connection
-			? this->tunnel_dict_[ connection_id ].connection_with_client
-			: this->tunnel_dict_[ connection_id ].connection_with_remote;
-	std::string other_connection_id =
-		other_connection->remote_ip() + std::to_string(other_connection->remote_port())
-		+ other_connection->local_ip() + std::to_string(other_connection->local_port());
+	// auto other_connection =
+	// 	*this->tunnel_dict_[ connection_id ].connection_with_remote == connection
+	// 		? this->tunnel_dict_[ connection_id ].connection_with_client
+	// 		: this->tunnel_dict_[ connection_id ].connection_with_remote;
+	// std::string other_connection_id =
+	// 	other_connection->remote_ip() + std::to_string(other_connection->remote_port())
+	// 	+ other_connection->local_ip() + std::to_string(other_connection->local_port());
 
 	LOG(debug) << "tunnel destroyed";
 	this->tunnel_dict_[ connection_id ].Destroy();
 	this->tunnel_dict_.erase(connection_id);
-	this->tunnel_dict_.erase(other_connection_id);
+	// this->tunnel_dict_.erase(other_connection_id);
 }
 
 /* end of pirvate methods */

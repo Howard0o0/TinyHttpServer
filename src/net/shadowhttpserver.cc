@@ -2,12 +2,24 @@
 #include "httpmessagecodec.h"
 #include "sockettool.h"
 
+/* public methods */
+
+ShadowhttpServer::ShadowhttpServer() {
+	this->threadpool_.Start(10);
+}
+
+/* end of public methods */
+
 /* private methods */
 
 void ShadowhttpServer::ServerMessageArrivedCb(TcpConnection&	 connection,
 					      const std::string& message) {
 	LOG(debug) << "shadowhttp server receive [len:" << message.size() << "] :" << message;
-	this->HandleHttpProxyMessage(connection, *const_cast< std::string* >(&message));
+	this->threadpool_.RunTask(std::bind(&ShadowhttpServer::HandleHttpProxyMessage, this,
+					    std::ref(connection),
+					    *const_cast< std::string* >(&message)));
+
+	// this->HandleHttpProxyMessage(connection, *const_cast< std::string* >(&message));
 }
 void ShadowhttpServer::ClientMessageArrivedCb(TcpConnection&	 connection,
 					      const std::string& message) {
@@ -45,13 +57,27 @@ void ShadowhttpServer::HandleHttpProxyMessage(TcpConnection& connection, std::st
 		struct SockAddress remote_addr = this->codec_.ScratchRemoteAddress(message);
 		if (remote_addr.ip.empty())
 			return;
-		TcpConnection* connection_with_remote =
-			this->tcpclient_->Connect(remote_addr.ip, remote_addr.port);
-		if (!connection_with_remote) {
+
+		int conn_with_remote_fd =
+			SocketTool::ConnectToServer(remote_addr.ip, remote_addr.port, true);
+		if (conn_with_remote_fd < 0) {
 			LOG(error) << "connect to " << remote_addr.ip << ":" << remote_addr.port
 				   << "failed";
 			return;
 		}
+		SockAddress local_socket_address = SocketTool::GetSockAddress(conn_with_remote_fd);
+		TcpConnection* connection_with_remote =
+			new TcpConnection(conn_with_remote_fd, remote_addr.ip, remote_addr.port,
+					  "127.0.0.1", local_socket_address.port);
+		this->tcpclient_->WatchConnection(connection_with_remote);
+
+		// TcpConnection* connection_with_remote =
+		// 	this->tcpclient_->Connect(remote_addr.ip, remote_addr.port);
+		// if (!connection_with_remote) {
+		// 	LOG(error) << "connect to " << remote_addr.ip << ":" << remote_addr.port
+		// 		   << "failed";
+		// 	return;
+		// }
 
 		Tunnel tunnel(&connection, connection_with_remote);
 		connection_with_remote_id = connection_with_remote->remote_ip()

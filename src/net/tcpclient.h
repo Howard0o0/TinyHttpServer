@@ -20,14 +20,15 @@ class TcpClient {
 	void	       SetConnectionReleaseCb(const TcpConnectionReleaseCallback& cb);
 	bool	       SendMessage(TcpConnection* connection, const std::string& message,
 				   bool close_on_sent = false);
+	void	       WatchConnection(TcpConnection* connection);
 
     private:
-	std::unique_ptr< TcpConnection > connection_;
-	MessageArrivedCallback		 message_arrived_cb_;
-	TcpConnectionReleaseCallback	 connection_release_cb_;
-	struct ev_loop*			 evloop_;
-	bool				 loop_run_;
-	ThreadPool			 threadpool_;
+	MessageArrivedCallback	     message_arrived_cb_;
+	TcpConnectionReleaseCallback connection_release_cb_;
+	struct ev_loop*		     evloop_;
+	bool			     loop_run_;
+	ThreadPool		     threadpool_;
+	std::mutex		     evloop_lock_;
 
 	void MessageArrivedCb(ev::io& watcher, int revents);
 	void SendIoWatcherCb(ev::io& watcher, int revents);

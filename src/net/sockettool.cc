@@ -89,7 +89,7 @@ bool SocketTool::IsIpv4address(const std::string& address) {
 
 std::string SocketTool::GetIpv4addressByDomainName(const std::string& domain_name) {
 	struct hostent* host = gethostbyname(domain_name.c_str());
-	if (!host) {
+	if (!host || !( struct in_addr* )host->h_addr_list[ 0 ]) {
 		LOG(error) << "domain_name illegal : " << domain_name;
 		return "";
 	}

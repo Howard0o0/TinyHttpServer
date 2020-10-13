@@ -42,6 +42,13 @@ class TcpConnection {
 		  local_port_(local_port) {
 	}
 	~TcpConnection();
+	bool operator==(const TcpConnection& connection) {
+		return this->connection_fd_ == connection.connection_fd()
+		       && this->remote_ip_ == connection.remote_ip()
+		       && this->remote_port_ == connection.remote_port()
+		       && this->local_ip_ == connection.local_ip()
+		       && this->local_port_ == connection.local_port();
+	}
 
 	void	    Disconnect();
 	int	    connection_fd() const;

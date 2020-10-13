@@ -42,7 +42,7 @@ void PrintWithArg(const std::string& str) {
 
 class Printer {
     public:
-	void PrintWithArg(const std::string& str) {
+	void PrintWithArg(std::string& str) {
 		std::cout << "print with arg by printer: " << str << std::endl;
 	}
 };
@@ -67,17 +67,19 @@ void Test3() {
 	nethelper::ThreadPool threadpool;
 	threadpool.Start(2);
 
-	Printer printer;
-	threadpool.RunTask(std::bind(&Printer::PrintWithArg, &printer, "hello world!"));
+	Printer	    printer;
+	std::string str = "hello";
+	threadpool.RunTask(std::bind(&Printer::PrintWithArg, &printer, std::ref(str)));
 }
 void Test4() {
 
 	std::cout << "==========run object's function with arg in global "
 		     "pool============="
 		  << std::endl;
-	Printer printer;
+	Printer	    printer;
+	std::string str = "hello";
 	nethelper::ThreadPool::RunTaskInGlobalThreadPool(
-		std::bind(&Printer::PrintWithArg, &printer, "hello world!"));
+		std::bind(&Printer::PrintWithArg, &printer, std::ref(str)));
 }
 
 nethelper::LockFreeQue< int > que;
@@ -224,7 +226,7 @@ static void conn_cb(EV_P_ ev_io* watcher, int revents) {
 }
 
 static void listen_cb(EV_P_ ev_io* watcher, int revents) {
-	LOG(trace) << "create a new connection";
+	LOG(debug) << "create a new connection";
 
 	int   connfd = accept4(watcher->fd, NULL, NULL, SOCK_NONBLOCK);
 	ev_io connfd_watcher;
@@ -234,12 +236,20 @@ static void listen_cb(EV_P_ ev_io* watcher, int revents) {
 	ev_run(loop, 0);
 }
 
-void LibevTest() {
+static void nullfd_read_cb(EV_P_ ev_io* watcher, int revents) {
+	LOG(debug) << " null fd read cb triggered ";
+}
 
-	// ev_run(loop, 0);
+void StartLoop() {
+
 	ThreadPool threadpool;
 	threadpool.Start(1);
 	threadpool.RunTask(std::bind(ev_run, loop, 0));
+}
+
+void LibevTest() {
+
+	// StartLoop();
 	sleep(5);
 
 	int listenfd = SocketTool::CreateListenSocket(9999, 10000, false);
@@ -248,6 +258,7 @@ void LibevTest() {
 
 	ev_io_init(&listenfd_watcher, listen_cb, /*STDIN_FILENO*/ listenfd, EV_READ);
 	ev_io_start(loop, &listenfd_watcher);
+	ev_run(loop, 0);
 
 	while (1)
 		;
@@ -354,9 +365,13 @@ void RegexTest2() {
 	std::string text = "CONNECT mtalk.google.com:443 HTTP/1.1\r\n"
 			   "Host: c.go-mpulse.net:443\r\n"
 			   "Proxy-Connection : keep-live \r\n\r\n";
+	std::string text2 = "GET http://baidu.com/ HTTP/1.1\r\n"
+			    "Host: baidu.com\r\n"
+			    "Proxy-Connection: keep-alive\r\n"
+			    "Cache-Control: max-age=0\r\n";
 
 	HttpMessageCodec codec;
-	SockAddress	 addr = codec.ScratchRemoteAddress(text);
+	SockAddress	 addr = codec.ScratchRemoteAddress(text2);
 	std::cout << addr.ip << "," << addr.port << std::endl;
 
 	// std::string				    pattern = "CONNECT\\s(.*):(\\d+)\\b";

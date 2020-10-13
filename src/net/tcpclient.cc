@@ -12,6 +12,50 @@ TcpClient::TcpClient() : loop_run_(false) {
 	this->evloop_ = ev_loop_new(EVFLAG_AUTO);
 	this->SetMessageArrivedCb(std::bind(&TcpClient::DefaultMessageArrivedCb, this,
 					    std::placeholders::_1, std::placeholders::_2));
+}
+TcpClient::~TcpClient() {
+	// ev_break(this->evloop_, EVBREAK_ONE);
+	// ev_loop_destroy(this->evloop_);
+}
+
+static void null_listen_cb(EV_P_ ev_io* watcher, int revents) {
+	// LOG(debug) << "create a new connection";
+	return;
+}
+
+void TcpClient::StartLoop() {
+	LOG(debug) << "start loop";
+	if (!this->evloop_) {
+		LOG(error) << "evloop is null";
+		return;
+	}
+
+	int   null_listenfd = SocketTool::CreateListenSocket(10050, 10000, false);
+	ev_io listenfd_watcher;
+	ev_io_init(&listenfd_watcher, null_listen_cb, /*STDIN_FILENO*/ null_listenfd, EV_READ);
+	ev_io_start(this->evloop_, &listenfd_watcher);
+	ev_break(this->evloop_, EVBREAK_ONE);
+	this->loop_run_ = true;
+	ev_run(this->evloop_, 0);
+}
+
+// bool TcpClient::is_connected() const {
+// 	return this->is_connected_;
+// }
+
+void TcpClient::WatchConnection(TcpConnection* connection) {
+	std::lock_guard< std::mutex > guard(this->evloop_lock_);
+
+	connection->receive_message_watcher().set< TcpClient, &TcpClient::MessageArrivedCb >(this);
+	connection->receive_message_watcher().set(this->evloop_);
+	connection->receive_message_watcher().start(connection->connection_fd(), ev::READ);
+
+	connection->send_message_watcher().set< TcpClient, &TcpClient::SendIoWatcherCb >(this);
+	connection->send_message_watcher().set(this->evloop_);
+	connection->send_message_watcher().stop();
+
+	if (this->connection_release_cb_)
+		connection->SetDisconnectCb(this->connection_release_cb_);
 
 	if (!this->loop_run_) {
 		this->threadpool_.Start(1);
@@ -21,25 +65,7 @@ TcpClient::TcpClient() : loop_run_(false) {
 			;
 	}
 }
-TcpClient::~TcpClient() {
-	ev_break(this->evloop_, EVBREAK_ONE);
-	ev_loop_destroy(this->evloop_);
-}
 
-void TcpClient::StartLoop() {
-	LOG(debug) << "start loop";
-	if (!this->evloop_) {
-		LOG(error) << "evloop is null";
-		return;
-	}
-	// ev_break(this->evloop_, EVBREAK_ONE);
-	this->loop_run_ = true;
-	ev_run(this->evloop_, 0);
-}
-
-// bool TcpClient::is_connected() const {
-// 	return this->is_connected_;
-// }
 TcpConnection* TcpClient::Connect(const std::string& remote_ip, uint16_t remote_port) {
 
 	int socketfd = SocketTool::ConnectToServer(remote_ip, remote_port, true);
@@ -51,25 +77,8 @@ TcpConnection* TcpClient::Connect(const std::string& remote_ip, uint16_t remote_
 	TcpConnection* connection =
 		new TcpConnection(socketfd, remote_ip, remote_port, local_socket_address.ip,
 				  local_socket_address.port);
-	connection->receive_message_watcher().set< TcpClient, &TcpClient::MessageArrivedCb >(this);
-	connection->receive_message_watcher().set(this->evloop_);
-	connection->receive_message_watcher().start(socketfd, ev::READ);
-
-	connection->send_message_watcher().set< TcpClient, &TcpClient::SendIoWatcherCb >(this);
-	connection->send_message_watcher().set(this->evloop_);
-	connection->send_message_watcher().stop();
-
-	if (this->connection_release_cb_)
-		connection->SetDisconnectCb(this->connection_release_cb_);
-
+	this->WatchConnection(connection);
 	LOG(info) << "connected to remote " << remote_ip << ":" << remote_port;
-	// if (!this->loop_run_) {
-	// 	this->threadpool_.Start(1);
-	// 	this->threadpool_.RunTask(std::bind(&TcpClient::StartLoop, this));
-	// 	LOG(debug) << "run loop";
-	// 	while (!this->loop_run_)
-	// 		;
-	// }
 	return connection;
 }
 
@@ -79,7 +88,7 @@ void TcpClient::SetMessageArrivedCb(const MessageArrivedCallback& cb) {
 
 bool TcpClient::SendMessage(TcpConnection* connection, const std::string& message,
 			    bool close_on_sent) {
-	if (message.empty()) {
+	if (message.empty() || connection->connection_fd() <= 0) {
 		if (close_on_sent) {
 			LOG(debug) << "message to send empty, closed";
 			connection->Disconnect();
@@ -128,7 +137,8 @@ void TcpClient::SetConnectionReleaseCb(const TcpConnectionReleaseCallback& cb) {
 /* private methods */
 
 void TcpClient::MessageArrivedCb(ev::io& watcher, int revents) {
-	watcher.stop();
+	// watcher.stop();
+	LOG(debug) << "tcp read io watch triggered";
 
 	/* 向上转换connection有误 */
 	bool	       pipe_broken;
@@ -137,7 +147,6 @@ void TcpClient::MessageArrivedCb(ev::io& watcher, int revents) {
 		reinterpret_cast< TcpConnectionContext* >(&watcher)->tcpconnection;
 	LOG(info) << "new message [len:" << message.size() << "] from (" << connection->remote_ip()
 		  << ":" << connection->remote_port() << "):" << message;
-	EAGAIN;
 	if (message.empty() && pipe_broken) {
 		LOG(debug) << "read errno : " << errno;
 		connection->Disconnect();
@@ -147,7 +156,7 @@ void TcpClient::MessageArrivedCb(ev::io& watcher, int revents) {
 	else if (this->message_arrived_cb_ && !message.empty()) {
 		this->message_arrived_cb_(*(connection), message);
 	}
-	watcher.start(watcher.fd, EV_READ);
+	// watcher.start(watcher.fd, EV_READ);
 }
 
 // void TcpClient::Reconnect() {

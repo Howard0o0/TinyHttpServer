@@ -12,8 +12,7 @@ void ThreadPool::Start(unsigned int size) {
 	running_ = true;
 
 	for (size_t i = 0; i < size; i++) {
-		threads_.emplace_back(
-			new Thread(std::bind(&ThreadPool::ConsumeTask, this)));
+		threads_.emplace_back(new Thread(std::bind(&ThreadPool::ConsumeTask, this)));
 	}
 }
 ThreadPool::~ThreadPool() {
@@ -24,14 +23,14 @@ void ThreadPool::RunTask(Task task) {
 
 	std::unique_lock< std::mutex > locker(this->tasks_lock_);
 	tasks_.push(std::move(task));
+	// tasks_.push(task);
 	tasks_cond_.notify_one();
 }
 void ThreadPool::Stop() {
 	WaitAllTasksDone();
 
 	do {
-		std::lock_guard< std::mutex > locker_running(
-			this->running_lock_);
+		std::lock_guard< std::mutex > locker_running(this->running_lock_);
 		running_ = false;
 	} while (0);
 
