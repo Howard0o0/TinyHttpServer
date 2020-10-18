@@ -15,6 +15,7 @@ int main() {
 	// Test3();
 	// Test4();
 	// Test6();
+	// Test7();
 	// TestLockFreeThreadPool();
 	// HiredisTest2();
 	// LOG_SET_LEVEL(debug);
@@ -34,7 +35,10 @@ int main() {
 	// LogTest();
 	// LibevTest();
 
+	// TcpServerTest();
 	// TcpClientTest();
+	// while (1)
+	// 	;
 	// TcprelayTest();
 
 	ShadowhttpServerTest();

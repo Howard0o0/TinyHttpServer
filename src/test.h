@@ -7,7 +7,9 @@ void Test3();
 void Test4();
 void Test5();
 void Test6();
+void Test7();
 void TestLockFreeThreadPool();
+void TcpServerTest();
 
 void LinuxCommandTest();
 void LogTest();
@@ -18,6 +20,6 @@ void TcpClientTest();
 void TcprelayTest();
 void RegexTest();
 void RegexTest2();
-void ShadowhttpServerTest() ;
+void ShadowhttpServerTest();
 
 #endif

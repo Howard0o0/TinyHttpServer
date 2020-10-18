@@ -1,5 +1,6 @@
 #include "shadowhttpserver.h"
 #include "httpmessagecodec.h"
+
 #include "sockettool.h"
 
 /* public methods */
@@ -71,21 +72,15 @@ void ShadowhttpServer::HandleHttpProxyMessage(TcpConnection& connection, std::st
 					  "127.0.0.1", local_socket_address.port);
 		this->tcpclient_->WatchConnection(connection_with_remote);
 
-		// TcpConnection* connection_with_remote =
-		// 	this->tcpclient_->Connect(remote_addr.ip, remote_addr.port);
-		// if (!connection_with_remote) {
-		// 	LOG(error) << "connect to " << remote_addr.ip << ":" << remote_addr.port
-		// 		   << "failed";
-		// 	return;
-		// }
-
 		Tunnel tunnel(&connection, connection_with_remote);
 		connection_with_remote_id = connection_with_remote->remote_ip()
 					    + std::to_string(connection_with_remote->remote_port())
 					    + connection_with_remote->local_ip()
 					    + std::to_string(connection_with_remote->local_port());
+		std::lock_guard< std::mutex > guard(this->tunnel_dict_mutex_);
 		this->tunnel_dict_.emplace(connection_with_client_id, tunnel);
 		this->tunnel_dict_.emplace(connection_with_remote_id, tunnel);
+		this->tunnel_dict_mutex_.unlock();
 
 		if (http_proxymessage_type == CONNECT) {
 			this->ResponseProxyclient(&connection, ESTABLISH);

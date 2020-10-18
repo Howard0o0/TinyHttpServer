@@ -12,14 +12,27 @@ TcpClient::TcpClient() : loop_run_(false) {
 	this->evloop_ = ev_loop_new(EVFLAG_AUTO);
 	this->SetMessageArrivedCb(std::bind(&TcpClient::DefaultMessageArrivedCb, this,
 					    std::placeholders::_1, std::placeholders::_2));
+	if (!this->loop_run_) {
+		this->threadpool_.Start(1);
+		this->threadpool_.RunTask(std::bind(&TcpClient::StartLoop, this));
+		LOG(debug) << "run loop";
+		while (!this->loop_run_) {
+			LOG(debug) << "waiting loop run";
+			sleep(1);
+		}
+	}
 }
 TcpClient::~TcpClient() {
 	// ev_break(this->evloop_, EVBREAK_ONE);
 	// ev_loop_destroy(this->evloop_);
 }
 
-static void null_listen_cb(EV_P_ ev_io* watcher, int revents) {
-	// LOG(debug) << "create a new connection";
+static void null_listen_cb(ev::timer& w, int revents) {
+	LOG(debug) << "receive a new connection";
+	// w.start(1., 0.);
+	// accept(w.fd, NULL, NULL);
+	// close(w.fd);
+
 	return;
 }
 
@@ -30,11 +43,12 @@ void TcpClient::StartLoop() {
 		return;
 	}
 
-	int   null_listenfd = SocketTool::CreateListenSocket(10050, 10000, false);
-	ev_io listenfd_watcher;
-	ev_io_init(&listenfd_watcher, null_listen_cb, /*STDIN_FILENO*/ null_listenfd, EV_READ);
-	ev_io_start(this->evloop_, &listenfd_watcher);
-	ev_break(this->evloop_, EVBREAK_ONE);
+	int null_listenfd = SocketTool::CreateListenSocket(10050, 10000, false);
+
+	ev::timer timer_watcher;
+	timer_watcher.set< null_listen_cb >();
+	timer_watcher.set(this->evloop_);
+	timer_watcher.start(0., 3.);
 	this->loop_run_ = true;
 	ev_run(this->evloop_, 0);
 }
@@ -44,7 +58,7 @@ void TcpClient::StartLoop() {
 // }
 
 void TcpClient::WatchConnection(TcpConnection* connection) {
-	std::lock_guard< std::mutex > guard(this->evloop_lock_);
+	// std::lock_guard< std::mutex > guard(this->evloop_lock_);
 
 	connection->receive_message_watcher().set< TcpClient, &TcpClient::MessageArrivedCb >(this);
 	connection->receive_message_watcher().set(this->evloop_);
@@ -56,14 +70,7 @@ void TcpClient::WatchConnection(TcpConnection* connection) {
 
 	if (this->connection_release_cb_)
 		connection->SetDisconnectCb(this->connection_release_cb_);
-
-	if (!this->loop_run_) {
-		this->threadpool_.Start(1);
-		this->threadpool_.RunTask(std::bind(&TcpClient::StartLoop, this));
-		LOG(debug) << "run loop";
-		while (!this->loop_run_)
-			;
-	}
+	LOG(debug) << "watch connection success";
 }
 
 TcpConnection* TcpClient::Connect(const std::string& remote_ip, uint16_t remote_port) {

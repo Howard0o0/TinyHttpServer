@@ -40,6 +40,10 @@ void PrintWithArg(const std::string& str) {
 	std::cout << "print with arg: " << str << std::endl;
 }
 
+void PrintWithArg2(const std::string& str, const std::string& str2) {
+	std::cout << "print with arg: " << str << "," << str2 << std::endl;
+}
+
 class Printer {
     public:
 	void PrintWithArg(std::string& str) {
@@ -61,6 +65,13 @@ void Test2() {
 	nethelper::ThreadPool threadpool;
 	threadpool.Start(2);
 	threadpool.RunTask(std::bind(PrintWithArg, "hello world!"));
+}
+void Test7() {
+	std::cout << "==========run function with arg=============" << std::endl;
+
+	nethelper::ThreadPool threadpool;
+	threadpool.Start(2);
+	// threadpool.RunTask(std::bind(PrintWithArg2, "hello world!", std::placeholders::_2));
 }
 void Test3() {
 	std::cout << "==========run object's function with arg=============" << std::endl;
@@ -137,8 +148,6 @@ void Test6() {
 	t6.join();
 }
 
-void Test7() {
-}
 void TestLockFreeThreadPool() {
 	std::cout << "==========run object's function with arg=============" << std::endl;
 	nethelper::LockFreeThreadPool threadpool;
@@ -269,25 +278,21 @@ static void TcpServerThreadFunc() {
 	tcpserver->Start();
 }
 
-TcpClient*  tcpclient;
+void TcpServerTest() {
+	TcpServerThreadFunc();
+}
+
 static void TcpClientThreadFunc() {
+	TcpClient* tcpclient;
 	tcpclient = new TcpClient();
-	// tcpclient->Connect("172.16.178.135", 8888);
-	// tcpclient->StartLoop();
-	// tcpclient.SendMessage("hahaha", false);
+	tcpclient->Connect("192.168.3.22", 8888);
+	// ThreadPool pool;
+	// pool.Start(1);
+	// pool.RunTask(std::bind(&TcpClient::Connect, tcpclient, "192.168.3.22", 8888));
+	// tcpclient->Connect("192.168.3.22", 8888);
 }
 void TcpClientTest() {
-	// ThreadPool::RunTaskInGlobalThreadPool(std::bind(TcpServerThreadFunc));
-	// ThreadPool::RunTaskInGlobalThreadPool(std::bind(TcpClientThreadFunc));
-	// TcpServerThreadFunc();
 	TcpClientThreadFunc();
-	// while (!tcpclient || !tcpclient->is_connected())
-	// 	sleep(1);
-	for (int i = 0; i < 5; ++i) {
-		TcpConnection* conn = tcpclient->Connect("172.16.178.135", 8888);
-		sleep(1);
-		tcpclient->SendMessage(conn, std::to_string(i));
-	}
 }
 
 class DirectRelay : public TcpRelay {

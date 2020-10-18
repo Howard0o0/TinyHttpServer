@@ -4,6 +4,7 @@
 #include "httpmessagecodec.h"
 #include "tcprelay.h"
 #include "tunnel.h"
+#include <mutex>
 #include <unordered_map>
 
 enum ResponseProxyclientMessageType { ESTABLISH, CONNECT_TIMEOUT };
@@ -15,6 +16,7 @@ class ShadowhttpServer : public TcpRelay {
     private:
 	HttpMessageCodec codec_;
 	ThreadPool	 threadpool_;
+	std::mutex	 tunnel_dict_mutex_;
 
 	virtual void ServerMessageArrivedCb(TcpConnection&     connection,
 					    const std::string& message) override;
