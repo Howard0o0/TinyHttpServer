@@ -14,12 +14,8 @@ void TcpConnection::Disconnect() {
 		return;
 	close(this->connection_fd_);
 	this->connection_fd_ = -1;
-	// if (this->receive_context_.io_watcher.is_active())
-	// 	this->receive_context_.io_watcher.stop();
-	// if (this->send_context_.io_watcher.is_active())
-	// 	this->send_context_.io_watcher.stop();
-	// LOG(debug) << "disconnect : (" << this->remote_ip_ << ":" << this->remote_port_ << "),("
-	// 	   << this->local_ip_ << ":" << this->local_port_ << ")";
+	this->receive_message_watcher().stop();
+	this->send_message_watcher().stop();
 
 	if (this->disconnect_cb_)
 		this->disconnect_cb_(*this);

@@ -43,8 +43,8 @@ void TcpRelay::TcpConnectionReleaseCb(TcpConnection& connection) {
 	// 	+ other_connection->local_ip() + std::to_string(other_connection->local_port());
 
 	LOG(debug) << "tunnel destroyed";
-	this->tunnel_dict_[ connection_id ].Destroy();
-	this->tunnel_dict_.erase(connection_id);
+	this->tunnel_dict_[ connection.connection_fd() ].Destroy();
+	this->tunnel_dict_.erase(connection.connection_fd());
 	// this->tunnel_dict_.erase(other_connection_id);
 }
 

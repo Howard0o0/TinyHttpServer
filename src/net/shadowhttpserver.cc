@@ -29,12 +29,12 @@ void ShadowhttpServer::ClientMessageArrivedCb(TcpConnection&	 connection,
 		connection.remote_ip() + std::to_string(connection.remote_port())
 		+ connection.local_ip() + std::to_string(connection.local_port());
 	LOG(debug) << "remote socket : " << connection_with_remote_id;
-	if (!this->tunnel_dict_.count(connection_with_remote_id)) {
+	if (!this->tunnel_dict_.count(connection.connection_fd())) {
 		LOG(error) << "can't find tunnel :" << connection_with_remote_id;
 		return;
 	}
 	TcpConnection* conn_with_client =
-		this->tunnel_dict_[ connection_with_remote_id ].connection_with_client.get();
+		this->tunnel_dict_[ connection.connection_fd() ].connection_with_client.get();
 	if (this->tcpserver_->SendMessage(conn_with_client, message))
 		LOG(debug) << "foward to proxy client success : " << message;
 }
@@ -78,8 +78,8 @@ void ShadowhttpServer::HandleHttpProxyMessage(TcpConnection& connection, std::st
 					    + connection_with_remote->local_ip()
 					    + std::to_string(connection_with_remote->local_port());
 		std::lock_guard< std::mutex > guard(this->tunnel_dict_mutex_);
-		this->tunnel_dict_.emplace(connection_with_client_id, tunnel);
-		this->tunnel_dict_.emplace(connection_with_remote_id, tunnel);
+		this->tunnel_dict_.emplace(connection.connection_fd(), tunnel);
+		this->tunnel_dict_.emplace(connection_with_remote->connection_fd(), tunnel);
 		this->tunnel_dict_mutex_.unlock();
 
 		if (http_proxymessage_type == CONNECT) {
@@ -94,13 +94,13 @@ void ShadowhttpServer::HandleHttpProxyMessage(TcpConnection& connection, std::st
 		return;
 
 	/* forward message to remote */
-	if (!this->tunnel_dict_.count(connection_with_client_id)) {
+	if (!this->tunnel_dict_.count(connection.connection_fd())) {
 		LOG(debug) << "client socket :" << connection_with_client_id;
 		LOG(error) << "can't find tunnel";
 		return;
 	}
 	TcpConnection* connection_with_remote =
-		this->tunnel_dict_[ connection_with_client_id ].connection_with_remote.get();
+		this->tunnel_dict_[ connection.connection_fd() ].connection_with_remote.get();
 	if (this->tcpclient_->SendMessage(connection_with_remote, message) == false) {
 		LOG(error) << "send to " << connection_with_remote->remote_ip() << ":"
 			   << connection_with_remote->remote_port() << "failed : " << message;

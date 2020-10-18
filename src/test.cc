@@ -303,7 +303,7 @@ class DirectRelay : public TcpRelay {
 		{
 			std::string remote_socket = "172.16.178.1358888";
 			// this->tunnel_dict_[ remote_socket ] = tunnel;
-			if (this->tunnel_dict_.count(remote_socket))
+			if (this->tunnel_dict_.count(connection.connection_fd()))
 				return;
 			TcpConnection* connection_with_remote =
 				this->tcpclient_->Connect("172.16.178.135", 8888);
@@ -316,9 +316,9 @@ class DirectRelay : public TcpRelay {
 			remote_socket = connection_with_remote->remote_ip()
 					+ std::to_string(connection_with_remote->remote_port());
 			// this->tunnel_dict_[ remote_socket ] = tunnel;
-			if (this->tunnel_dict_.count(remote_socket))
+			if (this->tunnel_dict_.count(connection.connection_fd()))
 				return;
-			this->tunnel_dict_.emplace(remote_socket, tunnel);
+			this->tunnel_dict_.emplace(connection.connection_fd(), tunnel);
 		}
 		LOG(debug) << "end of server message cb";
 	}
@@ -329,7 +329,7 @@ class DirectRelay : public TcpRelay {
 		std::string socket =
 			connection.remote_ip() + std::to_string(connection.remote_port());
 		auto connection_with_proxy_client =
-			this->tunnel_dict_[ socket ].connection_with_client;
+			this->tunnel_dict_[ connection.connection_fd() ].connection_with_client;
 		this->tcpserver_->SendMessage(connection_with_proxy_client.get(), message);
 
 		// this->tcpserver_->SendMessage(this->connection_with_proxyclient_, message,

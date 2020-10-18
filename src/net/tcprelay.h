@@ -25,9 +25,9 @@ class TcpRelay {
 	void TcpConnectionReleaseCb(TcpConnection& connection);
 
     protected:
-	std::unique_ptr< TcpServer >		  tcpserver_;
-	std::unique_ptr< TcpClient >		  tcpclient_;
-	std::unordered_map< std::string, Tunnel > tunnel_dict_;
+	std::unique_ptr< TcpServer >	  tcpserver_;
+	std::unique_ptr< TcpClient >	  tcpclient_;
+	std::unordered_map< int, Tunnel > tunnel_dict_;  // <fd,tunnel>
 };
 
 #endif
