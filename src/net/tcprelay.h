@@ -7,6 +7,7 @@
 #include "threadpool.h"
 #include "tunnel.h"
 #include <memory>
+#include <mutex>
 
 class TcpRelay {
     public:
@@ -16,18 +17,20 @@ class TcpRelay {
 	void	     ServerMessageArrivedCallbackPreprocess(TcpConnection&     connection,
 							    const std::string& message);
 	virtual void ServerMessageArrivedCb(TcpConnection&     connection,
-					    const std::string& message) = 0;
-	virtual void ClientMessageArrivedCb(TcpConnection&     connection,
-					    const std::string& message) = 0;
+					    const std::string& message)	    = 0;
+	virtual void MessageFromRemoteArrivedCb(TcpConnection&	   connection,
+						const std::string& message) = 0;
 
 	void StartTcpserver(uint16_t listen_port);
-	void StartTcpclient();
 	void TcpConnectionReleaseCb(TcpConnection& connection);
+	void MessageArrivedCb(ev::io& watcher, int revents);
 
     protected:
-	std::unique_ptr< TcpServer >	  tcpserver_;
-	std::unique_ptr< TcpClient >	  tcpclient_;
-	std::unordered_map< int, Tunnel > tunnel_dict_;  // <fd,tunnel>
+	std::unique_ptr< TcpServer >   tcpserver_;
+	std::mutex		       tunnels_lock_;
+	std::unordered_map< int, int > tunnels;	 // <fd,fd>
+
+	void WatchConnection(TcpConnection* connection);
 };
 
 #endif

@@ -28,7 +28,7 @@ TcpClient::~TcpClient() {
 }
 
 static void null_listen_cb(ev::timer& w, int revents) {
-	LOG(debug) << "receive a new connection";
+	LOG(debug) << "timer out";
 	// w.start(1., 0.);
 	// accept(w.fd, NULL, NULL);
 	// close(w.fd);
@@ -43,12 +43,12 @@ void TcpClient::StartLoop() {
 		return;
 	}
 
-	int null_listenfd = SocketTool::CreateListenSocket(10050, 10000, false);
+	// int null_listenfd = SocketTool::CreateListenSocket(10050, 10000, false);
 
 	ev::timer timer_watcher;
 	timer_watcher.set< null_listen_cb >();
 	timer_watcher.set(this->evloop_);
-	timer_watcher.start(0., 3.);
+	timer_watcher.start(0., 100.);
 	this->loop_run_ = true;
 	ev_run(this->evloop_, 0);
 }
@@ -157,6 +157,7 @@ void TcpClient::MessageArrivedCb(ev::io& watcher, int revents) {
 	if (message.empty() && pipe_broken) {
 		LOG(debug) << "read errno : " << errno;
 		connection->Disconnect();
+		watcher.stop();
 		LOG(debug) << "disconnect";
 		return;
 	}

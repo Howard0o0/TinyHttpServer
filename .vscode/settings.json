@@ -63,6 +63,9 @@
 		"strstream": "cpp",
 		"iomanip": "cpp",
 		"cfenv": "cpp",
-		"codecvt": "cpp"
-        }
+		"codecvt": "cpp",
+		"bit": "cpp",
+		"shared_mutex": "cpp",
+		"variant": "cpp"
+	}
 }

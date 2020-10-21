@@ -92,6 +92,7 @@ CMakeFiles/tcpserver.dir/src/net/tcpconnection.cc.o: src/base/callback.h
 CMakeFiles/tcpserver.dir/src/net/tcpconnection.cc.o: src/base/log.h
 CMakeFiles/tcpserver.dir/src/net/tcpconnection.cc.o: src/net/tcpconnection.h
 
+CMakeFiles/tcpserver.dir/src/net/tcprelay.cc.o: src/net/sockettool.h
 CMakeFiles/tcpserver.dir/src/net/tcprelay.cc.o: src/net/tcpclient.h
 CMakeFiles/tcpserver.dir/src/net/tcprelay.cc.o: src/net/tcpconnection.h
 CMakeFiles/tcpserver.dir/src/net/tcprelay.cc.o: src/net/tcprelay.cc

@@ -16,12 +16,11 @@ class ShadowhttpServer : public TcpRelay {
     private:
 	HttpMessageCodec codec_;
 	ThreadPool	 threadpool_;
-	std::mutex	 tunnel_dict_mutex_;
 
 	virtual void ServerMessageArrivedCb(TcpConnection&     connection,
 					    const std::string& message) override;
-	virtual void ClientMessageArrivedCb(TcpConnection&     connection,
-					    const std::string& message) override;
+	virtual void MessageFromRemoteArrivedCb(TcpConnection&	   connection,
+						const std::string& message) override;
 
 	void HandleHttpProxyMessage(TcpConnection& connection, std::string& message);
 	void ResponseProxyclient(TcpConnection*			     connection,

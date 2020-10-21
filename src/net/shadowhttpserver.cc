@@ -1,5 +1,6 @@
 #include "shadowhttpserver.h"
 #include "httpmessagecodec.h"
+#include <thread>
 
 #include "sockettool.h"
 
@@ -16,25 +17,22 @@ ShadowhttpServer::ShadowhttpServer() {
 void ShadowhttpServer::ServerMessageArrivedCb(TcpConnection&	 connection,
 					      const std::string& message) {
 	LOG(debug) << "shadowhttp server receive [len:" << message.size() << "] :" << message;
-	this->threadpool_.RunTask(std::bind(&ShadowhttpServer::HandleHttpProxyMessage, this,
-					    std::ref(connection),
-					    *const_cast< std::string* >(&message)));
 
-	// this->HandleHttpProxyMessage(connection, *const_cast< std::string* >(&message));
+	std::thread t1(std::bind(&ShadowhttpServer::HandleHttpProxyMessage, this,
+				 std::ref(connection), *const_cast< std::string* >(&message)));
+	t1.detach();
 }
-void ShadowhttpServer::ClientMessageArrivedCb(TcpConnection&	 connection,
-					      const std::string& message) {
+void ShadowhttpServer::MessageFromRemoteArrivedCb(TcpConnection&     connection,
+						  const std::string& message) {
 
-	std::string connection_with_remote_id =
-		connection.remote_ip() + std::to_string(connection.remote_port())
-		+ connection.local_ip() + std::to_string(connection.local_port());
-	LOG(debug) << "remote socket : " << connection_with_remote_id;
-	if (!this->tunnel_dict_.count(connection.connection_fd())) {
-		LOG(error) << "can't find tunnel :" << connection_with_remote_id;
+	std::lock_guard< std::mutex > guard(this->tunnels_lock_);
+
+	if (!this->tunnels.count(connection.connection_fd())) {
+		LOG(error) << "can't find tunnel ";
 		return;
 	}
 	TcpConnection* conn_with_client =
-		this->tunnel_dict_[ connection.connection_fd() ].connection_with_client.get();
+		new TcpConnection(this->tunnels[ connection.connection_fd() ]);
 	if (this->tcpserver_->SendMessage(conn_with_client, message))
 		LOG(debug) << "foward to proxy client success : " << message;
 }
@@ -49,10 +47,6 @@ void ShadowhttpServer::HandleHttpProxyMessage(TcpConnection& connection, std::st
 	else
 		LOG(debug) << "FORWARD";
 
-	std::string connection_with_client_id =
-		connection.remote_ip() + std::to_string(connection.remote_port())
-		+ connection.local_ip() + std::to_string(connection.local_port());
-	std::string connection_with_remote_id;
 	if (http_proxymessage_type == CONNECT || http_proxymessage_type == HTTPFORWARD) {
 		/* build forward tunnel and store tunnel in dict */
 		struct SockAddress remote_addr = this->codec_.ScratchRemoteAddress(message);
@@ -70,77 +64,40 @@ void ShadowhttpServer::HandleHttpProxyMessage(TcpConnection& connection, std::st
 		TcpConnection* connection_with_remote =
 			new TcpConnection(conn_with_remote_fd, remote_addr.ip, remote_addr.port,
 					  "127.0.0.1", local_socket_address.port);
-		this->tcpclient_->WatchConnection(connection_with_remote);
+		this->WatchConnection(connection_with_remote);
 
-		Tunnel tunnel(&connection, connection_with_remote);
-		connection_with_remote_id = connection_with_remote->remote_ip()
-					    + std::to_string(connection_with_remote->remote_port())
-					    + connection_with_remote->local_ip()
-					    + std::to_string(connection_with_remote->local_port());
-		std::lock_guard< std::mutex > guard(this->tunnel_dict_mutex_);
-		this->tunnel_dict_.emplace(connection.connection_fd(), tunnel);
-		this->tunnel_dict_.emplace(connection_with_remote->connection_fd(), tunnel);
-		this->tunnel_dict_mutex_.unlock();
+		Tunnel			      tunnel(&connection, connection_with_remote);
+		std::lock_guard< std::mutex > guard(this->tunnels_lock_);
+		this->tunnels.emplace(connection.connection_fd(),
+				      connection_with_remote->connection_fd());
+		this->tunnels.emplace(connection_with_remote->connection_fd(),
+				      connection.connection_fd());
+		this->tunnels_lock_.unlock();
 
 		if (http_proxymessage_type == CONNECT) {
 			this->ResponseProxyclient(&connection, ESTABLISH);
 			return;
 		}
-		LOG(debug) << "client socket :" << connection_with_client_id;
-		LOG(debug) << "remote socket :" << connection_with_remote_id;
 	}
 
 	if (http_proxymessage_type == HTTPFORWARD && this->codec_.RefactorUrlpath(message) == false)
 		return;
 
+	std::lock_guard< std::mutex > guard(this->tunnels_lock_);
 	/* forward message to remote */
-	if (!this->tunnel_dict_.count(connection.connection_fd())) {
-		LOG(debug) << "client socket :" << connection_with_client_id;
+	if (!this->tunnels.count(connection.connection_fd())) {
 		LOG(error) << "can't find tunnel";
 		return;
 	}
 	TcpConnection* connection_with_remote =
-		this->tunnel_dict_[ connection.connection_fd() ].connection_with_remote.get();
-	if (this->tcpclient_->SendMessage(connection_with_remote, message) == false) {
+		new TcpConnection(this->tunnels[ connection.connection_fd() ]);
+
+	if (this->tcpserver_->SendMessage(connection_with_remote, message) == false) {
 		LOG(error) << "send to " << connection_with_remote->remote_ip() << ":"
 			   << connection_with_remote->remote_port() << "failed : " << message;
 		return;
 	}
 	LOG(debug) << "forward data to remote success : " << message;
-
-	// if (http_proxymessage_type == HttpProxyMessageType::CONNECT) {
-	// 	struct SockAddress remote_addr = this->codec_.ScratchRemoteAddress(message);
-	// 	LOG(debug) << "handle CONNECT " << remote_addr.ip << ":" << remote_addr.port;
-	// 	if (this->tcpclient_->Connect(remote_addr.ip, remote_addr.port) == true) {
-	// 		LOG(debug) << "tunnel with remote established";
-	// 		this->ResponseProxyclient(ESTABLISH);
-	// 	}
-	// 	else {
-	// 		LOG(debug) << "tunnel with remote build failed";
-	// 		this->ResponseProxyclient(CONNECT_TIMEOUT);
-	// 	}
-	// }
-	// else if (http_proxymessage_type == HttpProxyMessageType::HTTPFORWARD) {
-	// 	LOG(debug) << "handle HTTPFORWARD";
-	// 	struct SockAddress remote_addr = this->codec_.ScratchRemoteAddress(message);
-	// 	if (this->tcpclient_->Connect(remote_addr.ip, remote_addr.port) == false) {
-	// 		LOG(error) << "http forward connect to " << remote_addr.ip << ":"
-	// 			   << remote_addr.port << " failed";
-	// 		return;
-	// 	}
-	// 	std::string refactored_message = message;
-	// 	if (this->codec_.RefactorUrlpath(refactored_message) == false)
-	// 		return;
-	// 	this->tcpclient_->SendMessage(refactored_message);
-	// }
-	// else {
-
-	// 	LOG(debug) << "handle FORWARD";
-	// 	// FORWARD
-	// 	if (!this->tcpclient_->is_connected())
-	// 		return;
-	// 	this->tcpclient_->SendMessage(message);
-	// }
 }
 
 void ShadowhttpServer::ResponseProxyclient(TcpConnection*		       connection,

@@ -17,17 +17,19 @@ class TcpServer {
     public:
 	TcpServer(int port, int threadnum = 4);
 	~TcpServer();
-	void Start();
-	void SetMessageArrivedCb(const MessageArrivedCallback& cb);
-	void SetConnectionReleaseCb(const TcpConnectionReleaseCallback& cb);
-	bool SendMessage(TcpConnection* tcpconnection, const std::string& message,
-			 bool close_on_sent = false);
+	void		Start();
+	void		SetMessageArrivedCb(const MessageArrivedCallback& cb);
+	void		SetConnectionReleaseCb(const TcpConnectionReleaseCallback& cb);
+	bool		SendMessage(TcpConnection* tcpconnection, const std::string& message,
+				    bool close_on_sent = false);
+	struct ev_loop* GetEvloop();
 
     private:
 	int			     port_;
 	const int		     backlog_ = 10000;
 	MessageArrivedCallback	     message_arrived_cb_;
 	TcpConnectionReleaseCallback connection_release_cb_;
+	struct ev_loop*		     evloop_;
 
 	ThreadPool io_threads_;
 	int	   io_thread_cnt_;

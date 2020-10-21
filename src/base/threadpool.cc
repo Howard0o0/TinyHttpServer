@@ -23,7 +23,6 @@ void ThreadPool::RunTask(Task task) {
 
 	std::unique_lock< std::mutex > locker(this->tasks_lock_);
 	tasks_.push(std::move(task));
-	// tasks_.push(task);
 	tasks_cond_.notify_one();
 }
 void ThreadPool::Stop() {

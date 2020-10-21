@@ -82,6 +82,10 @@ bool TcpServer::SendMessage(TcpConnection* connection, const std::string& messag
 void TcpServer::SetConnectionReleaseCb(const TcpConnectionReleaseCallback& cb) {
 	this->connection_release_cb_ = cb;
 }
+
+struct ev_loop* TcpServer::GetEvloop() {
+	return this->evloop_;
+}
 /* private */
 
 void TcpServer::SendIoWatcherCb(ev::io& watcher, int revents) {
@@ -169,7 +173,9 @@ void TcpServer::ConnectionArrivedCb(ev::io& watcher, int revents) {
 void TcpServer::EventLoopThreadFunc(int port) {
 	int		listenfd = SocketTool::CreateListenSocket(port, backlog_, false);
 	struct ev_loop* evloop	 = ev_loop_new(EVFLAG_AUTO);
-	ev::io		listenfd_watch;
+	if (!this->evloop_)
+		this->evloop_ = evloop;
+	ev::io listenfd_watch;
 	listenfd_watch.set< TcpServer, &TcpServer::ConnectionArrivedCb >(this);
 	listenfd_watch.set(evloop);
 	listenfd_watch.start(listenfd, ev::READ);
